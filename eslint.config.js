@@ -22,4 +22,9 @@ export default [
     files: ['src/**/__tests__/*'],
   },
   skipFormatting,
+  {
+    "vue/multi-word-component-names": ["error", {
+      "ignores": []
+    }]
+  }
 ]
