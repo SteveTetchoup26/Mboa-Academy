@@ -1,5 +1,7 @@
 <template>
-    <RouterView />
+    <div class="w-full min-h-screen">
+        <RouterView />
+    </div>
 </template>
 
 <script setup lang="ts">
