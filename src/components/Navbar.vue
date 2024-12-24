@@ -8,9 +8,9 @@
             <input type="text" class="outline-none flex-1 p-1 w-full" placeholder="Que voulez-vous apprendre ? ">
         </div>
         <ul class="hidden lg:flex gap-[2px]">
-            <li class="p-2"><RouterLink to="/">Acceuil</RouterLink></li>
-            <li class="p-2"><RouterLink to="/about">A propos</RouterLink></li>
-            <li class="p-2"><RouterLink to="/contact">Contact</RouterLink></li>
+            <li class="p-2 hover:text-primary transition-colors duration-200 ease-in"><RouterLink to="/">Acceuil</RouterLink></li>
+            <li class="p-2 hover:text-primary transition-colors duration-200 ease-in"><RouterLink to="/about-us">A propos</RouterLink></li>
+            <li class="p-2 hover:text-primary transition-colors duration-200 ease-in"><RouterLink to="/contact-us">Contact</RouterLink></li>
         </ul>
         <div class="hidden lg:flex gap-4">
             <button class="cursor-pointer">Se connecter</button>

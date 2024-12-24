@@ -45,22 +45,20 @@
                 <h3 class="text-primary font-semibold">À PROPOS DE NOUS</h3>
                 <h1 class="text-3xl md:text-5xl font-bold">Bienvenue sur Lorem</h1>
                 <p class="text-gray-400">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo harum, perspiciatis officiis repudiandae nulla autem 
-                    sunt necessitatibus natus quis deserunt in recusandae molestiae dignissimos magni omnis minima totam. Corporis, 
-                    assumenda!
+                    Nous sommes une plateforme de formation en ligne dédiée à rendre l'apprentissage accessible et stimulant pour tous.
+                    Avec un catalogue riche de cours dans des domaines variés et des formateurs expérimentés, nous aidons nos apprenants
+                    à atteindre leurs objectifs.
                 </p>
                 <p class="text-gray-400">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo harum, perspiciatis officiis repudiandae nulla autem 
-                    sunt necessitatibus natus quis deserunt in recusandae molestiae dignissimos magni omnis minima totam. Corporis, 
-                    assumenda!
+                    Que vous soyez débutant ou expert, notre plateforme vous accompagne à chaque étape de votre parcours.
                 </p>
-                <RouterLink to="" class="text-white bg-primary w-max py-3 px-8 hover:opacity-80 transition-opacity duration-150">Lire Plus</RouterLink>
+                <RouterLink to="/about-us" class="text-white bg-primary w-max py-3 px-8 hover:opacity-80 transition-opacity duration-150">Lire Plus</RouterLink>
             </div>
         </div>
         <div class="w-full pl-4 md:pl-24 bg-green-50 flex flex-col items-center gap-10 py-10">
             <h3 class="text-primary font-semibold">LES COURS LES PLUS POPULAIRES</h3>
             <div class="w-full flex flex-col items-center gap-y-8">
-                <div class=" gap-2 flex w-full transition-transform duration-200 ease-in-out overflow-x-scroll"
+                <div class="gap-2 flex w-full transition-transform duration-200 ease-in-out overflow-x-scroll"
                     ref="courseContainer"
                 >
                     <Course />
