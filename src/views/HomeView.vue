@@ -115,7 +115,7 @@
                         Développez vos compétences et boostez votre carrière sans attendre
                     </p>
                 </div>
-                <RouterLink to="" class="text-white bg-primary w-max py-3 px-8 hover:opacity-80 transition-opacity duration-150">Inscris-toi gratuitement</RouterLink>
+                <RouterLink to="/inscription" class="text-white bg-primary w-max py-3 px-8 hover:opacity-80 transition-opacity duration-150">Inscris-toi gratuitement</RouterLink>
             </div>
         </div>
     </div>

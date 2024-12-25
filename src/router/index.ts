@@ -1,3 +1,5 @@
+import Login from '@/components/Auth/Login.vue'
+import Signup from '@/components/Auth/Signup.vue'
 import Layout from '@/components/Layout.vue'
 import AboutView from '@/views/AboutView.vue'
 import ContactView from '@/views/ContactView.vue'
@@ -16,6 +18,16 @@ const router = createRouter({
         {path: 'about-us', name: 'about', component: AboutView},
         {path: 'contact-us', name: 'contact', component: ContactView},
       ]
+    },
+    {
+      path: '/connexion',
+      name: 'login',
+      component: Login,
+    },
+    {
+      path: '/inscription',
+      name: 'signup',
+      component: Signup
     }
   ],
 })

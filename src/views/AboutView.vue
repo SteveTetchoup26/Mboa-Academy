@@ -47,7 +47,7 @@
         </div>
         <div class="w-full bg-green-50 flex flex-col items-center py-10 gap-8">
             <h3 class="text-2xl md:text-4xl font-semibold">Alors prêt à nous rejoindre ?</h3>
-            <RouterLink to="" class="text-white bg-primary w-max py-3 px-4 md:px-8 hover:opacity-80 transition-opacity duration-150">Inscris-toi maintenant</RouterLink>
+            <RouterLink to="/inscription" class="text-white bg-primary w-max py-3 px-4 md:px-8 hover:opacity-80 transition-opacity duration-150">Inscris-toi maintenant</RouterLink>
         </div>
     </div>
 </template>

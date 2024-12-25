@@ -13,20 +13,25 @@
             <li class="p-2 hover:text-primary transition-colors duration-200 ease-in"><RouterLink to="/contact-us">Contact</RouterLink></li>
         </ul>
         <div class="hidden lg:flex gap-4">
-            <button class="cursor-pointer">Se connecter</button>
-            <button class="cursor-pointer text-white bg-primary px-3 py-1 rounded-sm hover:opacity-80 transition-opacity duration-150">S'inscrire</button>
+            <button @click="router.push({name: 'login'})" class="cursor-pointer">Se connecter</button>
+            <button @click="router.push({name: 'signup'})" class="cursor-pointer text-white bg-primary px-3 py-1 rounded-sm hover:opacity-80 transition-opacity duration-150">S'inscrire</button>
         </div>
         <div class="flex lg:hidden gap-4">
             <FontAwesomeIcon :icon="faSearch" class="h-5 block md:hidden cursor-pointer" />
             <FontAwesomeIcon :icon="faBars" class="block lg:hidden h-5 cursor-pointer" />
         </div>
     </nav>
+    <nav>
+        
+    </nav>
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faSearch, faBars } from "@fortawesome/free-solid-svg-icons"
+
+const router = useRouter()
 </script>
 
 <style scoped>

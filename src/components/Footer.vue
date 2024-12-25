@@ -6,17 +6,17 @@
             </div>
             <div class="flex flex-col gap-2">
                 <h2 class="font-bold text-xl">Rejoignez-nous</h2>
-                <RouterLink to="/about" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>À propos</RouterLink>
-                <RouterLink to="/about" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>Contactez-nous</RouterLink>
-                <RouterLink to="/about" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>Politiques de confidentialité</RouterLink>
-                <RouterLink to="/about" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>Termes & Conditions</RouterLink>
-                <RouterLink to="/about" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>FAQs & Aide</RouterLink>
+                <RouterLink to="/about-us" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>À propos</RouterLink>
+                <RouterLink to="/contact-us" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>Contactez-nous</RouterLink>
+                <RouterLink to="" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>Politiques de confidentialité</RouterLink>
+                <RouterLink to="" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>Termes & Conditions</RouterLink>
+                <RouterLink to="" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>FAQs & Aide</RouterLink>
             </div>
             <div class="flex flex-col gap-2 ">
                 <h2 class="font-bold text-xl">Contact</h2>
-                <RouterLink to="/about" class="hover:underline"><FontAwesomeIcon :icon="faLocationDot" class=" mr-2"/>Douala, Cameroun</RouterLink>
-                <RouterLink to="/about" class="hover:underline"><FontAwesomeIcon :icon="faPhone" class=" mr-2"/>+237 699 555 333</RouterLink>
-                <RouterLink to="/about" class="hover:underline"><FontAwesomeIcon :icon="faEnvelope" class="mr-2"/>test@gmail.com</RouterLink>
+                <RouterLink to="" class="hover:underline"><FontAwesomeIcon :icon="faLocationDot" class=" mr-2"/>Douala, Cameroun</RouterLink>
+                <RouterLink to="" class="hover:underline"><FontAwesomeIcon :icon="faPhone" class=" mr-2"/>+237 699 555 333</RouterLink>
+                <RouterLink to="" class="hover:underline"><FontAwesomeIcon :icon="faEnvelope" class="mr-2"/>test@gmail.com</RouterLink>
                 <div class="w-1/2 flex justify-between mt-2">
                     <RouterLink to=""><FontAwesomeIcon :icon="faFacebook"/></RouterLink>
                     <RouterLink to=""><FontAwesomeIcon :icon="faTwitter"/></RouterLink>
