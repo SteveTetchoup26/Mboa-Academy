@@ -12,8 +12,8 @@
                     :enter="{ opacity: 1, y: 0 }"
                 />
             </div>
-            <button v-if="!isShowingAll" @click="loadMore" class="text-white bg-primary w-max py-3 px-8 hover:opacity-80 transition-opacity duration-150">Afficher la suite </button>
-            <button v-else @click="loadLess" class="text-white bg-primary w-max py-3 px-8 hover:opacity-80 transition-opacity duration-150">Afficher moins </button>
+            <button v-if="!isShowingAll" @click="loadMore" class="text-white bg-primary w-max text-sm md:text-[15px] py-1 px-2 md:py-3 md:px-8 hover:bg-secondary transition-all duration-150">Afficher la suite </button>
+            <button v-else @click="loadLess" class="text-white bg-primary w-max text-sm md:text-[15px] py-1 px-2 md:py-3 md:px-8 hover:bg-secondary transition-all duration-150">Afficher moins </button>
         </div>
     </div>
 </template>

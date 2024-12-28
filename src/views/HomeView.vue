@@ -52,7 +52,7 @@
                 <p class="text-gray-400">
                     Que vous soyez débutant ou expert, notre plateforme vous accompagne à chaque étape de votre parcours.
                 </p>
-                <RouterLink to="/about-us" class="text-white bg-primary w-max py-3 px-8 hover:opacity-80 transition-opacity duration-150">Lire Plus</RouterLink>
+                <RouterLink to="/about-us" class="text-white bg-primary w-max py-3 px-8 hover:bg-secondary transition-all duration-150">Lire Plus</RouterLink>
             </div>
         </div>
 
@@ -91,7 +91,7 @@
                         Développez vos compétences et boostez votre carrière sans attendre
                     </p>
                 </div>
-                <RouterLink to="/inscription" class="text-white bg-primary w-max py-3 px-8 hover:opacity-80 transition-opacity duration-150">Inscris-toi gratuitement</RouterLink>
+                <RouterLink to="/inscription" class="text-white bg-primary w-max py-3 px-8 hover:bg-secondary transition-all duration-150">Inscris-toi gratuitement</RouterLink>
             </div>
         </div>
     </div>

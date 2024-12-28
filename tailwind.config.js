@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "rgb(25, 189, 107)"
+        primary: "rgb(25, 189, 107)",
+        secondary: "rgb(2, 98, 2)"
       },
       backgroundImage: {
         'carousel-1': "url('./src/assets/images/carousel-1.jpg')",

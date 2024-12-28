@@ -22,7 +22,7 @@
             </ul>
             <div v-if="!user" class="hidden lg:flex gap-4">
                 <button @click="router.push({name: 'login'})" class="cursor-pointer font-semibold">Se connecter</button>
-                <button @click="router.push({name: 'signup'})" class="cursor-pointer text-white font-semibold bg-primary px-3 py-1 rounded-sm hover:opacity-80 transition-opacity duration-150">S'inscrire</button>
+                <button @click="router.push({name: 'signup'})" class="cursor-pointer text-white font-semibold bg-primary px-3 py-1 rounded-sm hover:bg-secondary transition-all duration-150">S'inscrire</button>
             </div>
             <div v-else class="hidden lg:flex gap-4 items-center">
                 <FontAwesomeIcon :icon="faBell" class="h-5 cursor-pointer hover:text-primary" />
@@ -52,13 +52,13 @@
                 <li @click="toggleMenu" class="p-2 pl-0 hover:text-primary transition-colors duration-200 ease-in"><RouterLink to="/contact-us" class="block w-full">Contact</RouterLink></li>
             </ul>
             <ul v-else class="gap-[2px] text-gray-500">
-                <li class=" hover:text-primary transition-colors duration-200 ease-in"><RouterLink to="" class="p-2 pl-0 block h-full w-full">Mes cours</RouterLink></li>
-                <li class=" hover:text-primary transition-colors duration-200 ease-in"><RouterLink to="" class="p-2 pl-0 block w-full">Webinaires</RouterLink></li>
-                <li class=" hover:text-primary transition-colors duration-200 ease-in"><RouterLink to="" class="p-2 pl-0 block w-full">Forums</RouterLink></li>
+                <li @click="toggleMenu" class=" hover:text-primary transition-colors duration-200 ease-in"><RouterLink to="/my-courses" class="p-2 pl-0 block h-full w-full">Mes cours</RouterLink></li>
+                <li @click="toggleMenu" class=" hover:text-primary transition-colors duration-200 ease-in"><RouterLink to="/webinars" class="p-2 pl-0 block w-full">Webinaires</RouterLink></li>
+                <li @click="toggleMenu" class=" hover:text-primary transition-colors duration-200 ease-in"><RouterLink to="/forums" class="p-2 pl-0 block w-full">Forums</RouterLink></li>
             </ul>
             <div v-if="!user" class="w-full flex flex-col gap-4">
                 <button @click="router.push({name: 'login'})" class="w-full text-primary font-semibold cursor-pointer border border-1 border-primary px-3 py-1">Se connecter</button>
-                <button @click="router.push({name: 'signup'})" class="w-full cursor-pointer font-semibold text-white bg-primary px-3 py-1 rounded-sm hover:opacity-80 transition-opacity duration-150">S'inscrire</button>
+                <button @click="router.push({name: 'signup'})" class="w-full cursor-pointer font-semibold text-white bg-primary px-3 py-1 rounded-sm hover:bg-secondary transition-all duration-150">S'inscrire</button>
             </div>
         </div>
     </nav>

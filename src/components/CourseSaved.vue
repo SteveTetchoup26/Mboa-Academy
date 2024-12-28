@@ -5,7 +5,7 @@
         </div>
         <div>
             <p>Apprendre JavaScript pour débutants</p>
-            <p class="text-gray-400">Par John Doe</p>
+            <p class="text-gray-400 text-sm md:text-[15px]">Par John Doe</p>
         </div>
     </div>
 </template>
