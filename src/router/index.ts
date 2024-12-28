@@ -3,6 +3,7 @@ import Signup from '@/components/Auth/Signup.vue'
 import Layout from '@/components/Layout.vue'
 import AboutView from '@/views/AboutView.vue'
 import ContactView from '@/views/ContactView.vue'
+import CourseView from '@/views/CourseView.vue'
 import HomeView from '@/views/HomeView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -17,6 +18,7 @@ const router = createRouter({
         {path: '', name: 'home', component: HomeView},
         {path: 'about-us', name: 'about', component: AboutView},
         {path: 'contact-us', name: 'contact', component: ContactView},
+        {path: 'my-courses', name: 'courses', component: CourseView},
       ]
     },
     {

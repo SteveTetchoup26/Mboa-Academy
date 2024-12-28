@@ -19,7 +19,8 @@
     "@fortawesome/free-regular-svg-icons": "^6.7.1",
     "@fortawesome/free-solid-svg-icons": "^6.7.1",
     "@fortawesome/vue-fontawesome": "^3.0.8",
-    "clx": "^1.0.0",
+    "@vueuse/motion": "^2.2.6",
+    "clsx": "^2.1.1",
     "pinia": "^2.2.6",
     "vue": "^3.5.13",
     "vue-router": "^4.4.5"

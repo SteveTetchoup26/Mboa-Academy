@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center items-center w-full px-8 lg:p-0">
-        <div class="w-full lg:w-4/5 py-24 flex flex-wrap md:flex-nowrap gap-10 lg:gap-24 justify-between">
+        <div class="w-full lg:w-4/5 py-10 lg:py-24 flex flex-wrap md:flex-nowrap gap-10 lg:gap-24 justify-between">
             <div class="w-full md:w-3/5 flex flex-col gap-4">
                 <h2 class="text-4xl font-semibold text-primary">Entrez En Contact</h2>
                 <p class="text-gray-400">

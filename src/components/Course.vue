@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white flex flex-col gap-2 rounded-lg p-3 min-w-[250px] group cursor-pointer hover:shadow-[1px_5px_5px_#9e9e9e] hover:-translate-y-2 transition-transform duration-200 ease-in-out">
+    <div class="bg-white flex flex-col gap-2 rounded-lg p-3 min-w-[250px] group border border-1 border-gray-200 cursor-pointer hover:shadow-[1px_1px_5px_#9e9e9e] hover:-translate-y-2 transition-transform duration-200 ease-in-out">
         <div class="relative w-full h-[150px]">
             <span class="absolute left-1 top-1 px-2 py-1 rounded-md backdrop-blur-sm bg-[rgba(255,255,255,0.4)]">HTML</span>
             <img :src="course" class="w-full h-full object-cover rounded-lg" alt="">
