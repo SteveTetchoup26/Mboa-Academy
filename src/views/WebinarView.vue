@@ -36,9 +36,6 @@
                         <div>
                             <span class="font-semibold">Intervenant:</span> <span class="text-gray-400">{{ webinar.speaker }}</span>
                         </div>
-                        <div>
-                            <span class="font-semibold">Niveau:</span> <span class="text-gray-400">{{ webinar.level }}</span> 
-                        </div>
                     </div>
                         
                     <p class="mb-4">{{ webinar.description }}</p>
@@ -48,7 +45,6 @@
                 </div>
             </div>
   
-
             <div v-if="activeTab === 'past'"
                 v-motion
                 :initial="{ opacity: 0, y: 50 }"
@@ -75,33 +71,6 @@
                     </button>
                 </div>
             </div>
-  
-            <!-- <div v-if="activeTab === 'community'" 
-                v-motion
-                :initial="{ opacity: 0, y: 50 }"
-                :enter="{ opacity: 1, y: 0 }"
-                class="border rounded-lg p-6"
-            >
-                <h3 class="text-xl font-bold mb-4">Espace Communauté</h3>
-                <div class="space-y-6">
-                    <div>
-                        <h4 class="font-semibold mb-2">Suggérer un thème</h4>
-                        <textarea 
-                            v-model="suggestion"
-                            class="w-full p-2 border rounded-md" 
-                            placeholder="Quel sujet souhaiteriez-vous voir abordé ?"
-                            rows="4"
-                        ></textarea>
-                        <button class="bg-primary text-white px-4 py-2 hover:bg-secondary transition-all duration-150">
-                            Envoyer
-                        </button>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold mb-2">Discussions récentes</h4>
-                        <p class="text-gray-600">Aucune discussion pour le moment</p>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </div>
   </template>
@@ -109,14 +78,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { faCalendar } from '@fortawesome/free-regular-svg-icons'
+import { faCalendar, faCirclePlay } from '@fortawesome/free-regular-svg-icons'
   
     const activeTab = ref('upcoming')
     const suggestion = ref('')
   
       const tabs = [
         { label: 'À venir', value: 'upcoming', icon: faCalendar },
-        { label: 'Replay', value: 'past', icon: '' },
+        { label: 'Replay', value: 'past', icon: faCirclePlay },
         // { label: 'Communauté', value: 'community', icon: '' },
       ]
   
@@ -128,7 +97,6 @@ import { faCalendar } from '@fortawesome/free-regular-svg-icons'
           time: "14:00",
           duration: "1h30",
           speaker: "Marie Laurent, John Doe",
-          level: "Débutant",
           description: "Découvrez les fondamentaux du marketing digital et les meilleures pratiques actuelles."
         },
         {
@@ -138,7 +106,6 @@ import { faCalendar } from '@fortawesome/free-regular-svg-icons'
           time: "15:00",
           duration: "2h",
           speaker: "Thomas Dubois",
-          level: "Intermédiaire",
           description: "Optimisation avancée pour les moteurs de recherche et stratégies de référencement."
         }
       ]
