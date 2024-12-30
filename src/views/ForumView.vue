@@ -3,12 +3,14 @@
     <div class="flex justify-between items-center mb-8">
       <h1 class="text-2xl md:text-4xl font-bold">Forum de Discussion</h1>
       <button
+        @click="showModal = true"
         class="text-white bg-primary w-max text-sm md:text-[15px] rounded-md xs:rounded-none py-1 px-2 md:py-3 md:px-8 hover:bg-secondary transition-all duration-150"
       >
         <FontAwesomeIcon :icon="faPlus" class="block xs:hidden"/>
         <span class="hidden xs:block">Nouveau Sujet</span>
       </button>
     </div>
+
     <div class="flex gap-4 mb-8">
       <div class="flex-1 relative">
         <input
@@ -118,6 +120,7 @@
       </div>
     </div>
   </div>
+  <TopicModal :showModal="showModal" @close-modal="showModal = false" />
 </template>
 
 <script setup lang="ts">
@@ -127,12 +130,14 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import Discussion from '@/components/messages/forums/Discussion.vue';
 import Message from '@/components/messages/forums/Message.vue';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import TopicModal from '@/components/modals/TopicModal.vue';
 
 const searchQuery = ref('')
 const activeCategory = ref('all')
 const totalTopics = ref('2.5k')
 const activeToday = ref('150')
 
+let showModal = ref(false)
 let isSmallScreen = ref(false);
 
 const test = () => {

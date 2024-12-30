@@ -1,16 +1,16 @@
 <template>
-    <div class="w-full flex flex-col gap-5 bg-gray-100 px-4 pt-16 pb-4">
+    <div class="w-full flex flex-col gap-5 bg-gray-800 text-white px-4 pt-16 pb-4">
         <div class="grid justify-center xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-8 md:gap-8 w-full">
             <div>
-                <h1 class="font-extrabold text-2xl">Logo</h1>
+                <h1 class="font-extrabold text-2xl cursor-pointer"><RouterLink to="/">Logo</RouterLink></h1>
             </div>
             <div class="flex flex-col gap-2">
                 <h2 class="font-bold text-xl">Rejoignez-nous</h2>
-                <RouterLink to="/about-us" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>À propos</RouterLink>
-                <RouterLink to="/contact-us" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>Contactez-nous</RouterLink>
-                <RouterLink to="" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>Politiques de confidentialité</RouterLink>
-                <RouterLink to="" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>Termes & Conditions</RouterLink>
-                <RouterLink to="" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-2 mr-2"/>FAQs & Aide</RouterLink>
+                <RouterLink to="/about-us" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-1 mr-2"/>À propos</RouterLink>
+                <RouterLink to="/contact-us" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-1 mr-2"/>Contactez-nous</RouterLink>
+                <RouterLink to="" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-1 mr-2"/>Politiques de confidentialité</RouterLink>
+                <RouterLink to="" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-1 mr-2"/>Termes & Conditions</RouterLink>
+                <RouterLink to="" class="hover:underline"><FontAwesomeIcon :icon="faCircle" class="w-1 mr-2"/>FAQs & Aide</RouterLink>
             </div>
             <div class="flex flex-col gap-2 ">
                 <h2 class="font-bold text-xl">Contact</h2>
@@ -26,8 +26,8 @@
             </div>
             <div class="flex flex-col gap-4">
                 <h2 class="font-bold text-xl">Téléchargez l'application</h2>
-                <RouterLink to="/about"><img :src="playStore" alt="play-store" class="w-52"></RouterLink>
-                <RouterLink to="/about"><img :src="appStore" alt="app-store" class="w-52"></RouterLink>
+                <RouterLink to="/about"><img :src="playStore" alt="play-store" class="w-32"></RouterLink>
+                <RouterLink to="/about"><img :src="appStore" alt="app-store" class="w-32"></RouterLink>
             </div>
         </div>
         <hr class=""/>

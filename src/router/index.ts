@@ -7,6 +7,7 @@ import CourseView from '@/views/CourseView.vue'
 import ForumView from '@/views/ForumView.vue'
 import HomeView from '@/views/HomeView.vue'
 import WebinarView from '@/views/WebinarView.vue'
+import UserProfile from '@/views/UserProfile.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -23,6 +24,7 @@ const router = createRouter({
         {path: 'my-courses', name: 'courses', component: CourseView},
         {path: 'webinars', name: 'webinars', component: WebinarView},
         {path: 'forums', name: 'forums', component: ForumView},
+        {path: 'profile', name: 'profile', component: UserProfile},
       ]
     },
     {
