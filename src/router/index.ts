@@ -9,6 +9,7 @@ import HomeView from '@/views/HomeView.vue'
 import WebinarView from '@/views/WebinarView.vue'
 import UserProfile from '@/views/UserProfile.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import SettingView from '@/views/SettingView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,6 +26,7 @@ const router = createRouter({
         {path: 'webinars', name: 'webinars', component: WebinarView},
         {path: 'forums', name: 'forums', component: ForumView},
         {path: 'profile', name: 'profile', component: UserProfile},
+        {path: 'settings', name: 'settings', component: SettingView},
       ]
     },
     {

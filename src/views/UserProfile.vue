@@ -55,9 +55,7 @@
           </nav>
         </div>
   
-        <!-- Contenu des onglets -->
         <div class="p-6">
-          <!-- Aperçu -->
           <div v-if="currentTab === 'overview'" class="grid md:grid-cols-2 gap-6">
             <div class="space-y-4">
               <h2 class="text-lg font-semibold">Informations personnelles</h2>
@@ -110,8 +108,7 @@
               </div>
             </div>
           </div>
-  
-          <!-- Formations -->
+
           <div v-else-if="currentTab === 'courses'" class="space-y-4">
             <h2 class="text-lg font-semibold">Mes cours</h2>
             <div v-if="user.courses.length" class="space-y-4">
@@ -127,8 +124,8 @@
             <p v-else class="text-gray-600">Aucune formation en cours</p>
           </div>
   
-          <!-- Paramètres -->
-          <div v-else-if="currentTab === 'settings'" class="space-y-6">
+
+          <!-- <div v-else-if="currentTab === 'settings'" class="space-y-6">
             <div class="space-y-4">
               <h2 class="text-lg font-semibold">Notifications</h2>
               <div class="space-y-2">
@@ -142,7 +139,7 @@
                 </label>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -161,9 +158,9 @@ let image = ref('')
 
 
 let tabs =  [
-  { id: 'overview', name: 'Aperçu' },
+  { id: 'overview', name: 'Informations' },
   { id: 'courses', name: 'Cours' },
-  { id: 'settings', name: 'Paramètres' }
+  // { id: 'settings', name: 'Paramètres' }
 ]
 
 let user =  {
