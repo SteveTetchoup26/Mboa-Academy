@@ -10,6 +10,7 @@ import WebinarView from '@/views/WebinarView.vue'
 import UserProfile from '@/views/UserProfile.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import SettingView from '@/views/SettingView.vue'
+import CourseDetail from '@/views/CourseDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,7 @@ const router = createRouter({
         {path: 'forums', name: 'forums', component: ForumView},
         {path: 'profile', name: 'profile', component: UserProfile},
         {path: 'settings', name: 'settings', component: SettingView},
+        {path: 'course-details/:courseId(\\d+)', name: 'courseDetails', component: CourseDetail, props: true},
       ]
     },
     {

@@ -39,10 +39,7 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { faCircle } from "@fortawesome/free-solid-svg-icons"
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons"
-import { faPhone } from "@fortawesome/free-solid-svg-icons"
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
+import { faEnvelope, faPhone, faLocationDot, faCircle  } from "@fortawesome/free-solid-svg-icons"
 import { faFacebook, faLinkedin, faTwitter, faYoutube } from "@fortawesome/free-brands-svg-icons"
 import { RouterLink } from 'vue-router';
 import playStore from './../assets/images/play-store.png'
