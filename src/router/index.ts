@@ -11,6 +11,8 @@ import UserProfile from '@/views/UserProfile.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import SettingView from '@/views/SettingView.vue'
 import CourseDetail from '@/views/CourseDetail.vue'
+import CourseSaved from '@/components/CourseSaved.vue'
+import CourseSavedDetail from '@/views/CourseSavedDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +31,7 @@ const router = createRouter({
         {path: 'profile', name: 'profile', component: UserProfile},
         {path: 'settings', name: 'settings', component: SettingView},
         {path: 'course-details/:courseId(\\d+)', name: 'courseDetails', component: CourseDetail, props: true},
+        {path: 'course-saved-details/:courseSavedId(\\d+)', name: 'courseSavedDetails', component: CourseSavedDetail, props: true},
       ]
     },
     {

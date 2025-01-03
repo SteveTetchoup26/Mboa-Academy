@@ -172,7 +172,7 @@ import type { RefSymbol } from '@vue/reactivity';
 const router = useRouter()
 const showMenu:any = ref(false)
 let isProfile:any = ref(false)
-const user = ref(true)
+const user = ref(false)
 let currentTab = ref(router.currentRoute.value.name)
 
 const currentPath = router.currentRoute.value.name

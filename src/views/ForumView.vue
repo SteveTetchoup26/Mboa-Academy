@@ -43,7 +43,7 @@
               v-for="topic in recentTopics"
               :key="topic.id"
               :topic="topic"
-              @click="test"
+              @click="toggleChat"
             />
           </div>
       </div>
@@ -140,7 +140,7 @@ const activeToday = ref('150')
 let showModal = ref(false)
 let isSmallScreen = ref(false);
 
-const test = () => {
+const toggleChat = () => {
   if(window.innerWidth <= 775) {
       isSmallScreen.value = true;
   }

@@ -119,7 +119,7 @@ import CatalogCourse from "@/components/CatalogCourse.vue";
 
 
 
-const user = ref(true)
+const user = ref(false)
 const currentIndex = ref(0);
 const isTransitioning = ref(true);
 const slides = [carouselOne, carouselTwo, carouselOne]
