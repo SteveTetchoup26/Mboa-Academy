@@ -1,39 +1,51 @@
 <template>
   <div class="w-full pl-4 md:pl-24 flex flex-col py-10">
-            <h3 class="font-semibold text-2xl">Cours à la une</h3>
-            <div class="w-full flex flex-col items-center gap-y-8">
-                <div class="gap-2 flex w-full transition-transform duration-200 ease-in-out overflow-x-scroll pt-4"
-                    ref="courseContainer"
-                >
-                    <Course />
-                    <Course />
-                    <Course />
-                    <Course />
-                    <Course />
-                    <Course />
-                    <Course />
-                    <Course />  
-                    <Course />  
-                    <Course />  
-                </div>
-                <div class="flex gap-4">
-                    <button @click="previousCourse" class="text-center bg-white rounded-md px-4 py-2 shadow-[0px_2px_3px_#9e9e9e]">
-                        <FontAwesomeIcon :icon="faChevronLeft" />
-                    </button>
-                    <button @click="nextCourse" class="text-center text-white bg-primary rounded-md px-4 py-2 shadow-[0px_2px_3px_#9e9e9e]">
-                        <FontAwesomeIcon :icon="faChevronRight"/>
-                    </button>
-                </div>
+        <div class="w-full flex justify-between pr-4">
+            <h3 class="font-semibold text-2xl">Cours {{ section }}</h3>
+            <p @click="navigationWithCategory(section)" class="text-primary hover:text-secondary underline cursor-pointer">Voir plus</p>
+        </div>
+        <div class="w-full flex flex-col items-center gap-y-8">
+            <div class="gap-2 flex w-full transition-transform duration-200 ease-in-out overflow-x-scroll pt-4"
+                ref="courseContainer"
+            >
+                <Course />
+                <Course />
+                <Course />
+                <Course />
+                <Course />
+                <Course />
+                <Course />
+                <Course />  
+                <Course />  
+                <Course />  
+            </div>
+            <div class="flex gap-4">
+                <button @click="previousCourse" class="text-center bg-white rounded-md px-4 py-2 shadow-[0px_2px_3px_#9e9e9e]">
+                    <FontAwesomeIcon :icon="faChevronLeft" />
+                </button>
+                <button @click="nextCourse" class="text-center text-white bg-primary rounded-md px-4 py-2 shadow-[0px_2px_3px_#9e9e9e]">
+                    <FontAwesomeIcon :icon="faChevronRight"/>
+                </button>
             </div>
         </div>
+    </div>
 </template>
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faChevronLeft, faChevronRight, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { onBeforeUnmount, onMounted, ref, useTemplateRef } from "vue";
+import { RouterLink, useRouter } from "vue-router";
 import Course from "@/components/Course.vue";
 
+defineProps({
+    section: {
+        type: String,
+        required: true,
+    }
+})
+
+const router = useRouter()
 const currentCourse = ref(0); 
 const courseWidth = 250;
 const courseContainer = useTemplateRef("courseContainer");
@@ -65,6 +77,10 @@ const previousCourse = () => {
             behavior: "smooth",
         });
     }
+}
+
+const navigationWithCategory = (section: string) => {
+    router.push({ name: 'CategoryCourse', query: { category: section, page: 1}})
 }
 
 onMounted(() => {

@@ -3,15 +3,14 @@
         <div class="border border-1 border-white rounded-md p-1">
             <FontAwesomeIcon :icon="faList" class="mr-1"/>
             <select name="" id="" class="bg-primary">
-                <option value="" disabled>Categories</option>
+                <option value="">Categories</option>
                 <option value="" >Developpemmt web</option>
-                <option value="">Developpemmt web</option>
             </select>
         </div>
         <div class="border border-1 border-white rounded-md p-1">
             <FontAwesomeIcon :icon="faTag" class="mr-1"/>
             <select name="" id="" class="bg-primary">
-                <option value="" >Prix</option>
+                <option value="">Prix</option>
             </select>
         </div>
         <div class="border border-1 border-white rounded-md p-1">

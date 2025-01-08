@@ -61,12 +61,12 @@
         <div class="w-full px-4 flex flex-col items-center gap-10">
             <h3 class="text-primary font-semibold">LES CATEGORIES LES PLUS POPULAIRES</h3>
             <div class="grid grid-cols-3 lg:grid-cols-4 gap-4 w-full md:w-4/5">
-                <CourseCategory />
-                <CourseCategory />
-                <CourseCategory />
-                <CourseCategory />
-                <CourseCategory />
-                <CourseCategory />
+                <CourseCategory
+                    v-for="(category, index) in categories"
+                    :key="index"
+                    :category="category"
+                    @click="navigationWithCategory(category)"
+                />
             </div>
         </div>
         <div class="w-full bg-green-50 flex justify-center px-3 py-10 flex-wrap md:flex-nowrap gap-6 lg:gap-12">
@@ -97,17 +97,14 @@
     </div>
     <div v-else>
         <Filterbar />
-        <CatalogCourse />
-        <CatalogCourse />
-        <CatalogCourse />
-        <CatalogCourse />
+        <CatalogCourse v-for="(item, index) in catalogSections" :key="index"  :section="item"/>
     </div>
 </template>
 
 <script setup lang="ts">
 import Filterbar from '@/components/Filterbar.vue'
 import { onBeforeUnmount, onMounted, ref, useTemplateRef } from "vue";
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faChevronLeft, faChevronRight, faCheck } from '@fortawesome/free-solid-svg-icons';
 import carouselOne from './../assets/images/carousel-1.jpg';
@@ -119,10 +116,15 @@ import CatalogCourse from "@/components/CatalogCourse.vue";
 
 
 
-const user = ref(false)
+const user = ref(true)
 const currentIndex = ref(0);
 const isTransitioning = ref(true);
 const slides = [carouselOne, carouselTwo, carouselOne]
+const router = useRouter()
+
+const categories = ["Design", "Development Web", "Networking", "Mathematics", "Physics"]
+
+const catalogSections = ['à la une', 'récemment regardés', 'populaires']
 
 const nextSlide = () => {
     isTransitioning.value = true;
@@ -142,7 +144,9 @@ const startCarousel = () => {
     }, 4000)
 }
 
-
+const navigationWithCategory = (category: string) => {
+    router.push({ name: 'CategoryCourse', query: { category: category, page: 1}})
+}
 onMounted(() => {
     startCarousel();
 })
