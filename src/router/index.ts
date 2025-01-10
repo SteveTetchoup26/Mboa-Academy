@@ -14,6 +14,7 @@ import CourseDetail from '@/views/CourseDetail.vue'
 import CourseSaved from '@/components/CourseSaved.vue'
 import CourseSavedDetail from '@/views/CourseSavedDetail.vue'
 import DisplayCategoryCourse from '@/views/DisplayCategoryCourse.vue'
+import BecomeInstructor from '@/views/BecomeInstructor.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,7 @@ const router = createRouter({
         {path: 'course-details/:courseId(\\d+)', name: 'courseDetails', component: CourseDetail, props: true},
         {path: 'course-saved-details/:courseSavedId(\\d+)', name: 'courseSavedDetails', component: CourseSavedDetail, props: true},
         {path: 'courses', name: 'CategoryCourse', component: DisplayCategoryCourse},
+        {path: 'become-instructor', name: 'becomeInstructor', component: BecomeInstructor},
       ]
     },
     {

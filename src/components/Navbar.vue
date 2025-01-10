@@ -167,12 +167,13 @@ import { faSearch, faBars, faGear, faUser, faArrowRightFromBracket, faChevronRig
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { ref, Transition, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import type { RefSymbol } from '@vue/reactivity';
 
 const router = useRouter()
 const showMenu:any = ref(false)
 let isProfile:any = ref(false)
-const user = ref(true)
+const user = ref({
+    role: ''
+})
 let currentTab = ref(router.currentRoute.value.name)
 
 const currentPath = router.currentRoute.value.name
@@ -181,7 +182,8 @@ let tabsAfterConnexion =  [
   { id: 'home', name: 'Acceuil', path: '' },
   { id: 'courses', name: 'Mes cours', path: 'my-courses' },
   { id: 'webinars', name: 'Webinaires', path: 'webinars' },
-  { id: 'forums', name: 'Forums', path: 'forums' }
+  { id: 'forums', name: 'Forums', path: 'forums' },
+  { id: 'becomeInstructor', name: user.value.role === 'instructor' ? 'Formateur' : 'Devenir formateur', path: 'become-instructor' }
 ]
 let tabsBeforeConnexion =  [
   { id: 'home', name: 'Acceuil', path: '' },
