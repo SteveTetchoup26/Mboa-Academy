@@ -1,6 +1,6 @@
 import Login from '@/components/Auth/Login.vue'
 import Signup from '@/components/Auth/Signup.vue'
-import Layout from '@/components/Layout.vue'
+import Layout from '@/components/layout/Layout.vue'
 import AboutView from '@/views/AboutView.vue'
 import ContactView from '@/views/ContactView.vue'
 import CourseView from '@/views/CourseView.vue'
@@ -15,6 +15,10 @@ import CourseSaved from '@/components/CourseSaved.vue'
 import CourseSavedDetail from '@/views/CourseSavedDetail.vue'
 import DisplayCategoryCourse from '@/views/DisplayCategoryCourse.vue'
 import BecomeInstructor from '@/views/BecomeInstructor.vue'
+import InstructorLayout from '@/components/layout/InstructorLayout.vue'
+import Dashboard from '@/components/instructor/Dashboard.vue'
+import Courses from '@/components/instructor/Courses.vue'
+import Students from '@/components/instructor/Students.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,7 +37,7 @@ const router = createRouter({
         {path: 'profile', name: 'profile', component: UserProfile},
         {path: 'settings', name: 'settings', component: SettingView},
         {path: 'course-details/:courseId(\\d+)', name: 'courseDetails', component: CourseDetail, props: true},
-        {path: 'course-saved-details/:courseSavedId(\\d+)', name: 'courseSavedDetails', component: CourseSavedDetail, props: true},
+        {path: 'my-courses/course-saved-details/:courseSavedId(\\d+)', name: 'courseSavedDetails', component: CourseSavedDetail, props: true},
         {path: 'courses', name: 'CategoryCourse', component: DisplayCategoryCourse},
         {path: 'become-instructor', name: 'becomeInstructor', component: BecomeInstructor},
       ]
@@ -47,6 +51,17 @@ const router = createRouter({
       path: '/inscription',
       name: 'signup',
       component: Signup
+    },
+    {
+      path: '/instructor',
+      name: 'instructorLayout',
+      component: InstructorLayout,
+      children: [
+        {path: '', redirect: '/instructor/dashboard'},
+        {path: 'dashboard', name: 'dashboard', component: Dashboard},
+        {path: 'courses', name: 'publishedCourses', component: Courses},
+        // {path: 'students', name: 'students', component: Students}
+      ]
     }
   ],
 })

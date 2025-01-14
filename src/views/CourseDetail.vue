@@ -18,7 +18,7 @@
                     <span>{{ course.category }}</span>
                   </div>
                   <h1 class="text-xl lg:text-4xl font-bold mb-4">{{ course.title }}</h1>
-                  <p class="text-sm lg:text-lg text-gray-200">{{ course.shortDescription }}</p>
+                  <p class="text-sm lg:text-lg text-gray-200">{{ course.description }}</p>
                 </div>
                 
                 <div class="flex flex-wrap gap-4 md:gap-6 text-xs lg:text-[15px]">
@@ -273,12 +273,11 @@ import { faCircle, faClock, faStar, faUser, faUsers } from "@fortawesome/free-so
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import carouselOne from './../assets/images/carousel-1.jpg';
 import instutor from './../assets/images/instutor.jpg'
-
   
   const course = {
     title: "Maîtrisez le Développement Web Moderne avec Vue.js",
     category: "Développement Web",
-    shortDescription: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
+    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
     coverImage: "",
     rating: 4.8,
     reviewsCount: 2547,

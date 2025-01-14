@@ -38,8 +38,7 @@
     </div>
     <div 
         v-else
-        :class="['flex flex-row xl:flex-col w-full xl:w-[280px] bg-white gap-2 rounded-lg p-3 shrink-0  group border border-1 border-gray-200 cursor-pointer hover:shadow-[1px_1px_5px_#9e9e9e] transition-transform duration-200 ease-in-out',
-            
+        :class="['flex flex-row xl:flex-col w-full xl:w-[280px] bg-white gap-2 rounded-lg p-3 shrink-0  group border border-1 border-gray-200 cursor-pointer hover:shadow-[1px_1px_5px_#9e9e9e] transition-transform duration-200 ease-in-out',     
         ]"
     
     >

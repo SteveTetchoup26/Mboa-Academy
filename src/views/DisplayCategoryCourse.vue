@@ -6,6 +6,7 @@
                 v-for="(course, index) in displayedCourses"
                 :key="index"
                 :isDisplayCategory="isDisplayCategory"
+                :course="course"
             />
             
         </div>
@@ -85,12 +86,225 @@ import { ref, computed } from 'vue'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useRoute, useRouter } from 'vue-router';
+import picture from './../assets/images/course-2.jpg'
 
 
 const isDisplayCategory = true
 const route = useRoute()
 const router = useRouter()
-const courses = Array(300)
+// const courses = Array(300)
+const courses = [
+  {
+    id: 1,
+    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
+    category: "Développement Web",
+    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
+    image: picture,
+    rating: 4.8,
+    reviewsCount: 2547,
+    enrolledStudents: "12,354",
+    duration: "21 heures",
+    lastUpdate: "Novembre 2024",
+    price: 4500,
+    originalPrice: 8300,
+    discountPercentage: 75,
+    offerEndsIn: "2 jours",
+    instructor: {
+      name: "Marie Dupont",
+      title: "Senior Frontend Developer & Tech Lead",
+      avatar: ""
+    }
+  },
+  {
+    id: 2,
+    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
+    category: "Développement Web",
+    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
+    image: picture,
+    rating: 4.8,
+    reviewsCount: 2547,
+    enrolledStudents: "12,354",
+    duration: "21 heures",
+    lastUpdate: "Novembre 2024",
+    price: 4500,
+    originalPrice: 8300,
+    discountPercentage: 75,
+    offerEndsIn: "2 jours",
+    instructor: {
+      name: "Marie Dupont",
+      title: "Senior Frontend Developer & Tech Lead",
+      avatar: ""
+    }
+  },
+  {
+    id: 3,
+    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
+    category: "Développement Web",
+    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
+    image: picture,
+    rating: 4.8,
+    reviewsCount: 2547,
+    enrolledStudents: "12,354",
+    duration: "21 heures",
+    lastUpdate: "Novembre 2024",
+    price: 4500,
+    originalPrice: 8300,
+    discountPercentage: 75,
+    offerEndsIn: "2 jours",
+    instructor: {
+      name: "Marie Dupont",
+      title: "Senior Frontend Developer & Tech Lead",
+      avatar: ""
+    }
+  },
+  {
+    id: 4,
+    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
+    category: "Développement Web",
+    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
+    image: picture,
+    rating: 4.8,
+    reviewsCount: 2547,
+    enrolledStudents: "12,354",
+    duration: "21 heures",
+    lastUpdate: "Novembre 2024",
+    price: 4500,
+    originalPrice: 8300,
+    discountPercentage: 75,
+    offerEndsIn: "2 jours",
+    instructor: {
+      name: "Marie Dupont",
+      title: "Senior Frontend Developer & Tech Lead",
+      avatar: ""
+    }
+  },
+  {
+    id: 5,
+    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
+    category: "Développement Web",
+    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
+    image: picture,
+    rating: 4.8,
+    reviewsCount: 2547,
+    enrolledStudents: "12,354",
+    duration: "21 heures",
+    lastUpdate: "Novembre 2024",
+    price: 4500,
+    originalPrice: 8300,
+    discountPercentage: 75,
+    offerEndsIn: "2 jours",
+    instructor: {
+      name: "Marie Dupont",
+      title: "Senior Frontend Developer & Tech Lead",
+      avatar: ""
+    }
+  },
+  {
+    id: 6,
+    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
+    category: "Développement Web",
+    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
+    image: picture,
+    rating: 4.8,
+    reviewsCount: 2547,
+    enrolledStudents: "12,354",
+    duration: "21 heures",
+    lastUpdate: "Novembre 2024",
+    price: 4500,
+    originalPrice: 8300,
+    discountPercentage: 75,
+    offerEndsIn: "2 jours",
+    instructor: {
+      name: "Marie Dupont",
+      title: "Senior Frontend Developer & Tech Lead",
+      avatar: ""
+    }
+  },
+  {
+    id: 7,
+    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
+    category: "Développement Web",
+    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
+    image: picture,
+    rating: 4.8,
+    reviewsCount: 2547,
+    enrolledStudents: "12,354",
+    duration: "21 heures",
+    lastUpdate: "Novembre 2024",
+    price: 4500,
+    originalPrice: 8300,
+    discountPercentage: 75,
+    offerEndsIn: "2 jours",
+    instructor: {
+      name: "Marie Dupont",
+      title: "Senior Frontend Developer & Tech Lead",
+      avatar: ""
+    }
+  },
+  {
+    id: 8,
+    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
+    category: "Développement Web",
+    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
+    image: picture,
+    rating: 4.8,
+    reviewsCount: 2547,
+    enrolledStudents: "12,354",
+    duration: "21 heures",
+    lastUpdate: "Novembre 2024",
+    price: 4500,
+    originalPrice: 8300,
+    discountPercentage: 75,
+    offerEndsIn: "2 jours",
+    instructor: {
+      name: "Marie Dupont",
+      title: "Senior Frontend Developer & Tech Lead",
+      avatar: ""
+    }
+  },
+  {
+    id: 9,
+    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
+    category: "Développement Web",
+    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
+    image: picture,
+    rating: 4.8,
+    reviewsCount: 2547,
+    enrolledStudents: "12,354",
+    duration: "21 heures",
+    lastUpdate: "Novembre 2024",
+    price: 4500,
+    originalPrice: 8300,
+    discountPercentage: 75,
+    offerEndsIn: "2 jours",
+    instructor: {
+      name: "Marie Dupont",
+      title: "Senior Frontend Developer & Tech Lead",
+      avatar: ""
+    }
+  },
+  {
+    id: 10,
+    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
+    category: "Développement Web",
+    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
+    image: picture,
+    rating: 4.8,
+    reviewsCount: 2547,
+    enrolledStudents: "12,354",
+    duration: "21 heures",
+    lastUpdate: "Novembre 2024",
+    price: 4500,
+    originalPrice: 8300,
+    discountPercentage: 75,
+    offerEndsIn: "2 jours",
+    instructor: {
+      name: "Marie Dupont",
+      title: "Senior Frontend Developer & Tech Lead",
+      avatar: ""
+    }
+  }
+]
 const windowSize = 5 // Nombre de pages visibles dans la fenêtre
   
 const coursesPerPage = 10

@@ -23,7 +23,7 @@
                             <div>
                                 <label class="block mb-1 font-medium">Nom</label>
                                 <input 
-                                    required
+                                    
                                     type="text"
                                     class="w-full p-2 border rounded-md outline-primary"
                                     placeholder="John Doe"
@@ -32,7 +32,7 @@
                             <div>
                                 <label class="block mb-1 font-medium">Email</label>
                                 <input 
-                                    required
+                                    
                                     type="email"
                                     class="w-full p-2 border rounded-md outline-primary"
                                     placeholder="johndoe@exemple.com"
@@ -42,7 +42,7 @@
                             <div>
                                 <label class="block mb-1 font-medium">Téléphone</label>
                                 <input 
-                                    required
+                            
                                     type="tel"
                                     class="w-full p-2 border rounded-md outline-primary"
                                     placeholder="698556677"
@@ -56,7 +56,7 @@
                                 <label class="block mb-1 font-medium">Domaine</label>
                                 <select 
                                     v-model="formData.domain"
-                                    required
+                                    
                                     class="w-full outline-primary p-2 border rounded-md"
                                 >
                                     <option value="">Sélectionnez un domaine</option>
@@ -70,7 +70,7 @@
                                 <input 
                                     v-model="formData.experience"
                                     type="text"
-                                    required
+                                    
                                     class="w-full outline-primary p-2 border rounded-md"
                                     placeholder="Developpeur frontend"
                                 />
@@ -103,6 +103,7 @@
 import { ref, defineProps, defineEmits } from 'vue';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
+import { useRouter } from 'vue-router';
 
   defineProps({
     showModal: {
@@ -111,8 +112,8 @@ import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
     }
 })
   
-  const emit = defineEmits(['update:modelValue', 'submit']);
-  
+
+  const router = useRouter();
   const isSubmitting = ref(false);
   
   const domains = [
@@ -137,37 +138,10 @@ import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
     courseTitle: '',
     courseDescription: ''
   });
-  
-  const close = () => {
-    emit('update:modelValue', false);
-  };
+
   
   const handleSubmit = async () => {
-    isSubmitting.value = true;
-    
-    try {
-      // Simuler un appel API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      emit('submit', formData.value);
-      close();
-      // Réinitialiser le formulaire
-      formData.value = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        domain: '',
-        experience: '',
-        expertiseDescription: '',
-        courseTitle: '',
-        courseDescription: ''
-      };
-    } catch (error) {
-      console.error('Erreur lors de la soumission:', error);
-    } finally {
-      isSubmitting.value = false;
-    }
+    router.push('/instructor/dashboard');
   };
 </script>
   
