@@ -29,7 +29,7 @@
       </Transition>  
   
       
-      <main class="ml-0 lg:ml-64 p-8 w-full lg:w-auto">
+      <main class="ml-0 lg:ml-64 px-4 py-8 md:p-8 w-full lg:w-auto">
         <header class="mb-8 flex items-start justify-between">
           <div class="space-y-10 lg:space-y-0">
             <FontAwesomeIcon @click="toogleMenu" :icon="faBars" class="h-5 block lg:hidden cursor-pointer"/>
@@ -74,7 +74,7 @@
 import { computed, ref, Transition } from 'vue';
 import { RouterView, useRouter } from 'vue-router';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { faChartPie, faBookOpen, faUsers, faMessage, faGear, faBars,  } from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, faBookOpen, faUsers, faMessage, faGear, faBars, faVideo,  } from '@fortawesome/free-solid-svg-icons';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 
   
@@ -92,6 +92,7 @@ const isSmallScreen = ref(false);
   const menuItems = [
     { id: 'dashboard', name: 'Tableau de bord', icon: faChartPie, path: 'dashboard'},
     { id: 'publishedCourses', name: 'Mes cours', icon: faBookOpen, path: 'courses'},
+    { id: 'instructorWebinars', name: 'Webinaires', icon: faVideo, path: 'webinars'},
     // { id: 'students', name: 'Étudiants', icon: faUsers, path: 'students'},
     { id: 'messages', name: 'Messages', icon: faMessage, path: 'messages'},
     { id: 'settings', name: 'Paramètres', icon: faGear, path: 'settings'},

@@ -10,7 +10,7 @@
               class="flex items-center gap-2 text-white bg-primary w-max text-sm md:text-[15px] rounded-md md:rounded-none py-1 px-2 md:py-2 md:px-4 hover:bg-secondary transition-all duration-150"
             >
               <FontAwesomeIcon :icon="faPlus" class=""/>
-              <span class="hidden md:block">Nouveau cours</span>
+              <span class="hidden md:block">Nouveau</span>
             </button>
           </div>
   

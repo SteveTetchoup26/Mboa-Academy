@@ -19,6 +19,7 @@ import InstructorLayout from '@/components/layout/InstructorLayout.vue'
 import Dashboard from '@/components/instructor/Dashboard.vue'
 import Courses from '@/components/instructor/Courses.vue'
 import Students from '@/components/instructor/Students.vue'
+import Webinars from '@/components/instructor/webinars/Webinars.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -60,6 +61,7 @@ const router = createRouter({
         {path: '', redirect: '/instructor/dashboard'},
         {path: 'dashboard', name: 'dashboard', component: Dashboard},
         {path: 'courses', name: 'publishedCourses', component: Courses},
+        {path: 'webinars', name: 'instructorWebinars', component: Webinars},
         // {path: 'students', name: 'students', component: Students}
       ]
     }
