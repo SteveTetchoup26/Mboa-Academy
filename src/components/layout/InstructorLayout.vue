@@ -38,6 +38,7 @@
           </div>
           
           <div class="flex items-center space-x-4">
+            <RouterLink to="/" class="hover:text-primary">Apprenant</RouterLink>
             <button 
               @click="showNotifications = !showNotifications"
               class="relative rounded-full py-2 px-3 hover:bg-gray-100 group"
@@ -100,9 +101,9 @@ const isSmallScreen = ref(false);
   
 
   const formateurInfo = {
-    name: 'Jean Dupont',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=john',
-    email: 'jean.dupont@email.com'
+    name: 'John Doe',
+    avatar: '',
+    email: 'johndoe@gmail.com'
   };
 
   

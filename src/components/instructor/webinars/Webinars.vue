@@ -18,7 +18,7 @@
             </div>
             
             <button 
-                @click="showNewWebinarModal = true"
+                @click="showModal = true"
                 class="flex items-center gap-2 text-white bg-primary w-max text-sm md:text-[15px] rounded-md md:rounded-none py-1 px-2 md:py-2 md:px-4 hover:bg-secondary transition-all duration-150"
             >
                 <FontAwesomeIcon :icon="faPlus" class=""/>
@@ -115,6 +115,7 @@
             </div>
         </div>
     </div>
+    <WebinarAdditionModal :showModal="showModal"  @close-modal="showModal=false"/>
 </template>
 
 <script setup lang="ts">
@@ -122,9 +123,10 @@ import { faClock, faDownload, faFileWaveform, faPlus, faUsers } from '@fortaweso
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { ref, computed } from 'vue';
 import LiveWebinar from '../../loader/LiveWebinar.vue';
+import WebinarAdditionModal from '@/components/modals/WebinarAdditionModal.vue';
 
 
-
+let showModal = ref(false);
 const currentWebinarTab = ref('upcoming');
 const showNewWebinarModal = ref(false);
 const newWebinar = ref({
@@ -158,7 +160,7 @@ const upcomingWebinars = [
     description: "Session pratique sur la création d'APIs REST sécurisées et scalables.",
     participants: 32,
     duration: 120,
-    status: 'live'
+    status: 'upcoming'
   },
   {
     id: 3,
@@ -167,7 +169,7 @@ const upcomingWebinars = [
     description: "Session pratique sur la création d'APIs REST sécurisées et scalables.",
     participants: 32,
     duration: 120,
-    status: 'live'
+    status: 'upcoming'
   }
 ];
 

@@ -100,7 +100,7 @@
   </template>
   
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref, defineProps } from 'vue';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import { useRouter } from 'vue-router';

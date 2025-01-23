@@ -65,8 +65,11 @@
                     </div>
                     
                     <div class="space-y-3 mb-6">
-                      <button class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary">
-                        S'inscrire maintenant
+                      <button 
+                        @click="registrationCourseModal = true"
+                        class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary"
+                        >
+                          S'inscrire maintenant
                       </button>
                       <div class="text-center text-sm text-gray-600">
                         <span>{{ course.offerEndsIn }} restants à ce prix</span>
@@ -102,8 +105,11 @@
             </div>
             
             <div class="space-y-3 mb-6">
-              <button class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary">
-                S'inscrire maintenant
+              <button 
+                @click="registrationCourseModal = true"
+                class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary"
+                >
+                  S'inscrire maintenant
               </button>
               <div class="text-center text-sm text-gray-600">
                 <span>{{ course.offerEndsIn }} restants à ce prix</span>
@@ -264,6 +270,13 @@
         </div>
       </div>
     </div>
+    <RegistrationCourseModal
+      :showModal="registrationCourseModal" 
+      :courseTitle="course.title" 
+      :coursePrice="course.price"
+      :courseImage="course.coverImage"
+      @close-modal="registrationCourseModal = false"
+    />
   </template>
   
 <script setup lang="ts">
@@ -273,6 +286,9 @@ import { faCircle, faClock, faStar, faUser, faUsers } from "@fortawesome/free-so
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import carouselOne from './../assets/images/carousel-1.jpg';
 import instutor from './../assets/images/instutor.jpg'
+import RegistrationCourseModal from '@/components/modals/RegistrationCourseModal.vue';
+
+const registrationCourseModal = ref(false)
   
   const course = {
     title: "Maîtrisez le Développement Web Moderne avec Vue.js",

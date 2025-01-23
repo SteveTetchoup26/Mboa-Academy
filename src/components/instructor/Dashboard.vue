@@ -24,7 +24,12 @@
         </div>
         
         <div class="rounded-lg bg-white p-6 shadow">
-            <h3 class="mb-4 text-lg font-semibold">Revenus mensuels</h3>
+            <div class="w-full flex justify-between items-center">
+                <h3 class="mb-4 text-lg font-semibold">Revenus mensuels</h3>
+                <button class="text-white bg-red-600 w-max text-sm md:text-[15px] rounded-md py-2 px-2 md:py-3 md:px-8 hover:bg-red-700 transition-all duration-150">
+                    Retrait
+                </button>
+            </div>
             <div class="h-64">
                 <!-- Intégrer ici un composant de graphique (ex: Chart.js, ApexCharts) -->
             </div>
@@ -68,7 +73,7 @@ import { faBell } from '@fortawesome/free-regular-svg-icons';
 const statistics = [
     { title: 'Étudiants actifs', value: '1,234', trend: 12, icon: faUsers },
     { title: 'Cours publiés', value: '15', trend: 5, icon: faBookOpen },
-    { title: 'Revenus du mois', value: '2,450 €', trend: 8, icon: faCoins },
+    { title: 'Portefeuille', value: '2,450 FCFA', trend: 8, icon: faCoins },
     { title: 'Note moyenne', value: '4.8/5', trend: -1, icon: faStar },
 ];
 
