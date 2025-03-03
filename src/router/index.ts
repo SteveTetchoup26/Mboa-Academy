@@ -20,6 +20,7 @@ import Dashboard from '@/components/instructor/Dashboard.vue'
 import Courses from '@/components/instructor/Courses.vue'
 import Students from '@/components/instructor/Students.vue'
 import Webinars from '@/components/instructor/webinars/Webinars.vue'
+import CourseAssembly from '@/views/CourseAssembly.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -64,6 +65,11 @@ const router = createRouter({
         {path: 'webinars', name: 'instructorWebinars', component: Webinars},
         // {path: 'students', name: 'students', component: Students}
       ]
+    },
+    {
+      path: '/create-course',
+      name: 'createCourse',
+      component: CourseAssembly,
     }
   ],
 })

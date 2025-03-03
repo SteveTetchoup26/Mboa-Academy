@@ -6,7 +6,7 @@
                 <input type="text" class="bg-transparent outline-none flex-1 p-1 w-full" placeholder="Recherchez un cours ">
             </div>
             <button 
-              @click="showNewCourseModal = true"
+              @click="router.push({ name: 'createCourse'})"
               class="flex items-center gap-2 text-white bg-primary w-max text-sm md:text-[15px] rounded-md md:rounded-none py-1 px-2 md:py-2 md:px-4 hover:bg-secondary transition-all duration-150"
             >
               <FontAwesomeIcon :icon="faPlus" class=""/>
