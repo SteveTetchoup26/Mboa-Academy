@@ -31,13 +31,20 @@ export class AuthAPI {
     return Axios.get("/me/notifications");
   };
 
-  static confirm = (body: Record<string, any>, token: string) => {
-    return Axios.post("/auth/confirm", body, {
+  static confirm = (body: Record<string, any>) => {
+    return Axios.post("/auth/account/confirm", body);
+  };
+
+  static me = () => {
+    const token = localStorage.getItem("AUTH_TOKEN");
+    return Axios.get("/users/me", {
       headers: { Authorization: `Bearer ${token}` },
     });
   };
 
-  static me = () => {
-    return Axios.get("/users/me");
-  };
+  static becomeInstructor  = (body: Record<string, any>, token: string) => {
+    return Axios.post("/users/become-instructor", body, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
 }

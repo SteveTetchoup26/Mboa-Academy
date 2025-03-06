@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!user" class="flex flex-col items-center gap-24">
+    <div v-if="!token" class="flex flex-col items-center gap-24">
         <div class="relative w-full min-h-[500px] xl:h-screen overflow-hidden">
             <div class="absolute inset-0 flex" 
                 :class="{ 'duration-1000': isTransitioning }"
@@ -113,10 +113,12 @@ import about from './../assets/images/about.jpg'
 import Course from "@/components/Course.vue";
 import CourseCategory from "@/components/CourseCategory.vue";
 import CatalogCourse from "@/components/CatalogCourse.vue";
+import { useUserStore } from "./../stores/user";
 
 
 
-const user = ref(false);
+const userStore = useUserStore();
+const token = userStore.getToken();
 const currentIndex = ref(0);
 const isTransitioning = ref(true);
 const slides = [carouselOne, carouselTwo, carouselOne]

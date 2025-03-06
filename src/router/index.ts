@@ -21,6 +21,7 @@ import Courses from '@/components/instructor/Courses.vue'
 import Students from '@/components/instructor/Students.vue'
 import Webinars from '@/components/instructor/webinars/Webinars.vue'
 import CourseAssembly from '@/views/CourseAssembly.vue'
+import EmailConfirmation from '@/views/EmailConfirmation.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -70,6 +71,11 @@ const router = createRouter({
       path: '/create-course',
       name: 'createCourse',
       component: CourseAssembly,
+    },
+    {
+      path: '/confirm-account',
+      name: 'confirmAccount',
+      component: EmailConfirmation
     }
   ],
 })

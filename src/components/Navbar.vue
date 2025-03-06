@@ -10,9 +10,9 @@
                 <FontAwesomeIcon :icon="faSearch" color='gray' />
                 <input type="text" class="bg-transparent outline-none flex-1 p-1 w-full" placeholder="Que voulez-vous apprendre ? ">
             </div>
-            <ul v-if="!user" class="hidden lg:flex gap-[2px] text-gray-500">
+            <ul v-if="!token" class="hidden lg:flex gap-[2px] text-gray-500">
                 <li 
-                    v-for="tab in tabsBeforeConnexion" 
+                    v-for="(tab) in tabsBeforeConnexion" 
                     :key="tab.id"   
                 >
                     <RouterLink :to="`/${tab.path}`" @click="currentTab = tab.id"
@@ -26,10 +26,11 @@
                         {{ tab.name }}
                     </RouterLink>
                 </li>
+                
             </ul>
             <ul v-else class="hidden lg:flex gap-[2px] text-gray-500">
                 <li 
-                    v-for="tab in tabsAfterConnexion" 
+                    v-for="(tab) in tabsAfterConnexion" 
                     :key="tab.id"   
                 >
                     <RouterLink :to="`/${tab.path}`" @click="currentTab = tab.id"
@@ -37,14 +38,25 @@
                             'px-6 py-4 text-sm font-medium',
                             currentTab === tab.id
                             ? 'border-b-[3px] border-primary text-primary'
-                            : 'hover:text-primary transition-colors duration-200 ease-in'
+                            : 'hover:text-primary transition-colors duration-200 ease-in',
                         ]"
                     >
                         {{ tab.name }}
                     </RouterLink>
                 </li>
+                <li>
+                    <RouterLink :to="isInstructor ? '/instructor/dashboard' : '/become-instructor'"
+                        :class="[ 
+                                isInstructor ? 
+                                'hover:text-primary bg-transparent text-gray-500 px-6 py-4 text-sm font-medium' : 
+                                'transition-colors duration-200 ease-in rounded-3xl px-4 py-2 bg-primary text-white hover:bg-secondary '
+                            ]"
+                    >
+                        {{  isInstructor ? 'Formateur' : 'Devenir formateur' }}
+                    </RouterLink>
+                </li>
             </ul>
-            <div v-if="!user" class="hidden lg:flex gap-4">
+            <div v-if="!token" class="hidden lg:flex gap-4">
                 <button @click="router.push({name: 'login'})" class="cursor-pointer font-semibold">Se connecter</button>
                 <button @click="router.push({name: 'signup'})" class="cursor-pointer text-white font-semibold bg-primary px-3 py-1 rounded-sm hover:bg-secondary transition-all duration-150">S'inscrire</button>
             </div>
@@ -52,7 +64,7 @@
                 <FontAwesomeIcon :icon="faBell" class="h-5 cursor-pointer px-2 py-1 hover:text-primary" />
                 <div class="relative cursor-pointer group px-2 py-1">
                     <div class="h-6 w-6 text-white rounded-full bg-black flex items-center justify-center p-[18px] font-semibold">
-                        <p>ST</p>
+                        <p>{{ avatar }}</p>
                     </div>
                     <div 
                         v-motion
@@ -73,7 +85,7 @@
                                     Paramètres
                                 </RouterLink>
                             </li>
-                            <li>
+                            <li @click="logout">
                                 <RouterLink class="pl-2 py-3 block rounded-md w-full hover:bg-green-50" to="">
                                     <FontAwesomeIcon :icon="faArrowRightFromBracket" class="mr-2" />
                                     Déconnexion
@@ -92,12 +104,12 @@
         <div class="lg:hidden" 
             :class="[showMenu ? 'relative mb-8 h-auto md:px-16 flex flex-col gap-4 opacity-100 transition-all duration-700 ease-in-out': 'w-full h-0 opacity-0 overflow-hidden']"
         >
-            <div v-if="user" @click="isProfile=true" class="cursor-pointer px-4 mt-2 flex gap-2 items-center justify-between pb-2 border-b border-1 border-gray-400 group">
+            <div v-if="token" @click="isProfile=true" class="cursor-pointer px-4 mt-2 flex gap-2 items-center justify-between pb-2 border-b border-1 border-gray-400 group">
                 <div class="flex items-center gap-1 ">
                     <div class="h-6 w-6 text-white rounded-full bg-black flex items-center justify-center p-[18px] font-semibold">
-                        <p>ST</p>
+                        <p>{{ avatar }}</p>
                     </div>
-                    <p class="group-hover:text-primary font-semibold">Steve Tetchoup</p>
+                    <p class="group-hover:text-primary font-semibold">{{ user?.name }}</p>
                 </div>
                 <FontAwesomeIcon :icon="faChevronRight" />
             </div>
@@ -123,7 +135,7 @@
                                 Paramètres
                             </RouterLink>
                         </li>
-                        <li>
+                        <li @click="logout">
                             <RouterLink class="pl-4 py-3 block rounded-md w-full hover:bg-green-50" to="">
                                 <FontAwesomeIcon :icon="faArrowRightFromBracket" class="mr-2 hidden xs:inline-block"  />
                                 Déconnexion
@@ -132,7 +144,7 @@
                     </ul>
                 </div>
             </Transition>
-            <ul v-if="!user" class="gap-[2px] text-gray-600 font-semibold text-md">
+            <ul v-if="!token" class="gap-[2px] text-gray-600 font-semibold text-md">
                 <li 
                     v-for="tab in tabsBeforeConnexion" 
                     :key="tab.id"
@@ -151,8 +163,19 @@
                 >
                     <RouterLink :to="`/${tab.path}`" class="pl-4 py-3  block h-full w-full hover:bg-green-50">{{ tab.name }}</RouterLink>
                 </li>
+                <li>
+                    <RouterLink :to="isInstructor ? '/instructor/dashboard' : '/become-instructor'"
+                        :class="[ 
+                            isInstructor ? 
+                            'hover:text-primary bg-transparent text-gray-500 px-6 py-4 text-sm font-medium' : 
+                            'transition-colors duration-200 ease-in rounded-3xl px-4 py-2 bg-primary text-white hover:bg-secondary '
+                        ]"
+                    >
+                        {{  isInstructor ? 'Formateur' : 'Devenir formateur' }}
+                    </RouterLink>
+                </li>
             </ul>
-            <div v-if="!user" class="w-full flex flex-col items-center gap-4">
+            <div v-if="!token" class="w-full flex flex-col items-center gap-4">
                 <button @click="router.push({name: 'login'})" class="w-11/12 text-primary font-semibold cursor-pointer border border-1 border-primary px-3 py-1">Se connecter</button>
                 <button @click="router.push({name: 'signup'})" class="w-11/12 cursor-pointer font-semibold text-white bg-primary px-3 py-1 rounded-sm hover:bg-secondary transition-all duration-150">S'inscrire</button>
             </div>
@@ -165,16 +188,25 @@ import { RouterLink, useRouter } from 'vue-router';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faSearch, faBars, faGear, faUser, faArrowRightFromBracket, faChevronRight, faChevronLeft, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { faBell } from '@fortawesome/free-regular-svg-icons';
-import { ref, Transition, watch } from 'vue';
+import { computed, ref, Transition, watch, watchEffect, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { useUserStore } from "./../stores/user";
 
-const router = useRouter()
-const showMenu:any = ref(false)
-let isProfile:any = ref(false)
-// const user = ref({
-//     role: ''
-// })
-const user = ref(false);
+
+
+const userStore = useUserStore();
+const token = computed(() => userStore.getToken());
+let user = ref<Record<string, any>>();;
+
+const avatar = computed(() => {
+  return user?.value?.name ? user.value.name.charAt(0).toUpperCase() : '?';
+});
+
+const isInstructor = ref(false);
+const router = useRouter();
+const showMenu:any = ref(false);
+let isProfile:any = ref(false);
+
 let currentTab = ref(router.currentRoute.value.name)
 
 const currentPath = router.currentRoute.value.name
@@ -184,7 +216,7 @@ let tabsAfterConnexion =  [
   { id: 'courses', name: 'Mes cours', path: 'my-courses' },
   { id: 'webinars', name: 'Webinaires', path: 'webinars' },
   { id: 'forums', name: 'Forums', path: 'forums' },
-  { id: 'becomeInstructor', name: user.value.role === 'instructor' ? 'Formateur' : 'Devenir formateur', path: 'become-instructor' }
+//   { id: 'becomeInstructor', name:'Devenir formateur', path: 'become-instructor' }
 ]
 let tabsBeforeConnexion =  [
   { id: 'home', name: 'Acceuil', path: '' },
@@ -208,6 +240,15 @@ const showSetting = () => {
     currentTab.value = ''
     isProfile.value = false
 }
+const logout = () => {
+    userStore.logout()
+    router.push("/connexion");
+}
+
+onMounted(() => {
+    user.value = userStore.user;
+    isInstructor.value = userStore.user?.roles?.some((role: any) => role.title === 'Instructor');
+})
 
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="showModal" class="fixed inset-0 z-50 overflow-y-auto">
+    <div v-if="showModal" class="fixed inset-0 z-40 overflow-y-auto">
         <div class="fixed inset-0 bg-black bg-opacity-50" @click="$emit('closeModal')"></div>
 
         <div class="flex h-screen xs:min-h-screen items-center justify-center p-0 xs:p-4">
@@ -23,7 +23,7 @@
                             <div>
                                 <label class="block mb-1 font-medium">Nom</label>
                                 <input 
-                                    
+                                    v-model="fields.name"
                                     type="text"
                                     class="w-full p-2 border rounded-md outline-primary"
                                     placeholder="John Doe"
@@ -32,7 +32,7 @@
                             <div>
                                 <label class="block mb-1 font-medium">Email</label>
                                 <input 
-                                    
+                                    v-model="fields.email"
                                     type="email"
                                     class="w-full p-2 border rounded-md outline-primary"
                                     placeholder="johndoe@exemple.com"
@@ -42,7 +42,7 @@
                             <div>
                                 <label class="block mb-1 font-medium">Téléphone</label>
                                 <input 
-                            
+                                    v-model="fields.phone_number"
                                     type="tel"
                                     class="w-full p-2 border rounded-md outline-primary"
                                     placeholder="698556677"
@@ -55,8 +55,7 @@
                             <div>
                                 <label class="block mb-1 font-medium">Domaine</label>
                                 <select 
-                                    v-model="formData.domain"
-                                    
+                                    v-model="fields.domain"
                                     class="w-full outline-primary p-2 border rounded-md"
                                 >
                                     <option value="">Sélectionnez un domaine</option>
@@ -68,9 +67,8 @@
                             <div>
                                 <label class="block mb-1 font-medium">Intitulé de poste</label>
                                 <input 
-                                    v-model="formData.experience"
+                                    v-model="fields.job_title"
                                     type="text"
-                                    
                                     class="w-full outline-primary p-2 border rounded-md"
                                     placeholder="Developpeur frontend"
                                 />
@@ -86,11 +84,11 @@
                                 Annuler
                             </button>
                             <button
+                                @click.prevent="handleSubmit"
                                 type="submit"
-                                 class="text-white bg-primary w-max text-sm md:text-[15px] rounded-md py-2 px-2 md:py-3 md:px-8 hover:bg-secondary transition-all duration-150"
-                                :disabled="isSubmitting"
+                                class="text-white bg-primary w-max text-sm md:text-[15px] rounded-md py-2 px-2 md:py-3 md:px-8 hover:bg-secondary transition-all duration-150"
                             >
-                                {{ isSubmitting ? 'Envoi en cours...' : 'Envoyer' }}
+                                Envoyer
                             </button>
                         </div>
                     </form>
@@ -100,21 +98,26 @@
   </template>
   
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, reactive } from 'vue';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import { useRouter } from 'vue-router';
+import { AuthAPI } from '@/services/api/Auth';
+import { useUserStore } from "./../../stores/user";
+import  useAppStore from './../../stores/app';
 
-  defineProps({
+defineProps({
     showModal: {
         type: Boolean,
         required: true
     }
-})
+});
   
 
-  const router = useRouter();
-  const isSubmitting = ref(false);
+const router = useRouter();
+// const isSubmitting = ref(false);
+const userStore = useUserStore();
+const appStore = useAppStore();
   
   const domains = [
     'Développement web',
@@ -127,21 +130,37 @@ import { useRouter } from 'vue-router';
     'Autre'
   ];
   
-  const formData = ref({
-    firstName: '',
-    lastName: '',
+  const fields = reactive({
+    name: '',
     email: '',
-    phone: '',
+    phone_number: '',
     domain: '',
-    experience: '',
-    expertiseDescription: '',
-    courseTitle: '',
-    courseDescription: ''
+    job_title: ''
   });
 
-  
+  const token = userStore.getToken();
+
   const handleSubmit = async () => {
-    router.push('/instructor/dashboard');
+    // isSubmitting.value = true;
+    appStore.loading = true;
+    try {
+        const { data } = await AuthAPI.becomeInstructor({ ...fields }, token);
+        console.log(data.updatedUser);
+
+        fields.name = "";
+        fields.email = "";
+        fields.phone_number = "";
+        fields.domain = "";
+        fields.job_title = "";
+        
+        userStore.setUser(data.updatedUser);
+        router.push('/instructor/dashboard'); 
+    } catch (error) {
+        console.error(error)
+    } finally {
+        // isSubmitting.value = false;
+        appStore.loading = false;
+    }
   };
 </script>
   

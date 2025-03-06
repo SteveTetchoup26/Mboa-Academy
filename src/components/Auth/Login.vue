@@ -12,11 +12,26 @@
                     <p class="text-4xl font-bold">Hey,</p>
                     <p class="text-gray-400">Enter your email and password to login.</p>
                 </div>
-                <form class="w-full flex flex-col gap-5">
-                    <input type="email" class="py-3 px-2 border border-1 border-gray-300 focus:outline-primary" name="email" placeholder="Your Email" required>
-                    <input type="password" class="py-3 px-2 border border-1 border-gray-300 focus:outline-primary" name="password" placeholder="password" required>
+                <form @submit.prevent="handleSubmit" class="w-full flex flex-col gap-5">
+                    <input 
+                        v-model="fields.email" 
+                        type="email" 
+                        class="py-3 px-2 border border-1 focus:outline-primary" 
+                        :class="{ 'border-gray-300': !fieldsErrors.email, 'border-red-500': fieldsErrors.email }" 
+                        name="email" 
+                        placeholder="Your Email" 
+                    >
+                    <input 
+                        v-model="fields.password" 
+                        type="password" 
+                        class="py-3 px-2 border border-1 border-gray-300 focus:outline-primary" 
+                        :class="{ 'border-gray-300': !fieldsErrors.email, 'border-red-500': fieldsErrors.email }"
+                        name="password" 
+                        placeholder="password"
+                    >
+                    <p v-if="error" class="bg-red-100 text-red-600 text-center py-2">{{ error }}</p>
                     <p class="text-end underline hover:text-primary cursor-pointer">Mot de passe oublié ?</p>
-                    <button type="submit" class="bg-primary text-white py-3 px-8 hover:opacity-80 transition-opacity duration-150">Se connecter</button>
+                    <button @click.prevent="handleSubmit" class="bg-primary text-white py-3 px-8 hover:opacity-80 transition-opacity duration-150">Se connecter</button>
                     <RouterLink to="/inscription" class="text-center hover:text-primary">Vous n'avez pas de compte ? Inscrivez-vous.</RouterLink>
                 </form>
             </div>
@@ -25,7 +40,82 @@
 </template>
 
 <script setup lang="ts">
+import { AuthAPI } from '@/services/api/Auth';
+import { reactive, ref } from 'vue';
+import LocalLoader from '../loader/LocalLoader.vue';
+import { useToast } from "primevue/usetoast";
+import { useUserStore } from "./../../stores/user";
+import { useRouter, useRoute } from "vue-router";
+import useAppStore from "./../../stores/app";
 
+
+const toast = useToast();
+const userStore = useUserStore();
+const router = useRouter();
+const appStore = useAppStore();
+
+const fields = reactive({
+  email: "",
+  password: "",
+});
+
+const error = ref('');
+
+const fieldsErrors = reactive<any>({
+  email: null,
+  password: null,
+});
+
+const clearError = () => {
+  error.value = '';
+  fieldsErrors.email = null;
+  fieldsErrors.password = null;
+};
+
+const handleSubmit = async () => {
+    clearError();
+    fieldsErrors.email = !fields.email;
+    fieldsErrors.password = !fields.password;
+    appStore.setLoading(true);
+    
+  try {
+
+    if(fields.email === "" || fields.password === ""){
+        error.value = "Veuillez remplir tous les champs";
+        return;
+    } else {
+        const { data } = await AuthAPI.login({ ...fields });
+
+        userStore.setUser(data.user);
+        userStore.setToken(data.token);
+        router.push("/");
+    }
+
+  } catch (e: any) {
+
+    const errors = e.response?.data?.errors;
+
+    if (errors) {
+      for (let item of errors) {
+        fieldsErrors[item.field] = item.message;
+      }
+
+      if (errors.length > 1) {
+        error.value = "Erreurs lors de la validation du formulaire";
+      } else {
+        error.value = errors[0].message;
+      }
+    } else {
+      toast.add({
+            severity: "error",
+            detail: e.response?.data?.message,
+            life: 3000,
+        });
+    }
+  } finally {
+    appStore.setLoading(false);
+  } 
+}
 </script>
 
 <style>

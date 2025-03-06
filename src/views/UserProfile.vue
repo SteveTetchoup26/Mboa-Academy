@@ -10,8 +10,8 @@
                   class="relative w-24 h-24 font-bold text-2xl flex items-center justify-center rounded-full border-4 border-white bg-gray-200"
                 >
                   <img v-if="image" :src="image" class="w-full h-full object-cover rounded-full" alt="">
-                  <span v-else>ST</span>
-                  <div class="absolute bottom-0 right-0 py-2 px-2 text-sm flex items-center justify-center text-white bg-primary rounded-full hover:bg-secondary transition-colors duration-200">
+                  <span v-else>{{ avatar }}</span>
+                  <div v-if="isEditing"  class="absolute bottom-0 right-0 py-2 px-2 text-sm flex items-center justify-center text-white bg-primary rounded-full hover:bg-secondary transition-colors duration-200">
                     <FontAwesomeIcon :icon="faCamera" />
                   </div>
                 </div>
@@ -21,8 +21,8 @@
             </div>
             
             <div class="sm:text-left mt-0 flex-grow">
-              <h1 class="text-nd md:text-2xl font-bold">{{ user.name }}</h1>
-              <p class="text-sm md:text-md text-gray-600">{{ user.role }}</p>
+              <h1 class="text-nd md:text-2xl font-bold">{{ user?.name }}</h1>
+              <p v-for="role in user?.roles" :key="role.id" class="text-sm md:text-md text-gray-600">{{ role.title }}</p>
             </div>
   
             <button 
@@ -63,11 +63,11 @@
                 <div class="space-y-3">
                   <div>
                     <label class="text-sm text-gray-500">Nom complet</label>
-                    <p>{{ user.name }}</p>
+                    <p>{{ user?.name }}</p>
                   </div>
                   <div>
                     <label class="text-sm text-gray-500">Email</label>
-                    <p>{{ user.email }}</p>
+                    <p>{{ user?.email }}</p>
                   </div>
                 </div>
               </div>
@@ -78,7 +78,7 @@
                     <input 
                       v-model="editedUser.name"
                       type="text"
-                      class="mt-1 block w-full outline-primary p-2 rounded-md border-gray-300 shadow-sm"
+                      class="mt-1 block w-full outline-primary p-2 rounded-md border-[1px] border-solid border-gray-400 shadow-sm"
                     >
                   </div>
                   <div>
@@ -86,7 +86,7 @@
                     <input 
                       v-model="editedUser.email"
                       type="email"
-                      class="mt-1 block w-full outline-primary p-2 rounded-md border-gray-300 shadow-sm"
+                      class="mt-1 block w-full outline-primary p-2 rounded-md border-[1px] border-solid border-gray-400 shadow-sm"
                     >
                   </div>
                   <div class="flex gap-3">
@@ -111,14 +111,14 @@
 
           <div v-else-if="currentTab === 'courses'" class="space-y-4">
             <h2 class="text-lg font-semibold">Mes cours</h2>
-            <div v-if="user.courses.length" class="space-y-4">
+             <div v-if="user?.courses?.length" class="space-y-4">
               <div 
                 v-for="course in user.courses" 
-                :key="course.id"
+                :key="course"
                 class="border rounded-lg p-4"
               >
-                <h3 class="font-medium">{{ course.name }}</h3>
-                <p class="text-sm text-gray-600">{{ course.progress }}% complété</p>
+                <h3 class="font-medium">{{ course }}</h3>
+                <p class="text-sm text-gray-600">{{ course }}% complété</p>
               </div>
             </div>
             <p v-else class="text-gray-600">Aucune formation en cours</p>
@@ -146,15 +146,47 @@
   </template>
   
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted, computed, watch } from 'vue'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { useUserStore } from './../stores/user';
+import  useAppStore from './../stores/app';
+import { AuthAPI } from '@/services/api/Auth';
+import { useToast } from "primevue/usetoast";
+
+const toast = useToast();
+let currentTab =  ref('overview');
+let isEditing =  ref(false);
+let image = ref('');
+const userStore = useUserStore();
+const appStore = useAppStore();
 
 
-let currentTab =  ref('overview')
-let isEditing =  ref(false)
-let image = ref('')
+interface Role {
+  id: number;
+  title: string;
+}
+
+let user = ref({
+  id: null,
+  name: '',
+  email: '',
+  roles: [] as Role[],
+  courses: [],
+});
+
+const avatar = computed(() => {
+  return user.value?.name ? user.value.name.charAt(0).toUpperCase() : '?';
+});
+
+// const avatar = ref('')
+
+// watch(user.value.name, 
+//     (newUser) => {
+//       console.log(newUser);
+//       avatar.value = newUser.charAt(0).toUpperCase();
+// })
 
 
 let tabs =  [
@@ -163,32 +195,47 @@ let tabs =  [
   // { id: 'settings', name: 'Paramètres' }
 ]
 
-let user =  {
-  name: 'Steve Tetchoup',
-  email: 'test@gmail.com',
-  role: 'Étudiant',
-  imageUrl: '',
-  courses: [
-    { id: 1, name: 'Introduction au développement web', progress: 75 },
-    { id: 2, name: 'Vue.js avancé', progress: 30 }
-  ],
-  settings: {
-    emailNotifications: true
-  }
-}
+let editedUser = reactive({
+  uid: user.value.id,
+  name: '',
+  email: '',
+});
 
-let editedUser: any = ref({})
+const token = userStore.getToken();
 
 const created = ()  => {
-  editedUser = { ...user }
+  // editedUser = { ...user }
 }
 
-const saveProfile = () => {
-  user  = { ...editedUser }
-  isEditing.value = false
+const saveProfile = async () => {
+  appStore.loading = true;
+  editedUser.uid = user.value.id;
+  try {
+    const res = await AuthAPI.update({...editedUser}, token!);
+    user.value = { ...res?.data.updatedUser };
+    userStore.setUser(user);
+
+    toast.add({
+        severity: "success",
+        detail: res?.data.message,
+        life: 3000,
+    });
+
+    editedUser.name = '';
+    editedUser.email = '';
+
+  } catch(e){
+    console.log(e);
+  } finally {
+    isEditing.value = false;
+    appStore.loading = false;
+  }
+
 }
+
+
 const cancelEdit = () => {
-  editedUser = { ...user }
+  // editedUser.value = { ...user }
   isEditing.value = false
 }
 
@@ -196,4 +243,13 @@ const handleImageChange = (e: any) => {
   image.value = URL.createObjectURL(e.target.files[0])
 }
 
+
+onMounted(async () => {
+  try{
+    const res = await AuthAPI.me();
+    user.value = res?.data.user;
+  } catch(e) {
+    console.log(e);
+  }
+});
 </script>
