@@ -22,7 +22,11 @@
             
             <div class="sm:text-left mt-0 flex-grow">
               <h1 class="text-nd md:text-2xl font-bold">{{ user?.name }}</h1>
-              <p v-for="role in user?.roles" :key="role.id" class="text-sm md:text-md text-gray-600">{{ role.title }}</p>
+              <div class="flex">
+                <p v-for="(role, index) in user?.roles" :key="role.id" class="text-sm md:text-md text-gray-600">
+                  {{ index > 0 ? ', ' : '' }} {{ role.title }}
+                </p>
+              </div>
             </div>
   
             <button 

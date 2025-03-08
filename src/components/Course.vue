@@ -1,7 +1,7 @@
 <template>
     <div 
         v-if="!isInstructor"
-        @click="viewDetails(1)" 
+        @click="viewDetails(course.id)" 
         :class="['bg-white gap-2 rounded-lg p-3 shrink-0  group border border-1 border-gray-200 cursor-pointer hover:shadow-[1px_1px_5px_#9e9e9e] hover:-translate-y-2 transition-transform duration-200 ease-in-out',
             isDisplayCategory ? 'flex flex-row md:flex-col w-full md:!w-[250px] hover:-translate-y-0 md:hover:-translate-y-2' : 'flex flex-col !w-[250px]'
         ]"
@@ -11,7 +11,7 @@
                 isDisplayCategory ? 'w-28 h-28 md:w-full md:h-[150px]' : 'w-full h-[150px]'
             ]"
         >
-            <span class="absolute left-1 top-1 px-2 py-1 rounded-md backdrop-blur-sm bg-[rgba(255,255,255,0.4)]">HTML</span>
+            <!-- <span class="absolute left-1 top-1 px-2 py-1 rounded-md backdrop-blur-sm bg-[rgba(255,255,255,0.4)]">HTML</span> -->
             <img :src="course.image || picture" class="w-full h-full object-cover rounded-lg" alt="">
         </div>
         <div class="w-full flex flex-col gap-1 md:gap-2">
@@ -46,8 +46,8 @@
                 'relative w-60 h-24 xl:!w-full xl:h-[150px]'
             ]"
         >
-            <span class="absolute left-1 top-1 px-2 py-1 rounded-md backdrop-blur-sm bg-[rgba(255,255,255,0.4)]">HTML</span>
-            <img :src="course.image || picture" class="w-full h-full object-cover rounded-lg" alt="">
+            <!-- <span class="absolute left-1 top-1 px-2 py-1 rounded-md backdrop-blur-sm bg-[rgba(255,255,255,0.4)]">HTML</span> -->
+            <img :src="course.cover_image || picture" class="w-full h-full object-cover rounded-lg" alt="">
         </div>
         <div class="w-full flex flex-col gap-1 md:gap-2">
             <p class="font-semibold">{{ course.title ?? 'Apprendre JavaScript pour débutants' }}</p>

@@ -209,10 +209,10 @@ const courseData = ref({
 })
 
 let isSmallScreen = ref(false);
-const showSidebar = ref(true)
-const expandedModules = ref({})
-const currentModule = ref(0)
-const currentLessonIndex = ref(0)
+const showSidebar = ref(true);
+const expandedModules = ref({});
+const currentModule = ref(0);
+const currentLessonIndex = ref(0);
 const currentLesson = computed(() => courseData.value.modules[currentModule.value]?.lessons[currentLessonIndex.value])
 const currentModuleTitle = computed(() => courseData.value.modules[currentModule.value]?.title)
 const isPlaying = ref(false)

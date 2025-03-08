@@ -61,37 +61,79 @@
                 <button @click="router.push({name: 'signup'})" class="cursor-pointer text-white font-semibold bg-primary px-3 py-1 rounded-sm hover:bg-secondary transition-all duration-150">S'inscrire</button>
             </div>
             <div v-else class="hidden lg:flex gap-4 items-center">
-                <FontAwesomeIcon :icon="faBell" class="h-5 cursor-pointer px-2 py-1 hover:text-primary" />
-                <div class="relative cursor-pointer group px-2 py-1">
-                    <div class="h-6 w-6 text-white rounded-full bg-black flex items-center justify-center p-[18px] font-semibold">
-                        <p>{{ avatar }}</p>
-                    </div>
-                    <div 
-                        v-motion
-                        :initial="{ opacity: 0, scale: 0.5}"
-                        :enter="{ opacity: 1, scale: 1}" 
-                        class="invisible group-hover:visible z-10 w-40 h-max bg-white absolute top-[45px] right-1 border border-solid border-primary rounded-md shadow-[1px_1px_5px_#9e9e9e]"
+                <!-- <FontAwesomeIcon :icon="faBell" class="h-5 cursor-pointer px-2 py-1 hover:text-primary" /> -->
+                <div class="relative">
+                    <button 
+                        @click="toggleNotifications()" 
+                        class="py-2 px-3 rounded-full hover:bg-gray-100 relative hover:cursor-pointer"
                     >
-                        <ul class="w-full h-full rounded-md font-semibold text-md text-gray-600">
-                            <li @click="currentTab=''">
-                                <RouterLink class="pl-2 py-3 rounded-t-md block border-b border-primary w-full hover:bg-green-50" to="/profile">
-                                    <FontAwesomeIcon :icon="faUser" class="mr-2" />
-                                    Profil
-                                </RouterLink>
-                            </li>
-                            <li  @click="currentTab=''">
-                                <RouterLink class="pl-2 py-3 block border-b border-primary w-full hover:bg-green-50" to="/settings">
-                                    <FontAwesomeIcon :icon="faGear" class="mr-2" />
-                                    Paramètres
-                                </RouterLink>
-                            </li>
-                            <li @click="logout">
-                                <RouterLink class="pl-2 py-3 block rounded-md w-full hover:bg-green-50" to="">
-                                    <FontAwesomeIcon :icon="faArrowRightFromBracket" class="mr-2" />
-                                    Déconnexion
-                                </RouterLink>
-                            </li>
-                        </ul>
+                        <FontAwesomeIcon :icon="faBell" class="text-[22px] text-gray-600"/>
+                        <span v-if="unreadNotifications > 0" class="absolute -top-[2px] -right-[2px] bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                            {{ unreadNotifications }}
+                        </span>
+                    </button>
+                    <div 
+                        v-if="showNotifications" 
+                        class="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200"
+                    >
+                        <div class="px-4 py-3 border-b border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-sm font-semibold text-gray-700">Notifications</h3>
+                                <button 
+                                    v-if="notifications.length > 0" 
+                                    @click="markAllAsRead()" 
+                                    class="text-xs text-indigo-600 hover:text-indigo-800"
+                                >
+                                    Marquer tout comme lu
+                                </button>
+                            </div>
+                        </div>
+                        <div class="max-h-64 overflow-y-auto">
+                            <div v-if="notifications.length === 0" class="px-4 py-3 text-sm text-gray-500 text-center">
+                                Aucune notification
+                            </div>
+                            <div 
+                                v-for="notification in notifications" 
+                                :key="notification.id" 
+                                class="px-4 py-2 hover:bg-gray-50 cursor-pointer"
+                                :class="{ 'bg-blue-50': !notification.read }"
+                                @click="readNotification(notification.id)"
+                            >
+                                <div class="flex justify-between">
+                                    <p class="text-sm font-medium text-gray-900">{{ notification.title }}</p>
+                                    <p class="text-xs text-gray-500">{{ notification.time }}</p>
+                                </div>
+                                <p class="text-xs text-gray-600 mt-1">{{ notification.message }}</p>
+                            </div>
+                        </div>
+                        <div class="px-4 py-2 border-t border-gray-200">
+                            <router-link to="/notifications" class="text-xs text-indigo-600 hover:text-indigo-800">
+                                Voir toutes les notifications
+                            </router-link>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <button @click="toggleUserMenu" class="flex items-center space-x-2 hover:cursor-pointer">
+                        <div class="h-6 w-6 text-white rounded-full bg-black flex items-center justify-center p-[18px] font-semibold">
+                            <p>{{ avatar }}</p>
+                        </div>
+                        <FontAwesomeIcon :icon="faChevronDown" class="h-4 w-4 text-gray-600"/>
+                    </button>
+                    <div 
+                        v-if="showUserMenu" 
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200"
+                    >
+                        <router-link @click="showUserMenu = false" to="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            Profil
+                        </router-link>
+                        <router-link @click="showUserMenu = false" to="/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            Paramètres
+                        </router-link>
+                        <div class="border-t border-gray-200 mt-1"></div>
+                        <button @click="logout" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            Déconnexion
+                        </button>
                     </div>
                 </div>
             </div>
@@ -186,7 +228,7 @@
 <script setup lang="ts">
 import { RouterLink, useRouter } from 'vue-router';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { faSearch, faBars, faGear, faUser, faArrowRightFromBracket, faChevronRight, faChevronLeft, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { faSearch, faBars, faGear, faUser, faArrowRightFromBracket, faChevronRight, faChevronLeft, faXmark, faChevronDown } from "@fortawesome/free-solid-svg-icons"
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { computed, ref, Transition, watch, watchEffect, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
@@ -196,7 +238,58 @@ import { useUserStore } from "./../stores/user";
 
 const userStore = useUserStore();
 const token = computed(() => userStore.getToken());
-let user = ref<Record<string, any>>();;
+let user = ref<Record<string, any>>();
+const showNotifications = ref(false); 
+const showUserMenu = ref(false);
+
+const toggleNotifications = () => {
+    showNotifications.value = !showNotifications.value;
+    if (showUserMenu.value) showUserMenu.value = false;
+};
+
+const toggleUserMenu = () => {
+    showUserMenu.value = !showUserMenu.value;
+    if (showNotifications.value) showNotifications.value = false;
+};
+
+const notifications = ref([
+    { 
+      id: 1, 
+      title: 'Nouveau cours soumis', 
+      message: 'Le formateur Jean Dupont a soumis un nouveau cours "Vue.js Avancé" pour validation.',
+      time: 'Il y a 20 min',
+      read: false
+    },
+    { 
+      id: 2, 
+      title: 'Nouvel utilisateur', 
+      message: 'Un nouveau formateur s\'est inscrit à la plateforme.',
+      time: 'Il y a 1 heure',
+      read: false
+    },
+    { 
+      id: 3, 
+      title: 'Rapport hebdomadaire', 
+      message: 'Le rapport d\'activité hebdomadaire est disponible.',
+      time: 'Il y a 2 jours',
+      read: true
+    }
+  ]);
+  
+  const unreadNotifications = computed(() => {
+    return notifications.value.filter(n => !n.read).length;
+  });
+  
+  const readNotification = (id: number) => {
+    const notification = notifications.value.find(n => n.id === id);
+    if (notification) {
+      notification.read = true;
+    }
+  };
+  
+const markAllAsRead = () => {
+    notifications.value.forEach(n => n.read = true);
+};
 
 const avatar = computed(() => {
   return user?.value?.name ? user.value.name.charAt(0).toUpperCase() : '?';
@@ -249,6 +342,16 @@ onMounted(() => {
     user.value = userStore.user;
     isInstructor.value = userStore.user?.roles?.some((role: any) => role.title === 'Instructor');
 })
+
+onMounted(() => {
+    document.addEventListener('click', (event) => {
+      const target = event.target as Element;
+      if (!target.closest('.relative')) {
+        showNotifications.value = false;
+        showUserMenu.value = false;
+      }
+    });
+});
 
 </script>
 

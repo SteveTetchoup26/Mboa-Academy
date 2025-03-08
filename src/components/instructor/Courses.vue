@@ -74,12 +74,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faChevronLeft, faChevronRight, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import picture from './../../assets/images/course-2.jpg'
 import Course from '../Course.vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useUserStore } from "./../../stores/user";
+import { CourseAPI } from './../../services/api/Course';
+import  useAppStore from './../../stores/app';
+
+
+
+const userStore = useUserStore();
+const appStore = useAppStore();
 
 
 const searchCourse = ref('');
@@ -88,219 +96,7 @@ const isInstructor = ref(true);
 const route = useRoute()
 const router = useRouter()
 
-const courses = [
-  {
-    id: 1,
-    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
-    category: "Développement Web",
-    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
-    image: picture,
-    rating: 4.8,
-    reviewsCount: 2547,
-    enrolledStudents: "12,354",
-    duration: "21 heures",
-    lastUpdate: "Novembre 2024",
-    price: 4500,
-    originalPrice: 8300,
-    discountPercentage: 75,
-    offerEndsIn: "2 jours",
-    instructor: {
-      name: "Marie Dupont",
-      title: "Senior Frontend Developer & Tech Lead",
-      avatar: ""
-    }
-  },
-  {
-    id: 2,
-    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
-    category: "Développement Web",
-    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
-    image: picture,
-    rating: 4.8,
-    reviewsCount: 2547,
-    enrolledStudents: "12,354",
-    duration: "21 heures",
-    lastUpdate: "Novembre 2024",
-    price: 4500,
-    originalPrice: 8300,
-    discountPercentage: 75,
-    offerEndsIn: "2 jours",
-    instructor: {
-      name: "Marie Dupont",
-      title: "Senior Frontend Developer & Tech Lead",
-      avatar: ""
-    }
-  },
-  {
-    id: 3,
-    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
-    category: "Développement Web",
-    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
-    image: picture,
-    rating: 4.8,
-    reviewsCount: 2547,
-    enrolledStudents: "12,354",
-    duration: "21 heures",
-    lastUpdate: "Novembre 2024",
-    price: 4500,
-    originalPrice: 8300,
-    discountPercentage: 75,
-    offerEndsIn: "2 jours",
-    instructor: {
-      name: "Marie Dupont",
-      title: "Senior Frontend Developer & Tech Lead",
-      avatar: ""
-    }
-  },
-  {
-    id: 4,
-    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
-    category: "Développement Web",
-    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
-    image: picture,
-    rating: 4.8,
-    reviewsCount: 2547,
-    enrolledStudents: "12,354",
-    duration: "21 heures",
-    lastUpdate: "Novembre 2024",
-    price: 4500,
-    originalPrice: 8300,
-    discountPercentage: 75,
-    offerEndsIn: "2 jours",
-    instructor: {
-      name: "Marie Dupont",
-      title: "Senior Frontend Developer & Tech Lead",
-      avatar: ""
-    }
-  },
-  {
-    id: 5,
-    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
-    category: "Développement Web",
-    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
-    image: picture,
-    rating: 4.8,
-    reviewsCount: 2547,
-    enrolledStudents: "12,354",
-    duration: "21 heures",
-    lastUpdate: "Novembre 2024",
-    price: 4500,
-    originalPrice: 8300,
-    discountPercentage: 75,
-    offerEndsIn: "2 jours",
-    instructor: {
-      name: "Marie Dupont",
-      title: "Senior Frontend Developer & Tech Lead",
-      avatar: ""
-    }
-  },
-  {
-    id: 6,
-    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
-    category: "Développement Web",
-    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
-    image: picture,
-    rating: 4.8,
-    reviewsCount: 2547,
-    enrolledStudents: "12,354",
-    duration: "21 heures",
-    lastUpdate: "Novembre 2024",
-    price: 4500,
-    originalPrice: 8300,
-    discountPercentage: 75,
-    offerEndsIn: "2 jours",
-    instructor: {
-      name: "Marie Dupont",
-      title: "Senior Frontend Developer & Tech Lead",
-      avatar: ""
-    }
-  },
-  {
-    id: 7,
-    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
-    category: "Développement Web",
-    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
-    image: picture,
-    rating: 4.8,
-    reviewsCount: 2547,
-    enrolledStudents: "12,354",
-    duration: "21 heures",
-    lastUpdate: "Novembre 2024",
-    price: 4500,
-    originalPrice: 8300,
-    discountPercentage: 75,
-    offerEndsIn: "2 jours",
-    instructor: {
-      name: "Marie Dupont",
-      title: "Senior Frontend Developer & Tech Lead",
-      avatar: ""
-    }
-  },
-  {
-    id: 8,
-    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
-    category: "Développement Web",
-    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
-    image: picture,
-    rating: 4.8,
-    reviewsCount: 2547,
-    enrolledStudents: "12,354",
-    duration: "21 heures",
-    lastUpdate: "Novembre 2024",
-    price: 4500,
-    originalPrice: 8300,
-    discountPercentage: 75,
-    offerEndsIn: "2 jours",
-    instructor: {
-      name: "Marie Dupont",
-      title: "Senior Frontend Developer & Tech Lead",
-      avatar: ""
-    }
-  },
-  {
-    id: 9,
-    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
-    category: "Développement Web",
-    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
-    image: picture,
-    rating: 4.8,
-    reviewsCount: 2547,
-    enrolledStudents: "12,354",
-    duration: "21 heures",
-    lastUpdate: "Novembre 2024",
-    price: 4500,
-    originalPrice: 8300,
-    discountPercentage: 75,
-    offerEndsIn: "2 jours",
-    instructor: {
-      name: "Marie Dupont",
-      title: "Senior Frontend Developer & Tech Lead",
-      avatar: ""
-    }
-  },
-  {
-    id: 10,
-    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
-    category: "Développement Web",
-    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
-    image: picture,
-    rating: 4.8,
-    reviewsCount: 2547,
-    enrolledStudents: "12,354",
-    duration: "21 heures",
-    lastUpdate: "Novembre 2024",
-    price: 4500,
-    originalPrice: 8300,
-    discountPercentage: 75,
-    offerEndsIn: "2 jours",
-    instructor: {
-      name: "Marie Dupont",
-      title: "Senior Frontend Developer & Tech Lead",
-      avatar: ""
-    }
-  }
-];
-
+const courses = ref([]);
 
 const windowSize = 4
   
@@ -308,12 +104,12 @@ const coursesPerPage = 8
 const currentPage = ref(1)
 
 const totalPages = computed(() => 
-    Math.ceil(courses.length / coursesPerPage)
+    Math.ceil(courses.value.length / coursesPerPage)
 )
 
 const displayedCourses = computed(() => {
     const start = (currentPage.value - 1) * coursesPerPage
-    return courses.slice(start, start + coursesPerPage)
+    return courses.value.slice(start, start + coursesPerPage)
 })
 
 
@@ -361,12 +157,12 @@ const nextPage = () => {
 const anyPage = (page: number) => {
     currentPage.value = page
     router.push({
-            name: route.name,
-            query: {
-                ...route.query,
-                page
-            }
-        })
+      name: route.name,
+      query: {
+          ...route.query,
+          page
+      }
+  })
 }
 
 const prevPage = () => {
@@ -381,6 +177,23 @@ const prevPage = () => {
         })
     }
 }
+
+const token = userStore.getToken();
+onMounted(async() => {
+  appStore.loading = true;
+  try {
+    const res = await CourseAPI.getAllCoursesByInstructor(token!);
+
+    console.log(res?.data.courses);
+    
+    courses.value = [...res?.data.courses];
+
+  } catch (error) {
+      console.error(error);
+  } finally {
+    appStore.loading = false;
+  }
+})
 </script>
 
 <style>

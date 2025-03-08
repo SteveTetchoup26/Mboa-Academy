@@ -93,20 +93,19 @@
   </template>
   
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faBellConcierge, faGlobe, faLanguage, faBell, faUser } from "@fortawesome/free-solid-svg-icons"
+import { useUserStore } from './../stores/user';
 
   
   // États réactifs
-  const showPassword = ref(false)
+  const showPassword = ref(false);
+  const userStore = useUserStore();
   
   const userData = reactive({
     email: 'utilisateur@example.com',
     password: '••••••••',
-    language: 'fr',
-    photoUrl: '',
-    name: ''
   })
   
   const notifications = reactive({
@@ -133,5 +132,11 @@ const availableLanguages = [
     { code: 'es', name: 'Español' },
     { code: 'de', name: 'Deutsch' }
 ]
+
+const user = userStore.user;
+
+onMounted(() => {
+    userData.email = user?.email;
+})
   
 </script>

@@ -15,28 +15,32 @@
                 <div>
                   <div class="flex items-center gap-2 text-primary-200 mb-2  text-xs lg:text-[15px]">
                     <!-- <TagIcon class="w-5 h-5" /> -->
-                    <span>{{ course.category }}</span>
+                    <p class="flex">
+                      <span v-for="(category, index) in course?.categories" :key="category.id">
+                        {{ index > 0 ? ', ' : '' }} {{ category.title }}
+                      </span>
+                    </p>
                   </div>
-                  <h1 class="text-xl lg:text-4xl font-bold mb-4">{{ course.title }}</h1>
-                  <p class="text-sm lg:text-lg text-gray-200">{{ course.description }}</p>
+                  <h1 class="text-xl lg:text-4xl font-bold mb-4">{{ course?.title }}</h1>
+                  <p class="text-sm lg:text-lg text-gray-200">{{ course?.description }}</p>
                 </div>
                 
                 <div class="flex flex-wrap gap-4 md:gap-6 text-xs lg:text-[15px]">
                   <div class="flex items-center gap-1">
                     <FontAwesomeIcon :icon="faStar" class=" text-yellow-500"/>
-                    <span>{{ course.rating }} ({{ course.reviewsCount }} avis)</span>
+                    <span>{{ course?.rating }} ({{ course?.reviewsCount }} avis)</span>
                   </div>
                   <div class="flex items-center gap-2">
                     <FontAwesomeIcon :icon="faUsers" />
-                    <span>{{ course.enrolledStudents }} étudiants</span>
+                    <span>{{ course?.enrolledStudents }} étudiants</span>
                   </div>
                   <div class="flex items-center gap-1">
                     <FontAwesomeIcon :icon="faClock" />
-                    <span>{{ course.duration }}</span>
+                    <span>{{ course?.duration }}</span>
                   </div>
                   <div class="flex items-center gap-1">
                     <FontAwesomeIcon :icon="faCalendar" />
-                    <span>Dernière mise à jour {{ course.lastUpdate }}</span>
+                    <span>Dernière mise à jour {{ course?.lastUpdate }}</span>
                   </div>
                 </div>
   
@@ -44,11 +48,11 @@
                   <img 
                     :src="instutor" 
                     class="w-12 h-12 rounded-full"
-                    :alt="course.instructor.name"
+                    :alt="course?.instructor.name"
                   >
                   <div>
-                    <div class="font-medium">{{ course.instructor.name }}</div>
-                    <div class="text-sm text-gray-300">{{ course.instructor.title }}</div>
+                    <div class="font-medium">{{ course?.instructor.name }}</div>
+                    <div class="text-sm text-gray-300">{{ course?.instructor.expertise.job_title }}</div>
                   </div>
                 </div>
               </div>
@@ -57,31 +61,31 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                   <div class="p-6">
                     <div class="flex items-baseline gap-3 mb-4">
-                      <span class="text-xl md:text-3xl font-bold">{{ course.price }} FCFA</span>
-                      <span class="text-lg text-gray-500 line-through">{{ course.originalPrice }} FCFA</span>
-                      <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-medium">
-                        -{{ course.discountPercentage }}%
-                      </span>
+                      <span class="text-xl md:text-3xl font-bold">{{ course?.price }} FCFA</span>
+                      <!-- <span class="text-lg text-gray-500 line-through">{{ course?.originalPrice }} FCFA</span>
+                       <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-medium">
+                        -{{ course?.discountPercentage }}%
+                      </span> -->
                     </div>
                     
                     <div class="space-y-3 mb-6">
                       <button 
-                        @click="registrationCourseModal = true"
+                        @click="enrollement"
                         class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary"
                         >
                           S'inscrire maintenant
                       </button>
-                      <div class="text-center text-sm text-gray-600">
-                        <span>{{ course.offerEndsIn }} restants à ce prix</span>
-                      </div>
+                      <!-- <div class="text-center text-sm text-gray-600">
+                        <span>{{ course?.offerEndsIn }} restants à ce prix</span>
+                      </div> -->
                     </div>
   
                     <div class="space-y-4">
                       <h4 class="font-medium">Ce cours inclut :</h4>
                       <ul class="space-y-3 text-gray-600">
-                        <li v-for="feature in course.features" :key="feature.text" class="flex items-center gap-3">
+                        <li v-for="feature in course?.features" :key="feature.text" class="flex items-center gap-3">
                           <FontAwesomeIcon :icon="faCircle" class=" mr-2 w-1"/>
-                          <span>{{ feature.text }}</span>
+                          <span>{{ feature.title }}</span>
                         </li>
                       </ul>
                     </div>
@@ -97,29 +101,29 @@
         <div class="bg-white overflow-hidden">
           <div class="p-6">
             <div class="flex items-baseline gap-3 mb-4">
-              <span class="text-xl md:text-3xl font-bold">{{ course.price }} FCFA</span>
-              <span class="text-lg text-gray-500 line-through">{{ course.originalPrice }} FCFA</span>
+              <span class="text-xl md:text-3xl font-bold">{{ course?.price }} FCFA</span>
+              <span class="text-lg text-gray-500 line-through">{{ course?.originalPrice }} FCFA</span>
               <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-medium">
-                -{{ course.discountPercentage }}%
+                -{{ course?.discountPercentage }}%
               </span>
             </div>
             
             <div class="space-y-3 mb-6">
               <button 
-                @click="registrationCourseModal = true"
+                @click="enrollement"
                 class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary"
                 >
                   S'inscrire maintenant
               </button>
               <div class="text-center text-sm text-gray-600">
-                <span>{{ course.offerEndsIn }} restants à ce prix</span>
+                <span>{{ course?.offerEndsIn }} restants à ce prix</span>
               </div>
             </div>
 
             <div class="space-y-4">
               <h4 class="font-medium">Ce cours inclut :</h4>
               <ul class="space-y-3 text-gray-600">
-                <li v-for="feature in course.features" :key="feature.text" class="flex items-center gap-3">
+                <li v-for="feature in course?.features" :key="feature.text" class="flex items-center gap-3">
                   <span>{{ feature.text }}</span>
                 </li>
               </ul>
@@ -133,9 +137,9 @@
           <div class="bg-gray-100 md:bg-white md:rounded-xl md:shadow-sm p-6 mb-8">
             <h2 class="text-2xl font-bold mb-6">Ce que vous apprendrez</h2>
             <div class="grid md:grid-cols-2 gap-4">
-              <div v-for="objective in course.learningObjectives" :key="objective" class="flex items-center gap-3">
+              <div v-for="objective in course?.objectives" :key="objective" class="flex items-center gap-3">
                 <FontAwesomeIcon :icon="faCircle" class=" mr-2 w-1"/>
-                <span>{{ objective }}</span>
+                <span>{{ objective.title }}</span>
               </div>
             </div>
           </div>
@@ -144,33 +148,32 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
               <h2 class="text-2xl font-bold">Programme du cours</h2>
               <div class="text-sm text-gray-500">
-                {{ course.modulesCount }} modules • {{ course.lessonsCount }} leçons • {{ course.duration }} au total
+                {{ course?.modules.length }} modules • {{ nbLessons }} leçons • {{ course?.duration }} heures au total
               </div>
             </div>
   
             <div class="space-y-4">
               <div 
-                v-for="(module, index) in course.modules" 
+                v-for="(module, index) in course?.modules" 
                 :key="index"
                 class="border rounded-lg"
               >
-                <div class="flex items-center justify-between p-4 bg-gray-50">
+                <div @click="toggleModule(index)" class="flex items-center justify-between p-4 bg-gray-50 cursor-pointer">
                   <div class="flex items-center gap-3">
                     <span class="font-medium">{{ module.title }}</span>
-                    <span class="text-sm text-gray-500">{{ module.duration }}</span>
+                    <FontAwesomeIcon v-if=" expandedModules[index]" :icon="faChevronUp" />
+                    <FontAwesomeIcon v-else :icon="faChevronDown"/>
+                    <!-- <span class="text-sm text-gray-500">{{ module.duration }}</span> -->
                   </div>
                 </div>
-                <div class="p-4 space-y-3">
+                <div v-show="expandedModules[index]" class="p-4 space-y-3">
                   <div 
-                    v-for="lesson in module.previewLessons" 
+                    v-for="lesson in module.lessons" 
                     :key="lesson.id"
                     class="flex items-center gap-3 text-gray-600"
                   >
                     <span>{{ lesson.title }}</span>
                     <span class="text-sm text-gray-500 ml-auto">{{ lesson.duration }}</span>
-                  </div>
-                  <div v-if="module.hiddenLessons" class="text-center text-sm text-gray-500 pt-2 border-t">
-                    {{ module.hiddenLessons }} leçons supplémentaires dans ce module
                   </div>
                 </div>
               </div>
@@ -228,10 +231,10 @@
         <!-- Sidebar -->
         <div class="block">
           <div class="sticky top-6 flex flex-col gap-4 lg:flex-col md:flex-row">
-            <div class="bg-white h-max rounded-xl md:border-none border border-1 border-gray-200 md:shadow-[1px_1px_5px_#9e9e9e] p-6 mb-6">
+            <!-- <div class="bg-white h-max rounded-xl md:border-none border border-1 border-gray-200 md:shadow-[1px_1px_5px_#9e9e9e] p-6 mb-6">
               <div class="text-center space-y-2 md:space-y-4">
                 <h3 class="text-xl font-bold">Promotion spéciale !</h3>
-                <div class="text-xl md:text-3xl font-bold text-primary">-{{ course.discountPercentage }}%</div>
+                <div class="text-xl md:text-3xl font-bold text-primary">-{{ course?.discountPercentage }}%</div>
                 <div class="space-y-2">
                   <p class="text-gray-600">L'offre se termine dans :</p>
                   <div class="flex justify-center gap-1 md:gap-3">
@@ -250,7 +253,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
   
             <!-- Certifications -->
             <div class="bg-white rounded-xl md:border-none border border-1 border-gray-200 md:shadow-[1px_1px_5px_#9e9e9e] p-6">
@@ -272,118 +275,164 @@
     </div>
     <RegistrationCourseModal
       :showModal="registrationCourseModal" 
-      :courseTitle="course.title" 
-      :coursePrice="course.price"
-      :courseImage="course.coverImage"
+      :courseTitle="course?.title" 
+      :coursePrice="course?.price"
+      :courseImage="course?.coverImage"
       @close-modal="registrationCourseModal = false"
     />
   </template>
   
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { faCircle, faClock, faStar, faUser, faUsers } from "@fortawesome/free-solid-svg-icons"
+import { faChevronCircleDown, faChevronDown, faChevronUp, faCircle, faClock, faStar, faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import carouselOne from './../assets/images/carousel-1.jpg';
 import instutor from './../assets/images/instutor.jpg'
 import RegistrationCourseModal from '@/components/modals/RegistrationCourseModal.vue';
+import { CourseAPI } from './../services/api/Course';
+import useAppStore from './../stores/app';
+import { useUserStore } from '@/stores/user';
+import { useRoute, useRouter } from 'vue-router';
 
-const registrationCourseModal = ref(false)
+
+const appStore = useAppStore();
+const userStore = useUserStore();
+const token = userStore.getToken();
+
+const registrationCourseModal = ref(false);
+const route = useRoute();
+const router = useRouter();
+
+const course = ref<Record<string, any>>();
+let nbLessons = ref(0);
+const expandedModules = ref<{ [key: number]: boolean }>({});
   
-  const course = {
-    title: "Maîtrisez le Développement Web Moderne avec Vue.js",
-    category: "Développement Web",
-    description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
-    coverImage: "",
-    rating: 4.8,
-    reviewsCount: 2547,
-    enrolledStudents: "12,354",
-    duration: "21 heures",
-    lastUpdate: "Novembre 2024",
-    price: 4500,
-    originalPrice: 8300,
-    discountPercentage: 75,
-    offerEndsIn: "2 jours",
-    instructor: {
-      name: "Marie Dupont",
-      title: "Senior Frontend Developer & Tech Lead",
-      avatar: ""
-    },
-    features: [
-      { icon: '', text: "Accès à vie au contenu" },
-      { icon: '', text: "21 heures de vidéo HD" },
-      { icon: '', text: "85 ressources téléchargeables" },
-      { icon: '', text: "Certificat d'achèvement" },
-      { icon: '', text: "Accès sur mobile et TV" }
-    ],
-    learningObjectives: [
-      "Maîtriser la nouvelle Composition API de Vue 3",
-      "Créer des applications réactives et performantes",
-      "Comprendre le state management avec Pinia",
-      "Implémenter une architecture scalable",
-      "Utiliser TypeScript avec Vue.js",
-      "Créer des tests unitaires et E2E",
-      "Déployer vos applications en production",
-      "Optimiser les performances"
-    ],
-    modulesCount: 12,
-    lessonsCount: 148,
-    modules: [
-      {
-        title: "Introduction à Vue.js 3",
-        duration: "2h 30min",
-        previewLessons: [
-          {
-            id: 1,
-            type: "video",
-            title: "Présentation du framework Vue.js",
-            duration: "15:30"
-          },
-          {
-            id: 2,
-            type: "document",
-            title: "Installation et configuration",
-            duration: "10:45"
-          }
-        ],
-        hiddenLessons: 8
-      },
-      {
-        title: "La Composition API",
-        duration: "3h 45min",
-        previewLessons: [
-          {
-            id: 3,
-            type: "video",
-            title: "Introduction aux Composables",
-            duration: "20:15"
-          }
-        ],
-        hiddenLessons: 12
-      }
-    ],
-    // featuredReviews: [
-    //   {
-    //     id: 1,
-    //     userName: "Thomas Martin",
-    //     userAvatar: "",
-    //     rating: 5,
-    //     comment: "Un cours excellent qui m'a permis de monter en compétence rapidement sur Vue.js 3. La section sur la Composition API est particulièrement bien expliquée."
-    //   },
-    //   {
-    //     id: 2,
-    //     userName: "Julie Dubois",
-    //     userAvatar: "",
-    //     rating: 5,
-    //     comment: "Formation très complète avec des exercices pratiques pertinents. Le formateur est clair et pédagogue."
-    //   },
-    //   {
-    //     id: 3,
-    //     userName: "Marc Bernard",
-    //     userAvatar: "",
-    //     rating: 4,
-    //     comment: "Très bonne formation, mise à jour régulièrement avec les dernières fonctionnalités de Vue.js."
-    //   }
-    // ]
+  // const course = {
+  //   title: "Maîtrisez le Développement Web Moderne avec Vue.js",
+  //   category: "Développement Web",
+  //   description: "Apprenez à créer des applications web professionnelles avec Vue.js 3, des bases aux concepts avancés.",
+  //   coverImage: "",
+  //   rating: 4.8,
+  //   reviewsCount: 2547,
+  //   enrolledStudents: "12,354",
+  //   duration: "21 heures",
+  //   lastUpdate: "Novembre 2024",
+  //   price: 4500,
+  //   originalPrice: 8300,
+  //   discountPercentage: 75,
+  //   offerEndsIn: "2 jours",
+  //   instructor: {
+  //     name: "Marie Dupont",
+  //     title: "Senior Frontend Developer & Tech Lead",
+  //     avatar: ""
+  //   },
+  //   features: [
+  //     { icon: '', text: "Accès à vie au contenu" },
+  //     { icon: '', text: "21 heures de vidéo HD" },
+  //     { icon: '', text: "85 ressources téléchargeables" },
+  //     { icon: '', text: "Certificat d'achèvement" },
+  //     { icon: '', text: "Accès sur mobile et TV" }
+  //   ],
+  //   learningObjectives: [
+  //     "Maîtriser la nouvelle Composition API de Vue 3",
+  //     "Créer des applications réactives et performantes",
+  //     "Comprendre le state management avec Pinia",
+  //     "Implémenter une architecture scalable",
+  //     "Utiliser TypeScript avec Vue.js",
+  //     "Créer des tests unitaires et E2E",
+  //     "Déployer vos applications en production",
+  //     "Optimiser les performances"
+  //   ],
+  //   modulesCount: 12,
+  //   lessonsCount: 148,
+  //   modules: [
+  //     {
+  //       title: "Introduction à Vue.js 3",
+  //       duration: "2h 30min",
+  //       previewLessons: [
+  //         {
+  //           id: 1,
+  //           type: "video",
+  //           title: "Présentation du framework Vue.js",
+  //           duration: "15:30"
+  //         },
+  //         {
+  //           id: 2,
+  //           type: "document",
+  //           title: "Installation et configuration",
+  //           duration: "10:45"
+  //         }
+  //       ],
+  //       hiddenLessons: 8
+  //     },
+  //     {
+  //       title: "La Composition API",
+  //       duration: "3h 45min",
+  //       previewLessons: [
+  //         {
+  //           id: 3,
+  //           type: "video",
+  //           title: "Introduction aux Composables",
+  //           duration: "20:15"
+  //         }
+  //       ],
+  //       hiddenLessons: 12
+  //     }
+  //   ],
+  //   // featuredReviews: [
+  //   //   {
+  //   //     id: 1,
+  //   //     userName: "Thomas Martin",
+  //   //     userAvatar: "",
+  //   //     rating: 5,
+  //   //     comment: "Un cours excellent qui m'a permis de monter en compétence rapidement sur Vue.js 3. La section sur la Composition API est particulièrement bien expliquée."
+  //   //   },
+  //   //   {
+  //   //     id: 2,
+  //   //     userName: "Julie Dubois",
+  //   //     userAvatar: "",
+  //   //     rating: 5,
+  //   //     comment: "Formation très complète avec des exercices pratiques pertinents. Le formateur est clair et pédagogue."
+  //   //   },
+  //   //   {
+  //   //     id: 3,
+  //   //     userName: "Marc Bernard",
+  //   //     userAvatar: "",
+  //   //     rating: 4,
+  //   //     comment: "Très bonne formation, mise à jour régulièrement avec les dernières fonctionnalités de Vue.js."
+  //   //   }
+  //   // ]
+  // }
+
+const enrollement = () => {
+  if(token){
+    registrationCourseModal.value = true;
+  } else {
+    router.push('/connexion');
   }
+}
+const toggleModule = (moduleIndex: number) => {
+  expandedModules.value[moduleIndex] = !expandedModules.value[moduleIndex];
+}
+onMounted(async() => {
+  appStore.loading = true;
+  try {
+    const courseId = Array.isArray(route.params.courseId) ? route.params.courseId[0] : route.params.courseId;
+    const res = await CourseAPI.getOne(parseInt(courseId));
+
+    console.log(res?.data.course);
+    if(res?.data){
+      course.value = {...res?.data.course};
+
+      for(const module of res?.data.course.modules){
+        nbLessons.value += module.lessons.length;
+      }
+    }
+  } catch(error) {
+      console.error(error);
+  } finally {
+    appStore.loading = false;
+  }
+})
 </script>

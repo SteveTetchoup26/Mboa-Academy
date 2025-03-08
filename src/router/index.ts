@@ -64,13 +64,10 @@ const router = createRouter({
         {path: 'dashboard', name: 'dashboard', component: Dashboard},
         {path: 'courses', name: 'publishedCourses', component: Courses},
         {path: 'webinars', name: 'instructorWebinars', component: Webinars},
+        {path: '/create-course', name: 'createCourse', component: CourseAssembly,
+        }
         // {path: 'students', name: 'students', component: Students}
       ]
-    },
-    {
-      path: '/create-course',
-      name: 'createCourse',
-      component: CourseAssembly,
     },
     {
       path: '/confirm-account',
