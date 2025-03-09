@@ -82,11 +82,11 @@
                   class="w-full px-3 py-2 border rounded-lg flex-grow outline-primary"
                 />
                 
-                <input 
+                <!-- <input 
                   v-model="lesson.duration" 
                   placeholder="Durée" 
                   class=" px-3 py-2 border rounded-lg w-1/4 outline-primary"
-                />
+                /> -->
                 
                 <button 
                   type="button" 
@@ -204,7 +204,7 @@
   </template>
   
 <script setup lang="ts">
-import type { Course, Lesson, Module } from '@/utils';
+import type { Course, Lesson, Module } from './../utils';
 import { reactive, ref } from 'vue'
 import { CourseAPI } from './../services/api/Course';
 import { useToast } from "primevue/usetoast";
@@ -260,7 +260,11 @@ const addLesson = (module: Module) => {
   module.lessons.push({
     type: 'video',
     title: '',
-    duration: ''
+    resume: '',
+    video: {
+      file_name: '',
+      format: ''
+    }
   })
 }
   

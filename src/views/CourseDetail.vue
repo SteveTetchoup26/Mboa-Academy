@@ -73,7 +73,7 @@
                         @click="enrollement"
                         class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary"
                         >
-                          S'inscrire maintenant
+                          {{ isEnrolled ? 'Commencer le cours' : 'S\'inscrire maintenant' }}
                       </button>
                       <!-- <div class="text-center text-sm text-gray-600">
                         <span>{{ course?.offerEndsIn }} restants à ce prix</span>
@@ -113,7 +113,7 @@
                 @click="enrollement"
                 class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary"
                 >
-                  S'inscrire maintenant
+                  {{ isEnrolled ? 'Commencer le cours' : 'S\'inscrire maintenant' }}
               </button>
               <div class="text-center text-sm text-gray-600">
                 <span>{{ course?.offerEndsIn }} restants à ce prix</span>
@@ -278,7 +278,8 @@
       :courseTitle="course?.title" 
       :coursePrice="course?.price"
       :courseImage="course?.coverImage"
-      @close-modal="registrationCourseModal = false"
+      :courseId="course?.id"
+      @close-modal="confirmPayment"
     />
   </template>
   
@@ -294,11 +295,14 @@ import { CourseAPI } from './../services/api/Course';
 import useAppStore from './../stores/app';
 import { useUserStore } from '@/stores/user';
 import { useRoute, useRouter } from 'vue-router';
+import { EnrollmentAPI } from '@/services/api/Enrollment';
 
 
 const appStore = useAppStore();
 const userStore = useUserStore();
 const token = userStore.getToken();
+// const successPayement = ref(false);
+const isEnrolled = ref(false);
 
 const registrationCourseModal = ref(false);
 const route = useRoute();
@@ -407,9 +411,21 @@ const expandedModules = ref<{ [key: number]: boolean }>({});
 
 const enrollement = () => {
   if(token){
-    registrationCourseModal.value = true;
+    if(isEnrolled.value){
+      router.push(`/my-courses/${course.value?.id}?name=${course.value?.title}`);
+    } else {
+      registrationCourseModal.value = true;
+    }
   } else {
     router.push('/connexion');
+  }
+}
+
+const confirmPayment = (data: any) => {
+  registrationCourseModal.value = false;
+  if(data.success) {
+    // successPayement.value = true;
+    isEnrolled.value = true;
   }
 }
 const toggleModule = (moduleIndex: number) => {
@@ -421,13 +437,14 @@ onMounted(async() => {
     const courseId = Array.isArray(route.params.courseId) ? route.params.courseId[0] : route.params.courseId;
     const res = await CourseAPI.getOne(parseInt(courseId));
 
-    console.log(res?.data.course);
     if(res?.data){
       course.value = {...res?.data.course};
 
       for(const module of res?.data.course.modules){
         nbLessons.value += module.lessons.length;
       }
+
+      isEnrolled.value = course.value?.enrollments.some((enrollment: any) => enrollment.student_id === userStore.user?.id);
     }
   } catch(error) {
       console.error(error);

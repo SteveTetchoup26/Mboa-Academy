@@ -25,7 +25,7 @@
                     </div>
                 </div>
 
-                <form class="space-y-6">
+                <form @submit.prevent="handlePayment" class="space-y-6">
                     <div class="space-y-4">
                         <label class="block text-lg font-medium text-gray-700">
                             Mode de paiement
@@ -131,17 +131,11 @@
                                 />
                             </div>
                         </template>
-
-                        
-                        <!-- <template v-if="selectedPayment === 'moneygram'">
-                            <div class="p-4 bg-green-50 text-seondary rounded-lg">
-                                Après validation, vous recevrez les instructions pour effectuer votre transfert MoneyGram.
-                            </div>
-                        </template> -->
                     </div>
 
                     
                     <button
+                        @click.prevent="handlePayment"
                         type="submit"
                         class="w-full text-white bg-primary text-sm md:text-[15px] rounded-md py-2 px-2 md:py-3 md:px-8 hover:bg-secondary transition-all duration-150"
                     >
@@ -161,10 +155,15 @@ import { ref, computed } from 'vue'
 import carouselOne from '../../assets/images/carousel-1.jpg'
 import om from '../../assets/images/om.png'
 import momo from '../../assets/images/momo.png'
-import paypal from '../../assets/images/paypal.png'
+import paypal from '../../assets/images/paypal.png';
+import useAppStore from '@/stores/app';
+import { useUserStore } from '@/stores/user';
+import { PaymentAPI } from '@/services/api/Payment';
+import { useToast } from "primevue/usetoast";
+import { useRouter } from 'vue-router';
 
 
-defineProps({
+const props = defineProps({
   courseTitle: {
     type: String,
     required: true
@@ -180,26 +179,34 @@ defineProps({
   showModal: {
     type: Boolean,
     required: true
+  },
+  courseId: {
+    type: Number,
+    required: true
   }
-})
+});
 
-
-const selectedPayment = ref('card')
-const mobileNumber = ref('')
+const appStore = useAppStore();
+const userStore = useUserStore();
+const token = userStore.getToken();
+const toast = useToast();
+const router = useRouter();
+const selectedPayment = ref('card');
+const mobileNumber = ref('');
 const cardDetails = ref({
   number: '',
   expiry: '',
   cvv: '',
   name: ''
-})
+});
 
+const emit = defineEmits(['closeModal']);
 
 const paymentMethods = [
   { label: 'Carte bancaire', value: 'card', icon: faCreditCard },
   { label: 'PayPal', value: 'paypal', icon: paypal },
   { label: 'Orange Money', value: 'orange', icon: om },
   { label: 'MTN Money', value: 'mtn', icon: momo },
-//   { label: 'MoneyGram', value: 'moneygram', icon: '' }
 ]
 
 
@@ -222,6 +229,57 @@ const formatPrice = (price: number) => {
     style: 'currency',
     currency: 'CFA'
   }).format(price)
+}
+
+const handlePayment = async () => {
+    let paymentMethodId;
+    switch (selectedPayment.value) {
+        case 'card':
+            paymentMethodId = 3;
+            break;
+        case 'paypal':
+            paymentMethodId = 4;
+            break;
+        case 'orange':
+            paymentMethodId = 1;
+            break;
+        case 'mtn':
+            paymentMethodId = 2;
+            break;
+    }
+
+    appStore.loading = true;
+    try {
+       const res = await PaymentAPI.create({ 
+            courseId: props.courseId, 
+            paymentMethodId, 
+            amount: props.coursePrice,
+        }, token!);
+
+        console.log(res?.data);
+
+        if(res.data.success){
+            toast.add({
+                severity: "success",
+                detail: res.data.message,
+                life: 5000,
+            });
+
+            emit('closeModal', { success: true });	
+        }
+    } catch (e: any) {
+        console.log(e);
+        if(e.response.data.message){
+            toast.add({
+                severity: "error",
+                detail: e.response.data.message,
+                life: 5000,
+            });
+        }
+        emit('closeModal', { sucess: false });
+    } finally {
+        appStore.loading = false;
+    }
 }
 
 </script>

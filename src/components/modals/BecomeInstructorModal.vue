@@ -145,7 +145,6 @@ const appStore = useAppStore();
     appStore.loading = true;
     try {
         const { data } = await AuthAPI.becomeInstructor({ ...fields }, token);
-        console.log(data.updatedUser);
 
         fields.name = "";
         fields.email = "";

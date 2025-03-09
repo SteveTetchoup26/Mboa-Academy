@@ -108,7 +108,7 @@ const handleSubmit = async () => {
     } else {
       toast.add({
             severity: "error",
-            detail: e.response?.data?.message,
+            detail: e.response.data.message,
             life: 3000,
         });
     }

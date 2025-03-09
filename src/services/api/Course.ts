@@ -20,4 +20,10 @@ export class CourseAPI {
         headers: { Authorization: `Bearer ${token}` },
       });
   };
+
+  static getAllCoursesEnrolled = (token: string) => {
+    return Axios.get("/courses/enrolled", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  };
 }

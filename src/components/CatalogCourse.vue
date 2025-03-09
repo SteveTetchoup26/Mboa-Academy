@@ -10,7 +10,7 @@
             >
                 <template v-if="loading">
                     <CourseLoader
-                        v-for="n in 5"
+                        v-for="n in 10"
                         :key="n"
                     />
                 </template> 
@@ -59,11 +59,11 @@ const visibleCourses = ref(1);
 const totalCourses = ref(10);
 const loading = ref(false);
 
-const courses = ref([]);
+let courses = ref<Array<Record<string, any>>>([]);
 
 const updateVisibleCourses = () => {
     if (courseContainer.value) {
-        const containerWidth = courseContainer.value.offsetWidth; 
+        const containerWidth = (courseContainer.value as HTMLElement).offsetWidth; 
         visibleCourses.value = Math.floor(containerWidth / courseWidth);
     }
 };
@@ -71,7 +71,7 @@ const updateVisibleCourses = () => {
 const nextCourse = () => {
     if (currentCourse.value < totalCourses.value - visibleCourses.value) {
         currentCourse.value += 1;
-        courseContainer.value!.scrollTo({
+        (courseContainer.value as HTMLElement).scrollTo({
             left: currentCourse.value * courseWidth,
             behavior: "smooth",
         });
@@ -81,7 +81,7 @@ const nextCourse = () => {
 const previousCourse = () => {
     if (currentCourse.value > 0) {
         currentCourse.value -= 1;
-        courseContainer.value!.scrollTo({
+        (courseContainer.value as HTMLElement).scrollTo({
             left: currentCourse.value * courseWidth,
             behavior: "smooth",
         });
@@ -99,7 +99,7 @@ onMounted(async() => {
     try {
         const res = await CourseAPI.getAll();
 
-        courses.value = [...res?.data.courses];
+        courses.value = res.data.courses;
 
     } catch (error) {
         console.error(error);

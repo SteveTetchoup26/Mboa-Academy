@@ -1,8 +1,14 @@
 export interface Lesson {
     type: string;
     title: string;
-    duration: string;
-  }
+    resume: string;
+    video: VideoLesson ;
+}
+
+export interface VideoLesson {
+    file_name: string;
+    format: string;
+}
 
 export  interface Module {
     title: string;

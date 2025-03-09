@@ -81,8 +81,10 @@
 
       <div class="flex-1 p-2 md:p-6">
         <div class="bg-white rounded-lg shadow-lg p-2 md:p-6">
-          <div v-if="currentLesson?.type === 'video'" 
-               class="aspect-video bg-gray-900 rounded-lg flex items-center justify-center text-white relative">
+          <div 
+            v-if="currentLesson?.type === 'video'" 
+            class="aspect-video bg-gray-900 rounded-lg flex items-center justify-center text-white relative"
+          >
             <div class="text-center">
               <button class=" text-sm lg:text-6xl hover:text-primary transition-colors" @click="togglePlay">
                 <FontAwesomeIcon v-if="isPlaying"  :icon="faPauseCircle"/>

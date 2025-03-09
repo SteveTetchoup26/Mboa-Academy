@@ -40,7 +40,7 @@ const router = createRouter({
         {path: 'profile', name: 'profile', component: UserProfile},
         {path: 'settings', name: 'settings', component: SettingView},
         {path: 'course-details/:courseId(\\d+)', name: 'courseDetails', component: CourseDetail, props: true},
-        {path: 'my-courses/course-saved-details/:courseSavedId(\\d+)', name: 'courseSavedDetails', component: CourseSavedDetail, props: true},
+        {path: 'my-courses/:courseSavedId(\\d+)', name: 'courseSavedDetails', component: CourseSavedDetail, props: true},
         {path: 'courses', name: 'CategoryCourse', component: DisplayCategoryCourse},
         {path: 'become-instructor', name: 'becomeInstructor', component: BecomeInstructor},
       ]
