@@ -22,6 +22,7 @@ import Students from '@/components/instructor/Students.vue'
 import Webinars from '@/components/instructor/webinars/Webinars.vue'
 import CourseAssembly from '@/views/CourseAssembly.vue'
 import EmailConfirmation from '@/views/EmailConfirmation.vue'
+import { useUserStore } from '@/stores/user'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,15 +35,15 @@ const router = createRouter({
         {path: '', name: 'home', component: HomeView},
         {path: 'about-us', name: 'about', component: AboutView},
         {path: 'contact-us', name: 'contact', component: ContactView},
-        {path: 'my-courses', name: 'courses', component: CourseView},
-        {path: 'webinars', name: 'webinars', component: WebinarView},
-        {path: 'forums', name: 'forums', component: ForumView},
-        {path: 'profile', name: 'profile', component: UserProfile},
-        {path: 'settings', name: 'settings', component: SettingView},
-        {path: 'course-details/:courseId(\\d+)', name: 'courseDetails', component: CourseDetail, props: true},
-        {path: 'my-courses/:courseSavedId(\\d+)', name: 'courseSavedDetails', component: CourseSavedDetail, props: true},
+        {path: 'my-courses', name: 'courses', component: CourseView, meta: {requiresAuth: true}},
+        {path: 'webinars', name: 'webinars', component: WebinarView, meta: {requiresAuth: true}},
+        {path: 'forums', name: 'forums', component: ForumView, meta: {requiresAuth: true}},
+        {path: 'profile', name: 'profile', component: UserProfile, meta: {requiresAuth: true}},
+        {path: 'settings', name: 'settings', component: SettingView, meta: {requiresAuth: true}},
+        {path: 'course-details/:courseId(\\d+)', name: 'courseDetails', component: CourseDetail, props: true, meta: {requiresAuth: true}},
+        {path: 'my-courses/:courseSavedId(\\d+)', name: 'courseSavedDetails', component: CourseSavedDetail, props: true, meta: {requiresAuth: true}},
         {path: 'courses', name: 'CategoryCourse', component: DisplayCategoryCourse},
-        {path: 'become-instructor', name: 'becomeInstructor', component: BecomeInstructor},
+        {path: 'become-instructor', name: 'becomeInstructor', component: BecomeInstructor, meta: {requiresAuth: true}},
       ]
     },
     {
@@ -61,10 +62,10 @@ const router = createRouter({
       component: InstructorLayout,
       children: [
         {path: '', redirect: '/instructor/dashboard'},
-        {path: 'dashboard', name: 'dashboard', component: Dashboard},
-        {path: 'courses', name: 'publishedCourses', component: Courses},
-        {path: 'webinars', name: 'instructorWebinars', component: Webinars},
-        {path: '/create-course', name: 'createCourse', component: CourseAssembly,
+        {path: 'dashboard', name: 'dashboard', component: Dashboard, meta: {requiresAuth: true}},
+        {path: 'courses', name: 'publishedCourses', component: Courses, meta: {requiresAuth: true}},
+        {path: 'webinars', name: 'instructorWebinars', component: Webinars, meta: {requiresAuth: true}},
+        {path: '/create-course', name: 'createCourse', component: CourseAssembly,meta: {requiresAuth: true}
         }
         // {path: 'students', name: 'students', component: Students}
       ]
@@ -75,6 +76,16 @@ const router = createRouter({
       component: EmailConfirmation
     }
   ],
+});
+
+
+router.beforeEach((to, from, next) => {
+  const token = useUserStore().getToken();
+  if (to.meta.requiresAuth && !token) {
+    next({ name: 'login' });
+  } else {
+    next();
+  }
 })
 
 export default router

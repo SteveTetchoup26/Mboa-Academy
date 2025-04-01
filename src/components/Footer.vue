@@ -1,8 +1,10 @@
 <template>
     <div class="w-full flex flex-col gap-5 bg-gray-800 text-white px-4 pt-16 pb-4">
         <div class="grid justify-center xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-8 md:gap-8 w-full">
-            <div>
-                <h1 class="font-extrabold text-2xl cursor-pointer"><RouterLink to="/">Logo</RouterLink></h1>
+            <div class="flex justify-center">
+              <RouterLink to="/">
+                  <img :src="logoFooter" alt="" class="xs:w-48 w-40">
+              </RouterLink>
             </div>
             <div class="flex flex-col gap-2">
                 <h2 class="font-bold text-xl">Rejoignez-nous</h2>
@@ -44,6 +46,7 @@ import { faFacebook, faLinkedin, faTwitter, faYoutube } from "@fortawesome/free-
 import { RouterLink } from 'vue-router';
 import playStore from './../assets/images/play-store.png'
 import appStore from './../assets/images/app-store.png'
+import logoFooter from './../assets/images/logo-footer.png'
 
 </script>
 

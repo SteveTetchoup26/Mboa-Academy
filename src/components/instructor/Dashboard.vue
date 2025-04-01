@@ -1,8 +1,8 @@
 <template>
     <div class="space-y-6">
         <div class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-6">
-            <div 
-                v-for="stat in statistics" 
+            <div
+                v-for="stat in statistics"
                 :key="stat.title"
                 class="flex flex-col justify-between rounded-lg bg-white p-4 xl:p-6 shadow space-y-3"
             >
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="rounded-lg bg-white p-6 shadow">
             <div class="w-full flex justify-between items-center">
                 <h3 class="mb-4 text-lg font-semibold">Revenus mensuels</h3>
@@ -38,8 +38,8 @@
         <!-- <div class="rounded-lg bg-white p-6 shadow">
             <h3 class="mb-4 text-lg font-semibold">Activités récentes</h3>
             <div class="space-y-4">
-                <div 
-                    v-for="activity in recentActivities" 
+                <div
+                    v-for="activity in recentActivities"
                     :key="activity.id"
                     class="flex items-center justify-between border-b pb-4"
                 >
@@ -71,7 +71,7 @@ import { faBell } from '@fortawesome/free-regular-svg-icons';
 
 
 const statistics = [
-    { title: 'Étudiants actifs', value: '1,234', trend: 12, icon: faUsers },
+    { title: 'Étudiants actifs', value: '1', trend: 12, icon: faUsers },
     { title: 'Cours publiés', value: '15', trend: 5, icon: faBookOpen },
     { title: 'Portefeuille', value: '2,450 FCFA', trend: 8, icon: faCoins },
     { title: 'Note moyenne', value: '4.8/5', trend: -1, icon: faStar },

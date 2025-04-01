@@ -1,19 +1,21 @@
 <template>
     <nav class="w-full">
         <div class="flex w-full justify-between px-4 md:px-10 lg:px-10 lg:justify-between items-center pt-3 border-b-[1px] border-solid border-gray-100"
-             :class="[ !user ? 'pb-[10px]' : 'pb-[6px]']"        
+             :class="[ !user ? 'pb-[10px]' : 'pb-[6px]']"
         >
             <div>
-                <h1 class="text-2xl font-extrabold cursor-pointer"><RouterLink to="/">Logo</RouterLink></h1>
+                <RouterLink to="/">
+                  <img :src="logo" alt="" class="w-10 h-10">
+                </RouterLink>
             </div>
             <div class="hidden md:flex items-center px-4 rounded-2xl gap-2 bg-gray-100 w-2/5 lg:w-1/5">
                 <FontAwesomeIcon :icon="faSearch" color='gray' />
                 <input type="text" class="bg-transparent outline-none flex-1 p-1 w-full" placeholder="Que voulez-vous apprendre ? ">
             </div>
             <ul v-if="!token" class="hidden lg:flex gap-[2px] text-gray-500">
-                <li 
-                    v-for="(tab) in tabsBeforeConnexion" 
-                    :key="tab.id"   
+                <li
+                    v-for="(tab) in tabsBeforeConnexion"
+                    :key="tab.id"
                 >
                     <RouterLink :to="`/${tab.path}`" @click="currentTab = tab.id"
                         :class="[
@@ -26,12 +28,12 @@
                         {{ tab.name }}
                     </RouterLink>
                 </li>
-                
+
             </ul>
             <ul v-else class="hidden lg:flex gap-[2px] text-gray-500">
-                <li 
-                    v-for="(tab) in tabsAfterConnexion" 
-                    :key="tab.id"   
+                <li
+                    v-for="(tab) in tabsAfterConnexion"
+                    :key="tab.id"
                 >
                     <RouterLink :to="`/${tab.path}`" @click="currentTab = tab.id"
                         :class="[
@@ -46,9 +48,9 @@
                 </li>
                 <li>
                     <RouterLink :to="isInstructor ? '/instructor/dashboard' : '/become-instructor'"
-                        :class="[ 
-                                isInstructor ? 
-                                'hover:text-primary bg-transparent text-gray-500 px-6 py-4 text-sm font-medium' : 
+                        :class="[
+                                isInstructor ?
+                                'hover:text-primary bg-transparent text-gray-500 px-6 py-4 text-sm font-medium' :
                                 'transition-colors duration-200 ease-in rounded-3xl px-4 py-2 bg-primary text-white hover:bg-secondary '
                             ]"
                     >
@@ -63,8 +65,8 @@
             <div v-else class="hidden lg:flex gap-4 items-center">
                 <!-- <FontAwesomeIcon :icon="faBell" class="h-5 cursor-pointer px-2 py-1 hover:text-primary" /> -->
                 <div class="relative">
-                    <button 
-                        @click="toggleNotifications()" 
+                    <button
+                        @click="toggleNotifications()"
                         class="py-2 px-3 rounded-full hover:bg-gray-100 relative hover:cursor-pointer"
                     >
                         <FontAwesomeIcon :icon="faBell" class="text-[22px] text-gray-600"/>
@@ -72,16 +74,16 @@
                             {{ unreadNotifications }}
                         </span>
                     </button>
-                    <div 
-                        v-if="showNotifications" 
+                    <div
+                        v-if="showNotifications"
                         class="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200"
                     >
                         <div class="px-4 py-3 border-b border-gray-200">
                             <div class="flex justify-between items-center">
                                 <h3 class="text-sm font-semibold text-gray-700">Notifications</h3>
-                                <button 
-                                    v-if="notifications.length > 0" 
-                                    @click="markAllAsRead()" 
+                                <button
+                                    v-if="notifications.length > 0"
+                                    @click="markAllAsRead()"
                                     class="text-xs text-indigo-600 hover:text-indigo-800"
                                 >
                                     Marquer tout comme lu
@@ -92,9 +94,9 @@
                             <div v-if="notifications.length === 0" class="px-4 py-3 text-sm text-gray-500 text-center">
                                 Aucune notification
                             </div>
-                            <div 
-                                v-for="notification in notifications" 
-                                :key="notification.id" 
+                            <div
+                                v-for="notification in notifications"
+                                :key="notification.id"
                                 class="px-4 py-2 hover:bg-gray-50 cursor-pointer"
                                 :class="{ 'bg-blue-50': !notification.read }"
                                 @click="readNotification(notification.id)"
@@ -120,8 +122,8 @@
                         </div>
                         <FontAwesomeIcon :icon="faChevronDown" class="h-4 w-4 text-gray-600"/>
                     </button>
-                    <div 
-                        v-if="showUserMenu" 
+                    <div
+                        v-if="showUserMenu"
                         class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200"
                     >
                         <router-link @click="showUserMenu = false" to="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -143,7 +145,7 @@
                 <FontAwesomeIcon v-else @click="toggleMenu" :icon="faXmark" class="block lg:hidden h-6 cursor-pointer" />
             </div>
         </div>
-        <div class="lg:hidden" 
+        <div class="lg:hidden"
             :class="[showMenu ? 'relative mb-8 h-auto md:px-16 flex flex-col gap-4 opacity-100 transition-all duration-700 ease-in-out': 'w-full h-0 opacity-0 overflow-hidden']"
         >
             <div v-if="token" @click="isProfile=true" class="cursor-pointer px-4 mt-2 flex gap-2 items-center justify-between pb-2 border-b border-1 border-gray-400 group">
@@ -156,7 +158,7 @@
                 <FontAwesomeIcon :icon="faChevronRight" />
             </div>
             <Transition>
-                <div 
+                <div
                     v-if="isProfile"
                     class="z-40 absolute left-0 bg-white h-screen w-full text-gray-600"
                 >
@@ -187,29 +189,29 @@
                 </div>
             </Transition>
             <ul v-if="!token" class="gap-[2px] text-gray-600 font-semibold text-md">
-                <li 
-                    v-for="tab in tabsBeforeConnexion" 
+                <li
+                    v-for="tab in tabsBeforeConnexion"
                     :key="tab.id"
-                    @click="toggleMenu" 
-                    class=" hover:text-primary transition-colors duration-200 ease-in"  
+                    @click="toggleMenu"
+                    class=" hover:text-primary transition-colors duration-200 ease-in"
                 >
                     <RouterLink :to="`/${tab.path}`" class="block h-full w-full pl-4 py-3 hover:bg-green-50">{{ tab.name }}</RouterLink>
                 </li>
             </ul>
             <ul v-else class="text-gray-600 font-semibold text-md">
-                <li 
-                    v-for="tab in tabsAfterConnexion" 
+                <li
+                    v-for="tab in tabsAfterConnexion"
                     :key="tab.id"
-                    @click="toggleMenu" 
-                    class="transition-colors duration-200 ease-in"  
+                    @click="toggleMenu"
+                    class="transition-colors duration-200 ease-in"
                 >
                     <RouterLink :to="`/${tab.path}`" class="pl-4 py-3  block h-full w-full hover:bg-green-50">{{ tab.name }}</RouterLink>
                 </li>
                 <li>
                     <RouterLink :to="isInstructor ? '/instructor/dashboard' : '/become-instructor'"
-                        :class="[ 
-                            isInstructor ? 
-                            'hover:text-primary bg-transparent text-gray-500 px-6 py-4 text-sm font-medium' : 
+                        :class="[
+                            isInstructor ?
+                            'hover:text-primary bg-transparent text-gray-500 px-6 py-4 text-sm font-medium' :
                             'transition-colors duration-200 ease-in rounded-3xl px-4 py-2 bg-primary text-white hover:bg-secondary '
                         ]"
                     >
@@ -233,13 +235,14 @@ import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { computed, ref, Transition, watch, watchEffect, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useUserStore } from "./../stores/user";
+import logo from "../assets/images/logo.png"
 
 
 
 const userStore = useUserStore();
 const token = computed(() => userStore.getToken());
 let user = ref<Record<string, any>>();
-const showNotifications = ref(false); 
+const showNotifications = ref(false);
 const showUserMenu = ref(false);
 
 const toggleNotifications = () => {
@@ -253,40 +256,40 @@ const toggleUserMenu = () => {
 };
 
 const notifications = ref([
-    { 
-      id: 1, 
-      title: 'Nouveau cours soumis', 
+    {
+      id: 1,
+      title: 'Nouveau cours soumis',
       message: 'Le formateur Jean Dupont a soumis un nouveau cours "Vue.js Avancé" pour validation.',
       time: 'Il y a 20 min',
       read: false
     },
-    { 
-      id: 2, 
-      title: 'Nouvel utilisateur', 
+    {
+      id: 2,
+      title: 'Nouvel utilisateur',
       message: 'Un nouveau formateur s\'est inscrit à la plateforme.',
       time: 'Il y a 1 heure',
       read: false
     },
-    { 
-      id: 3, 
-      title: 'Rapport hebdomadaire', 
+    {
+      id: 3,
+      title: 'Rapport hebdomadaire',
       message: 'Le rapport d\'activité hebdomadaire est disponible.',
       time: 'Il y a 2 jours',
       read: true
     }
   ]);
-  
+
   const unreadNotifications = computed(() => {
     return notifications.value.filter(n => !n.read).length;
   });
-  
+
   const readNotification = (id: number) => {
     const notification = notifications.value.find(n => n.id === id);
     if (notification) {
       notification.read = true;
     }
   };
-  
+
 const markAllAsRead = () => {
     notifications.value.forEach(n => n.read = true);
 };
@@ -340,7 +343,7 @@ const logout = () => {
 
 onMounted(() => {
     user.value = userStore.user;
-    isInstructor.value = userStore.user?.roles?.some((role: any) => role.title === 'Instructor');
+    isInstructor.value = user.value?.roles?.some((role: any) => role.title === 'Instructor');
 })
 
 onMounted(() => {

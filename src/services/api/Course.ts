@@ -26,4 +26,8 @@ export class CourseAPI {
         headers: { Authorization: `Bearer ${token}` },
       });
   };
+
+  static getAllCategories = () => {
+    return Axios.get("/categories");
+  }
 }

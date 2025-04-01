@@ -30,13 +30,13 @@ export interface CoverCourse {
   format: string;
 }
 
-export  interface Course {  
+export  interface Course {
     title: string;
     description: string;
     price: number;
     original_price: number;
     language: Language;
-    categories: Category[];
+    categories: Number[];
     modules: Module[];
     objectives: string[],
     features: string[],

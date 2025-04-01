@@ -1,7 +1,7 @@
 <template>
     <div v-if="!token" class="flex flex-col items-center gap-24">
         <div class="relative w-full min-h-[500px] xl:h-screen overflow-hidden">
-            <div class="absolute inset-0 flex" 
+            <div class="absolute inset-0 flex"
                 :class="{ 'duration-1000': isTransitioning }"
                 :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
             >
@@ -43,7 +43,7 @@
             </div>
             <div class="w-full md:w-1/2 flex flex-col gap-6">
                 <h3 class="text-primary font-semibold">À PROPOS DE NOUS</h3>
-                <h1 class="text-3xl md:text-5xl font-bold">Bienvenue sur Lorem</h1>
+                <h1 class="text-3xl md:text-5xl font-bold">Bienvenue sur Mboa Academy</h1>
                 <p class="text-gray-400">
                     Nous sommes une plateforme de formation en ligne dédiée à rendre l'apprentissage accessible et stimulant pour tous.
                     Avec un catalogue riche de cours dans des domaines variés et des formateurs expérimentés, nous aidons nos apprenants
@@ -57,15 +57,15 @@
         </div>
 
         <CatalogCourse />
-        
+
         <div class="w-full px-4 flex flex-col items-center gap-10">
             <h3 class="text-primary font-semibold">LES CATEGORIES LES PLUS POPULAIRES</h3>
             <div class="grid grid-cols-3 lg:grid-cols-4 gap-4 w-full md:w-4/5">
                 <CourseCategory
                     v-for="(category, index) in categories"
                     :key="index"
-                    :category="category"
-                    @click="navigationWithCategory(category)"
+                    :category="category.title"
+                    @click="navigationWithCategory(category.title)"
                 />
             </div>
         </div>
@@ -114,17 +114,20 @@ import Course from "@/components/Course.vue";
 import CourseCategory from "@/components/CourseCategory.vue";
 import CatalogCourse from "@/components/CatalogCourse.vue";
 import { useUserStore } from "./../stores/user";
+import { CourseAPI } from '@/services/api/Course';
+import useAppStore from '@/stores/app';
 
 
 
 const userStore = useUserStore();
+const appStore = useAppStore();
 const token = userStore.getToken();
 const currentIndex = ref(0);
 const isTransitioning = ref(true);
 const slides = [carouselOne, carouselTwo, carouselOne]
 const router = useRouter()
 
-const categories = ["Design", "Development Web", "Networking", "Mathematics", "Physics"]
+const categories = ref<Array<Record<string, any>>>([]);
 
 const catalogSections = ['à la une', 'récemment regardés', 'populaires']
 
@@ -151,7 +154,20 @@ const navigationWithCategory = (category: string) => {
 }
 onMounted(() => {
     startCarousel();
-})
+});
+
+onMounted(async () => {
+    appStore.loading = true;
+    try {
+        const res = await CourseAPI.getAllCategories();
+
+        categories.value = res.data.categories;
+    } catch(e) {
+        console.error(e);
+    } finally {
+        appStore.loading = false;
+    }
+});
 </script>
 
 <style>
