@@ -5,7 +5,7 @@
                 <FontAwesomeIcon :icon="faSearch" color='gray' />
                 <input type="text" class="bg-transparent outline-none flex-1 p-1 w-full" placeholder="Recherchez un cours ">
             </div>
-            <button 
+            <button
               @click="router.push({ name: 'createCourse'})"
               class="flex items-center gap-2 text-white bg-primary w-max text-sm md:text-[15px] rounded-md md:rounded-none py-1 px-2 md:py-2 md:px-4 hover:bg-secondary transition-all duration-150"
             >
@@ -13,10 +13,10 @@
               <span class="hidden md:block">Nouveau</span>
             </button>
           </div>
-  
+
           <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2 2xl:gap-4">
             <Course
-              v-for="course in displayedCourses" 
+              v-for="course in displayedCourses"
               :key="course.id"
               :course="course"
               :isInstructor="isInstructor"
@@ -61,7 +61,7 @@
                     {{ totalPages }}
                 </button>
             </div>
-    
+
             <button
                 @click="nextPage"
                 :disabled="currentPage === totalPages"
@@ -99,11 +99,11 @@ const router = useRouter()
 const courses = ref([]);
 
 const windowSize = 4
-  
+
 const coursesPerPage = 8
 const currentPage = ref(1)
 
-const totalPages = computed(() => 
+const totalPages = computed(() =>
     Math.ceil(courses.value.length / coursesPerPage)
 )
 
@@ -116,7 +116,7 @@ const displayedCourses = computed(() => {
 const visiblePages = computed(() => {
   let start = Math.max(currentPage.value - Math.floor(windowSize / 2), 1)
   let end = Math.min(start + windowSize - 1, totalPages.value)
-  
+
   if (end === totalPages.value) {
     start = Math.max(end - windowSize + 1, 1)
   }
@@ -136,8 +136,8 @@ const shouldShowLastEllipsis = computed(() => shouldShowLast.value && visiblePag
 
 const getPageButtonClass = (page: number) => [
   'w-7 md:w-8 h-7 md:h-8 rounded-full transition-all duration-200 ease-in-out',
-  currentPage.value === page 
-    ? 'bg-primary text-white' 
+  currentPage.value === page
+    ? 'bg-primary text-white'
     : 'hover:bg-gray-200'
 ]
 
@@ -185,7 +185,7 @@ onMounted(async() => {
     const res = await CourseAPI.getAllCoursesByInstructor(token!);
 
     console.log(res?.data.courses);
-    
+
     courses.value = [...res?.data.courses];
 
   } catch (error) {

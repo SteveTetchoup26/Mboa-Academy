@@ -1,13 +1,9 @@
 <template>
     <div class="max-w-7xl mx-auto px-4 py-8">
-     
-      <div class="relative h-[350px] md:h-[500px] rounded-xl md:overflow-hidden mb-8">
-        <img 
-          :src="carouselOne" 
-          class="w-full h-full object-cover brightness-50"
-          alt="Couverture du cours"
-        >
 
+      <div class="relative h-[350px] md:h-[500px] rounded-xl md:overflow-hidden mb-8">
+        <div class="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.6)] to-[rgba(0,0,0,0.7)]"></div>
+        <img :src="`${API_URL}/uploads/others/${course?.cover_courses[0].file_name}` || picture" class="w-full h-full object-cover rounded-lg" alt="" crossorigin="anonymous">
         <div class="absolute top-0 left-0 w-full h-max md:h-full flex md:items-center">
           <div class="w-full h-max md:h-full pt-4 md:max-w-4xl mx-auto px-6">
             <div class="flex flex-col h-max md:flex-row justify-between gap-8">
@@ -24,7 +20,7 @@
                   <h1 class="text-xl lg:text-4xl font-bold mb-4">{{ course?.title }}</h1>
                   <p class="text-sm lg:text-lg text-gray-200">{{ course?.description }}</p>
                 </div>
-                
+
                 <div class="flex flex-wrap gap-4 md:gap-6 text-xs lg:text-[15px]">
                   <div class="flex items-center gap-1">
                     <FontAwesomeIcon :icon="faStar" class=" text-yellow-500"/>
@@ -43,10 +39,10 @@
                     <span>Dernière mise à jour {{ course?.lastUpdate }}</span>
                   </div>
                 </div>
-  
+
                 <div class="flex items-center gap-4">
-                  <img 
-                    :src="instutor" 
+                  <img
+                    :src="instutor"
                     class="w-12 h-12 rounded-full"
                     :alt="course?.instructor.name"
                   >
@@ -67,9 +63,9 @@
                         -{{ course?.discountPercentage }}%
                       </span> -->
                     </div>
-                    
+
                     <div class="space-y-3 mb-6">
-                      <button 
+                      <button
                         @click="enrollement"
                         class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary"
                         >
@@ -79,7 +75,7 @@
                         <span>{{ course?.offerEndsIn }} restants à ce prix</span>
                       </div> -->
                     </div>
-  
+
                     <div class="space-y-4">
                       <h4 class="font-medium">Ce cours inclut :</h4>
                       <ul class="space-y-3 text-gray-600">
@@ -107,9 +103,9 @@
                 -{{ course?.discountPercentage }}%
               </span>
             </div>
-            
+
             <div class="space-y-3 mb-6">
-              <button 
+              <button
                 @click="enrollement"
                 class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary"
                 >
@@ -131,7 +127,7 @@
           </div>
         </div>
       </div>
-  
+
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-2">
           <div class="bg-gray-100 md:bg-white md:rounded-xl md:shadow-sm p-6 mb-8">
@@ -143,7 +139,7 @@
               </div>
             </div>
           </div>
-  
+
           <div class="bg-white md:rounded-xl md:shadow-sm p-6 mb-8">
             <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
               <h2 class="text-2xl font-bold">Programme du cours</h2>
@@ -151,10 +147,10 @@
                 {{ course?.modules.length }} modules • {{ nbLessons }} leçons • {{ course?.duration }} heures au total
               </div>
             </div>
-  
+
             <div class="space-y-4">
-              <div 
-                v-for="(module, index) in course?.modules" 
+              <div
+                v-for="(module, index) in course?.modules"
                 :key="index"
                 class="border rounded-lg"
               >
@@ -167,8 +163,8 @@
                   </div>
                 </div>
                 <div v-show="expandedModules[index]" class="p-4 space-y-3">
-                  <div 
-                    v-for="lesson in module.lessons" 
+                  <div
+                    v-for="lesson in module.lessons"
                     :key="lesson.id"
                     class="flex items-center gap-3 text-gray-600"
                   >
@@ -179,15 +175,15 @@
               </div>
             </div>
           </div>
-  
+
           <!-- Témoignages -->
           <!-- <div class="bg-white rounded-xl shadow-sm p-6">
             <div class="flex items-center justify-between mb-6">
               <h2 class="text-2xl font-bold">Avis des étudiants</h2>
               <div class="flex items-center gap-2">
                 <div class="flex">
-                  <StarIcon 
-                    v-for="i in 5" 
+                  <StarIcon
+                    v-for="i in 5"
                     :key="i"
                     class="w-5 h-5"
                     :class="i <= course.rating ? 'text-yellow-400' : 'text-gray-300'"
@@ -197,24 +193,24 @@
                 <span class="text-gray-500">({{ course.reviewsCount }})</span>
               </div>
             </div>
-  
+
             <div class="grid md:grid-cols-2 gap-6">
-              <div 
-                v-for="review in course.featuredReviews" 
+              <div
+                v-for="review in course.featuredReviews"
                 :key="review.id"
                 class="border rounded-lg p-4"
               >
                 <div class="flex items-center gap-3 mb-3">
-                  <img 
-                    :src="review.userAvatar" 
+                  <img
+                    :src="review.userAvatar"
                     :alt="review.userName"
                     class="w-10 h-10 rounded-full"
                   >
                   <div>
                     <div class="font-medium">{{ review.userName }}</div>
                     <div class="flex">
-                      <StarIcon 
-                        v-for="i in 5" 
+                      <StarIcon
+                        v-for="i in 5"
                         :key="i"
                         class="w-4 h-4"
                         :class="i <= review.rating ? 'text-yellow-400' : 'text-gray-300'"
@@ -227,7 +223,7 @@
             </div>
           </div> -->
         </div>
-  
+
         <!-- Sidebar -->
         <div class="block">
           <div class="sticky top-6 flex flex-col gap-4 lg:flex-col md:flex-row">
@@ -254,13 +250,13 @@
                 </div>
               </div>
             </div> -->
-  
+
             <!-- Certifications -->
-            <div class="bg-white rounded-xl md:border-none border border-1 border-gray-200 md:shadow-[1px_1px_5px_#9e9e9e] p-6">
+            <!-- <div class="bg-white rounded-xl md:border-none border border-1 border-gray-200 md:shadow-[1px_1px_5px_#9e9e9e] p-6">
               <h3 class="text-xl font-bold mb-4">Certificat inclus</h3>
               <div class="space-y-4">
-                <img 
-                  :src="carouselOne" 
+                <img
+                  :src="carouselOne"
                   alt="Exemple de certificat"
                   class="w-full rounded-lg"
                 >
@@ -268,21 +264,21 @@
                   Obtenez un certificat officiel après avoir terminé le cours
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
     <RegistrationCourseModal
-      :showModal="registrationCourseModal" 
-      :courseTitle="course?.title" 
+      :showModal="registrationCourseModal"
+      :courseTitle="course?.title"
       :coursePrice="course?.price"
       :courseImage="course?.coverImage"
       :courseId="course?.id"
       @close-modal="confirmPayment"
     />
   </template>
-  
+
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
@@ -296,6 +292,8 @@ import useAppStore from './../stores/app';
 import { useUserStore } from '@/stores/user';
 import { useRoute, useRouter } from 'vue-router';
 import { EnrollmentAPI } from '@/services/api/Enrollment';
+import { API_URL } from '../constants/API_URL.ts';
+import picture from './../assets/images/course-2.jpg'
 
 
 const appStore = useAppStore();
@@ -311,7 +309,7 @@ const router = useRouter();
 const course = ref<Record<string, any>>();
 let nbLessons = ref(0);
 const expandedModules = ref<{ [key: number]: boolean }>({});
-  
+
   // const course = {
   //   title: "Maîtrisez le Développement Web Moderne avec Vue.js",
   //   category: "Développement Web",
@@ -431,6 +429,7 @@ const confirmPayment = (data: any) => {
 const toggleModule = (moduleIndex: number) => {
   expandedModules.value[moduleIndex] = !expandedModules.value[moduleIndex];
 }
+
 onMounted(async() => {
   appStore.loading = true;
   try {

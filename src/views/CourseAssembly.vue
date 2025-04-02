@@ -98,6 +98,19 @@
                   class="w-full px-3 py-2 border rounded-lg flex-grow outline-primary"
                 />
 
+                <label  :for="`videoLesson-${moduleIndex}-${lessonIndex}`" class="bg-blue-500 text-white p-2 rounded-lg cursor-pointer">
+                  <span class="hidden xl:block">Importer une vidéo</span>
+                  <FontAwesomeIcon class="block xl:hidden" :icon="faVideo"/>
+                </label>
+                <input
+                  type="file"
+                  accept="video/*"
+                  :id="`videoLesson-${moduleIndex}-${lessonIndex}`"
+                  @change="handleVideoUpload($event, moduleIndex, lessonIndex)"
+                  class="w-1/4 px-3 py-2 border rounded-lg"
+                  hidden
+                />
+
                 <!-- <input
                   v-model="lesson.duration"
                   placeholder="Durée"
@@ -197,6 +210,8 @@
 
         <div class="bg-gray-100 p-4 rounded-lg">
           <h3 class="text-xl font-bold mb-4">Image de couverture</h3>
+          <label for="coverImage" class="bg-blue-500 text-white p-2 rounded-lg cursor-pointer">Importer une image</label>
+          <input type="file" accept="image/*" id="coverImage" @change="handleCoverImageUpload" class="w-full px-3 py-2 border rounded-lg" hidden>
         </div>
 
         <div class="bg-gray-100 p-4 rounded-lg">
@@ -226,6 +241,7 @@ import { CourseAPI } from './../services/api/Course';
 import { useToast } from "primevue/usetoast";
 import  useAppStore from './../stores/app';
 import { useUserStore } from './../stores/user';
+import { faVideo } from '@fortawesome/free-solid-svg-icons';
 
 const toast = useToast();
 const appStore = useAppStore();
@@ -311,11 +327,49 @@ const removeObjectives = (index: number) => {
   course.objectives.splice(index, 1);
 }
 
+const coverFile = ref<File | null>(null);
+// const coverPreview = ref<string | null>(null);
+const videoFiles = reactive<File[][]>([]);
+
+const handleCoverImageUpload = (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    coverFile.value = file;
+    // coverPreview.value = URL.createObjectURL(file);
+  }
+};
+
+const handleVideoUpload = (event: Event, moduleIndex: number, lessonIndex: number) => {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    if (!videoFiles[moduleIndex]) {
+      videoFiles[moduleIndex] = [];
+    }
+
+    videoFiles[moduleIndex].push(file);
+  }
+
+  console.log(videoFiles);
+};
+
 const submitCourse = async () => {
+  const formData = new FormData();
+  formData.append('data', JSON.stringify(course));
+
+  if (coverFile.value) {
+    formData.append('cover_image', coverFile.value);
+  }
+
+  videoFiles.forEach((moduleVideos) => {
+    moduleVideos?.forEach((video) => {
+        formData.append("videos", video);
+    });
+  });
+
   appStore.loading = true;
 
   try {
-      const res = await CourseAPI.create({...course}, token!);
+      const res = await CourseAPI.create(formData, token!);
 
       toast.add({
         severity: 'success',
