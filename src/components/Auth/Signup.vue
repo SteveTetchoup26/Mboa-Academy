@@ -7,35 +7,37 @@
         </div>
         <div class="w-full md:w-1/2 lg:w-2/5 flex flex-col items-center pt-24 gap-10">
             <div class="w-full md:w-4/5 lg:w-3/5 flex flex-col gap-10">
-                <h1 class="font-bold text-2xl">Logo</h1>
+                <div class="w-full flex justify-center">
+                  <img :src="logoFooter" alt="" class="w-48">
+                </div>
                 <div class="">
                     <p class="text-4xl font-bold">Hey,</p>
                     <p class="text-gray-400">Enter your informations to signup.</p>
                 </div>
                 <form @submit.prevent="handleSubmit()" class="w-full flex flex-col gap-5">
-                    <input 
-                        type="text" 
-                        v-model="fields.name" 
-                        class="py-3 px-2 border border-1 focus:outline-primary" 
-                        :class="{ 'border-gray-300': !fieldsErrors.email, 'border-red-500': fieldsErrors.email }"
-                        name="name" 
-                        placeholder="Your Name" 
-                        required>
-                    <input 
-                        type="email" 
-                        v-model="fields.email" 
+                    <input
+                        type="text"
+                        v-model="fields.name"
                         class="py-3 px-2 border border-1 focus:outline-primary"
-                        :class="{ 'border-gray-300': !fieldsErrors.email, 'border-red-500': fieldsErrors.email }" 
-                        name="email" 
-                        placeholder="Your Email" 
-                    >
-                    <input 
-                        type="password" 
-                        v-model="fields.password" 
-                        class="py-3 px-2 border border-1 focus:outline-primary" 
                         :class="{ 'border-gray-300': !fieldsErrors.email, 'border-red-500': fieldsErrors.email }"
-                        name="password" 
-                        placeholder="password" 
+                        name="name"
+                        placeholder="Your Name"
+                        required>
+                    <input
+                        type="email"
+                        v-model="fields.email"
+                        class="py-3 px-2 border border-1 focus:outline-primary"
+                        :class="{ 'border-gray-300': !fieldsErrors.email, 'border-red-500': fieldsErrors.email }"
+                        name="email"
+                        placeholder="Your Email"
+                    >
+                    <input
+                        type="password"
+                        v-model="fields.password"
+                        class="py-3 px-2 border border-1 focus:outline-primary"
+                        :class="{ 'border-gray-300': !fieldsErrors.email, 'border-red-500': fieldsErrors.email }"
+                        name="password"
+                        placeholder="password"
                     >
                     <button @click.prevent="handleSubmit()" class="flex items-center justify-center bg-primary text-white py-3 px-8 hover:opacity-80 transition-opacity duration-150">
                         <LocalLoader v-if="isLoading" />
@@ -53,6 +55,7 @@ import { AuthAPI } from '@/services/api/Auth';
 import { reactive, ref } from 'vue';
 import LocalLoader from '../loader/LocalLoader.vue';
 import { useToast } from "primevue/usetoast";
+import logoFooter from '../../assets/images/logo-footer.png'
 
 const isLoading = ref(false);
 const toast = useToast();
@@ -118,7 +121,7 @@ const handleSubmit = async () => {
     }
   } finally {
     isLoading.value = false;
-  } 
+  }
 }
 
 </script>

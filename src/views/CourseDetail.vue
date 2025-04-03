@@ -28,7 +28,7 @@
                   </div>
                   <div class="flex items-center gap-2">
                     <FontAwesomeIcon :icon="faUsers" />
-                    <span>{{ course?.enrolledStudents }} étudiants</span>
+                    <span>{{ enrolledStudents }} étudiants</span>
                   </div>
                   <div class="flex items-center gap-1">
                     <FontAwesomeIcon :icon="faClock" />
@@ -36,16 +36,18 @@
                   </div>
                   <div class="flex items-center gap-1">
                     <FontAwesomeIcon :icon="faCalendar" />
-                    <span>Dernière mise à jour {{ course?.lastUpdate }}</span>
+                    <span>Dernière mise à jour le {{ course?.updatedAt.split("T")[0] }}</span>
                   </div>
                 </div>
 
                 <div class="flex items-center gap-4">
-                  <img
-                    :src="instutor"
-                    class="w-12 h-12 rounded-full"
-                    :alt="course?.instructor.name"
-                  >
+                  <div class="bg-gray-100 rounded-full flex items-center justify-center w-12 h-12">
+                      <img
+                      :src="instutor"
+                      class=""
+                      :alt="course?.instructor.name"
+                    >
+                  </div>
                   <div>
                     <div class="font-medium">{{ course?.instructor.name }}</div>
                     <div class="text-sm text-gray-300">{{ course?.instructor.expertise.job_title }}</div>
@@ -144,7 +146,7 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
               <h2 class="text-2xl font-bold">Programme du cours</h2>
               <div class="text-sm text-gray-500">
-                {{ course?.modules.length }} modules • {{ nbLessons }} leçons • {{ course?.duration }} heures au total
+                {{ course?.modules.length }} modules • {{ lessonsCount }} leçons • {{ course?.duration }} heures au total
               </div>
             </div>
 
@@ -285,7 +287,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faChevronCircleDown, faChevronDown, faChevronUp, faCircle, faClock, faStar, faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import carouselOne from './../assets/images/carousel-1.jpg';
-import instutor from './../assets/images/instutor.jpg'
+import instutor from './../assets/images/user.png'
 import RegistrationCourseModal from '@/components/modals/RegistrationCourseModal.vue';
 import { CourseAPI } from './../services/api/Course';
 import useAppStore from './../stores/app';
@@ -307,7 +309,8 @@ const route = useRoute();
 const router = useRouter();
 
 const course = ref<Record<string, any>>();
-let nbLessons = ref(0);
+let lessonsCount = ref(0);
+let enrolledStudents = ref(0);
 const expandedModules = ref<{ [key: number]: boolean }>({});
 
   // const course = {
@@ -438,9 +441,10 @@ onMounted(async() => {
 
     if(res?.data){
       course.value = {...res?.data.course};
+      enrolledStudents.value = res?.data.enrolledStudents;
 
       for(const module of res?.data.course.modules){
-        nbLessons.value += module.lessons.length;
+        lessonsCount.value += module.lessons.length;
       }
 
       isEnrolled.value = course.value?.enrollments.some((enrollment: any) => enrollment.student_id === userStore.user?.id);

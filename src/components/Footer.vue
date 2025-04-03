@@ -34,7 +34,7 @@
         </div>
         <hr class=""/>
         <div class="flex justify-around w-full">
-            <p>©2025 name. Tous droits reservés.</p>
+            <p>©2025 Mboa Academy. Tous droits reservés.</p>
         </div>
     </div>
 </template>

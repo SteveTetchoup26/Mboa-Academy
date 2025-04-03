@@ -33,8 +33,12 @@
             <label for="">Langue</label>
             <select v-model="course.language.description" required class="w-full px-3 py-2 border rounded-lg">
               <option value="">Choisir une langue</option>
-              <option value="French">Français</option>
-              <option value="English">Anglais</option>
+              <option value="">Anglais</option>
+              <option value="">Français</option>
+              <option value="">Lingala</option>
+              <option value="">Swahili</option>
+              <option value="">Ewondo</option>
+              <option value="">Bamiléké</option>
             </select>
           </div>
         </div>
@@ -86,7 +90,7 @@
                 :key="lessonIndex"
                 class="flex items-center space-x-2"
               >
-                <select v-model="lesson.type" class="px-3 py-2 border rounded-lg w-1/4">
+                <select v-model="lesson.type" class="px-3 py-2 border rounded-lg w-max">
                   <option value="video">Vidéo</option>
                   <option value="document">Document</option>
                   <option value="quiz">Quiz</option>
@@ -98,7 +102,7 @@
                   class="w-full px-3 py-2 border rounded-lg flex-grow outline-primary"
                 />
 
-                <label  :for="`videoLesson-${moduleIndex}-${lessonIndex}`" class="bg-blue-500 text-white p-2 rounded-lg cursor-pointer">
+                <label  :for="`videoLesson-${moduleIndex}-${lessonIndex}`" class="bg-blue-500 text-white p-2 rounded-lg cursor-pointer  xl:w-1/5">
                   <span class="hidden xl:block">Importer une vidéo</span>
                   <FontAwesomeIcon class="block xl:hidden" :icon="faVideo"/>
                 </label>
@@ -242,6 +246,7 @@ import { useToast } from "primevue/usetoast";
 import  useAppStore from './../stores/app';
 import { useUserStore } from './../stores/user';
 import { faVideo } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 
 const toast = useToast();
 const appStore = useAppStore();

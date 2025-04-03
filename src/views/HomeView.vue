@@ -11,7 +11,7 @@
                         <div>
                             <p class='text-xl md:text-2xl font-bold text-gray-400'>START TO SUCCESS</p>
                             <h1 class='text-5xl md:text-7xl font-extrabold text-white my-3'>Access To <span class="text-primary">5000+</span> courses <br />  from many Instructors</h1>
-                            <p class='text-gray-400'>Lorem Lorem lorem lorem lorem lorem lorem </p>
+                            <p class='text-gray-400'>Develop new skills and boost your career with our interactive training programs.</p>
                         </div>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
                         <div>
                             <p class='text-xl md:text-2xl font-bold text-gray-400'>BEST ONLINE COURSES</p>
                             <h1 class='text-5xl md:text-7xl font-extrabold text-white my-3'>The Best Online Learning <br /> Platform</h1>
-                            <p class='text-gray-400'>Lorem Lorem lorem lorem lorem lorem lorem </p>
+                            <p class='text-gray-400'>Learn at your own pace with flexible training programs tailored to your schedule.</p>
                         </div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                         <div>
                             <p class=' text-xl md:text-2xl font-bold text-gray-400'>START TO SUCCESS</p>
                             <h1 class=' text-5xl md:text-7xl font-extrabold text-white my-3'>Access To <span class="text-primary">5000+</span> courses <br />  from many Instructors</h1>
-                            <p class='text-gray-400'>Lorem Lorem lorem lorem lorem lorem lorem </p>
+                            <p class='text-gray-400'>Develop new skills and boost your career with our interactive training programs.</p>
                         </div>
                     </div>
                 </div>

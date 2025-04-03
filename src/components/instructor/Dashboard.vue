@@ -68,25 +68,46 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faChartPie, faBookOpen, faUsers, faMessage, faGear, faStar, faCoins,  } from '@fortawesome/free-solid-svg-icons';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
+import { useUserStore } from "./../../stores/user";
+import { CourseAPI } from './../../services/api/Course';
+import  useAppStore from './../../stores/app';
+import { computed, onMounted, reactive, ref } from 'vue';
 
+
+const userStore = useUserStore();
+const appStore = useAppStore();
+let courses = ref<Array<Record<string, any>>>([]);
+let coursesCount = computed(() => courses.value.length);
+// let studentsEnrolled = ref(0);
 
 const statistics = [
-    { title: 'Étudiants actifs', value: '1', trend: 12, icon: faUsers },
-    { title: 'Cours publiés', value: '15', trend: 5, icon: faBookOpen },
-    { title: 'Portefeuille', value: '2,450 FCFA', trend: 8, icon: faCoins },
-    { title: 'Note moyenne', value: '4.8/5', trend: -1, icon: faStar },
+    { title: 'Étudiants actifs', value:'0', trend: 12, icon: faUsers },
+    { title: 'Cours publiés', value: coursesCount || '0', trend: 5, icon: faBookOpen },
+    { title: 'Portefeuille', value: '0 FCFA', trend: 8, icon: faCoins },
+    { title: 'Note moyenne', value: '0/5', trend: -1, icon: faStar },
 ];
 
-// const recentActivities = [
-//     {
-//       id: 1,
-//       title: 'Nouvelle inscription au cours "Vue.js Avancé"',
-//       timestamp: 'Il y a 2 heures',
-//       type: 'success',
-//       status: 'Nouveau',
-//       icon: ''
-//     },
-// ];
+
+const token = userStore.getToken();
+onMounted(async() => {
+  appStore.loading = true;
+  try {
+    const res = await CourseAPI.getAllCoursesByInstructor(token!);
+
+    console.log(res?.data.courses);
+
+    courses.value = [...res?.data.courses];
+
+    // for(const course of res?.data.courses){
+    //     studentsEnrolled.value += course.enrolledStudentsCount;
+    //   }
+
+  } catch (error) {
+      console.error(error);
+  } finally {
+    appStore.loading = false;
+  }
+})
 </script>
 
 <style>

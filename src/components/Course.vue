@@ -26,7 +26,7 @@
                 <span class="text-gray-400">(220)</span>
             </div>
             <p class="text-gray-400 text-sm md:text-[15px]">Par {{ course.instructor.name || '' }}</p>
-            <p class="text-gray-400 text-sm md:text-[15px]"><span>{{ course.duration || '12 heures' }}</span> | <span>{{ course.enrolledStudents || '30' }} Étudiants</span></p>
+            <p class="text-gray-400 text-sm md:text-[15px]"><span>{{ course.duration || '12 heures' }}</span> | <span>{{ course.enrolledStudents || '0' }} Étudiants</span></p>
             <hr :class="[isDisplayCategory && 'hidden md:block']"/>
             <div class="flex w-full justify-between items-center">
                 <p class="font-bold">{{ course.price || '4500' }} FCFA</p>
@@ -58,7 +58,7 @@
                 ]"
             />
             <div class="flex w-full justify-between items-center">
-                <p class="text-gray-600 text-sm md:text-[15px]">{{ course.enrolledStudents || '30' }} Étudiants</p>
+                <p class="text-gray-600 text-sm md:text-[15px]">{{ course.enrolledStudents || '0' }} Étudiants</p>
                 <button class="bg-primary text-sm md:text-[15px] text-white px-2 py-1 md:px-4 md:py-2 hover:bg-secondary transition-all duration-150">
                     Editer
                 </button>
