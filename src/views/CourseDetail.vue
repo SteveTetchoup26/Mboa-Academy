@@ -275,7 +275,7 @@
       :showModal="registrationCourseModal"
       :courseTitle="course?.title"
       :coursePrice="course?.price"
-      :courseImage="course?.coverImage"
+      :courseImage="course?.cover_courses[0].file_name"
       :courseId="course?.id"
       @close-modal="confirmPayment"
     />
