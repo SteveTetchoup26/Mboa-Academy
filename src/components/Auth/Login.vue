@@ -56,7 +56,7 @@ const toast = useToast();
 const userStore = useUserStore();
 const router = useRouter();
 const appStore = useAppStore();
-
+const route = useRoute();
 const fields = reactive({
   email: "",
   password: "",
@@ -91,7 +91,8 @@ const handleSubmit = async () => {
 
         userStore.setUser(data.user);
         userStore.setToken(data.token);
-        router.push("/");
+        const redirect = Array.isArray(route.query.redirect) ? route.query.redirect[0] : route.query.redirect;
+        router.push(redirect || '/')
     }
 
   } catch (e: any) {

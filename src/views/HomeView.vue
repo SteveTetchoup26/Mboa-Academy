@@ -9,9 +9,9 @@
                     <img :src="carouselOne" alt="" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-[rgba(0,0,0,0.6)] flex items-center pl-3 md:pl-32">
                         <div>
-                            <p class='text-xl md:text-2xl font-bold text-gray-400'>START TO SUCCESS</p>
-                            <h1 class='text-5xl md:text-7xl font-extrabold text-white my-3'>Access To <span class="text-primary">5000+</span> courses <br />  from many Instructors</h1>
-                            <p class='text-gray-400'>Develop new skills and boost your career with our interactive training programs.</p>
+                            <p class='text-xl md:text-2xl font-bold text-gray-400'>COMMENCEZ VERS LA RÉUSSITE</p>
+                            <h1 class='text-5xl md:text-7xl font-extrabold text-white my-3'>Accédez à <span class="text-primary">5000+</span> cours <br />  dispensés par de nombreux formateurs africains et d'ailleurs</h1>
+                            <p class='text-gray-400'>Développez des compétences pratiques, adaptées au marché africain, et donnez un nouvel élan à votre carrière grâce à nos formations interactives.</p>
                         </div>
                     </div>
                 </div>
@@ -19,9 +19,9 @@
                     <img :src="carouselTwo" alt="" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-[rgba(0,0,0,0.6)] flex items-center pl-3 md:pl-32">
                         <div>
-                            <p class='text-xl md:text-2xl font-bold text-gray-400'>BEST ONLINE COURSES</p>
-                            <h1 class='text-5xl md:text-7xl font-extrabold text-white my-3'>The Best Online Learning <br /> Platform</h1>
-                            <p class='text-gray-400'>Learn at your own pace with flexible training programs tailored to your schedule.</p>
+                            <p class='text-xl md:text-2xl font-bold text-gray-400'>MEILLEURES FORMATIONS EN LIGNE</p>
+                            <h1 class='text-5xl md:text-7xl font-extrabold text-white my-3'>La meilleure plateforme <br /> d’apprentissage <span class="text-primary">en ligne</span></h1>
+                            <p class='text-gray-400'>Apprenez à votre rythme grâce à des formations flexibles, pensées pour s’adapter à votre emploi du temps et aux réalités africaines.</p>
                         </div>
                     </div>
                 </div>
@@ -29,9 +29,9 @@
                     <img :src="carouselOne" alt="" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-[rgba(0,0,0,0.6)] flex items-center pl-3 md:pl-32">
                         <div>
-                            <p class=' text-xl md:text-2xl font-bold text-gray-400'>START TO SUCCESS</p>
-                            <h1 class=' text-5xl md:text-7xl font-extrabold text-white my-3'>Access To <span class="text-primary">5000+</span> courses <br />  from many Instructors</h1>
-                            <p class='text-gray-400'>Develop new skills and boost your career with our interactive training programs.</p>
+                            <p class='text-xl md:text-2xl font-bold text-gray-400'>COMMENCEZ VERS LA RÉUSSITE</p>
+                            <h1 class='text-5xl md:text-7xl font-extrabold text-white my-3'>Accédez à <span class="text-primary">5000+</span> cours <br />  dispensés par de nombreux formateurs africains et d'ailleurs</h1>
+                            <p class='text-gray-400'>Développez des compétences pratiques, adaptées au marché africain, et donnez un nouvel élan à votre carrière grâce à nos formations interactives.</p>
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
             </div>
             <div class="bg-white rounded-md w-[400px]  flex flex-col items-center gap-y-6 p-4">
                 <p class="">Pour</p>
-                <p class="text-4xl font-bold">$0</p>
+                <p class="text-4xl font-bold">0 FCFA</p>
                 <div class="flex flex-col gap-y-3">
                     <p class="text-gray-400 flex items-center gap-3">
                         <FontAwesomeIcon :icon="faCheck" class="text-primary"/>

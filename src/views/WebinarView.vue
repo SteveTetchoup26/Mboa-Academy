@@ -1,10 +1,10 @@
 <template>
-    <div class="w-full px-4 py-10 xl:px-28 md:py-14">
+    <div class="w-full px-4 py-10 xl:px-28 md:py-14 min-h-screen">
       <h1 class="text-2xl md:text-4xl font-bold">Nos Webinaires</h1>
         <div class="w-full pt-4 ">
             <div class="grid w-full grid-cols-2 mb-8 border bg-gray-100 p-1 rounded-lg overflow-hidden">
-                <button 
-                    v-for="tab in tabs" 
+                <button
+                    v-for="tab in tabs"
                     :key="tab.value"
                     @click="activeTab = tab.value"
                     :class="[
@@ -16,25 +16,25 @@
                     {{ tab.label }}
                 </button>
             </div>
-  
+
             <div v-if="activeTab === 'upcoming'" class="space-y-4">
                 <UpComingWebinar v-for="webinar in upcomingWebinars" :webinar="webinar" :key="webinar.id" />
             </div>
-  
+
             <div v-if="activeTab === 'past'" class="space-y-6">
                 <PastWebinar v-for="webinar in pastWebinars" :webinar="webinar" :key="webinar.id" />
             </div>
         </div>
     </div>
   </template>
-  
+
 <script setup lang="ts">
 import { ref, useTemplateRef } from 'vue'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faCalendar, faCirclePlay } from '@fortawesome/free-regular-svg-icons'
 import UpComingWebinar from '@/components/webinars/UpComingWebinar.vue'
 import PastWebinar from '@/components/webinars/PastWebinar.vue'
-  
+
 
 const activeTab = ref('upcoming')
 const suggestion = ref('')

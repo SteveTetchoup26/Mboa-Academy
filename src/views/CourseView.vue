@@ -1,11 +1,11 @@
 <template>
-    <div class="px-8 xl:px-28 py-8 md:py-14">
+    <div class="px-8 xl:px-28 py-8 md:py-14 min-h-screen">
         <div class="w-full">
             <h1 class="text-2xl md:text-4xl font-bold">Mes cours</h1>
             <div class="pt-4 gap-2 flex justify-center md:justify-start flex-wrap w-full transition-transform duration-200 ease-in-out mb-10">
                 <template v-if="!loading">
-                  <CourseSaved 
-                    v-for="(course, index) in allCourses" 
+                  <CourseSaved
+                    v-for="(course, index) in allCourses"
                     :key="index"
                     :course="course"
                     v-show="index < visibleCount"
@@ -16,8 +16,8 @@
                 </template>
 
                 <template v-else>
-                  <CourseEnrolledLoader 
-                    v-for="n in 5" 
+                  <CourseEnrolledLoader
+                    v-for="n in 5"
                     :key="n"
                   />
                 </template>

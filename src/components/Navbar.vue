@@ -20,7 +20,7 @@
                     <RouterLink :to="`/${tab.path}`" @click="currentTab = tab.id"
                         :class="[
                             'px-6 py-4 text-sm font-medium',
-                            currentTab === tab.id
+                            route.path === `/${tab.path}`
                             ? 'border-b-[3px] border-primary text-primary'
                             : 'hover:text-primary transition-colors duration-200 ease-in'
                         ]"
@@ -140,9 +140,9 @@
                 </div>
             </div>
             <div class="flex items-center lg:hidden gap-4">
-                <FontAwesomeIcon :icon="faSearch" class="h-5 block md:hidden cursor-pointer" />
-                <FontAwesomeIcon v-if="!showMenu" @click="toggleMenu" :icon="faBars" class="block lg:hidden h-5 cursor-pointer" />
-                <FontAwesomeIcon v-else @click="toggleMenu" :icon="faXmark" class="block lg:hidden h-6 cursor-pointer" />
+                <FontAwesomeIcon :icon="faSearch" class="h-5 block md:hidden cursor-pointer text-black" />
+                <FontAwesomeIcon v-if="!showMenu" @click="toggleMenu" :icon="faBars" class="block lg:hidden h-5 cursor-pointer text-black" />
+                <FontAwesomeIcon v-else @click="toggleMenu" :icon="faXmark" class="block lg:hidden h-6 cursor-pointer text-black" />
             </div>
         </div>
         <div class="lg:hidden"
@@ -228,12 +228,11 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink, useRouter } from 'vue-router';
+import { RouterLink, useRouter, useRoute } from 'vue-router';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faSearch, faBars, faGear, faUser, faArrowRightFromBracket, faChevronRight, faChevronLeft, faXmark, faChevronDown } from "@fortawesome/free-solid-svg-icons"
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { computed, ref, Transition, watch, watchEffect, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
 import { useUserStore } from "./../stores/user";
 import logo from "../assets/images/logo.png"
 
@@ -244,6 +243,7 @@ const token = computed(() => userStore.getToken());
 let user = ref<Record<string, any>>();
 const showNotifications = ref(false);
 const showUserMenu = ref(false);
+const route = useRoute()
 
 const toggleNotifications = () => {
     showNotifications.value = !showNotifications.value;

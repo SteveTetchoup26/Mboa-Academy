@@ -118,6 +118,11 @@ const handleSubmit = async () => {
       }
     } else {
       error.value = e.response?.data?.message || "Une erreur est survenue";
+      toast.add({
+          severity: "error",
+          detail: error.value ,
+          life: 3000,
+      });
     }
   } finally {
     isLoading.value = false;

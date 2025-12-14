@@ -65,7 +65,7 @@ const router = createRouter({
         {path: 'dashboard', name: 'dashboard', component: Dashboard, meta: {requiresAuth: true}},
         {path: 'courses', name: 'publishedCourses', component: Courses, meta: {requiresAuth: true}},
         {path: 'webinars', name: 'instructorWebinars', component: Webinars, meta: {requiresAuth: true}},
-        {path: '/create-course', name: 'createCourse', component: CourseAssembly,meta: {requiresAuth: true}
+        {path: '/reate-course', name: 'createCourse', component: CourseAssembly,meta: {requiresAuth: true}
         }
         // {path: 'students', name: 'students', component: Students}
       ]
@@ -76,13 +76,22 @@ const router = createRouter({
       component: EmailConfirmation
     }
   ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    }
+    return { top: 0 }
+  }
 });
 
 
 router.beforeEach((to, from, next) => {
   const token = useUserStore().getToken();
   if (to.meta.requiresAuth && !token) {
-    next({ name: 'login' });
+    next({
+      name: 'login',
+      query: { redirect: to.fullPath }
+    });
   } else {
     next();
   }
