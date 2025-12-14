@@ -1,5 +1,5 @@
 <template>
-  <div v-if="courses.length != 0" class="w-full pl-4 md:pl-24 flex flex-col py-10">
+  <div class="w-full pl-4 md:pl-24 flex flex-col py-10">
         <div class="w-full flex justify-between pr-4">
             <h3 class="font-semibold text-2xl">Cours {{ section }}</h3>
             <p v-if="courses.length > 4" @click="navigationWithCategory(section)" class="text-primary hover:text-secondary underline cursor-pointer">Voir plus</p>
@@ -22,7 +22,7 @@
                     />
                 </template>
             </div>
-            <div class="flex gap-4" >
+            <div class="flex gap-4" v-if="courses.length != 0">
                 <button @click="previousCourse" class="text-center bg-white rounded-md px-4 py-2 shadow-[0px_2px_3px_#9e9e9e]">
                     <FontAwesomeIcon :icon="faChevronLeft" />
                 </button>

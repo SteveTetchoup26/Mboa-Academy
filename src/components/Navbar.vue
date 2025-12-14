@@ -8,7 +8,7 @@
                   <img :src="logo" alt="" class="w-10 h-10">
                 </RouterLink>
             </div>
-            <div class="hidden md:flex items-center px-4 rounded-2xl gap-2 bg-gray-100 w-2/5 lg:w-1/5">
+            <div class="hidden md:flex items-center px-4 rounded-2xl gap-2 bg-gray-100 w-2/5 lg:w-1/5 border focus-within:border-primary">
                 <FontAwesomeIcon :icon="faSearch" color='gray' />
                 <input type="text" class="bg-transparent outline-none flex-1 p-1 w-full" placeholder="Que voulez-vous apprendre ? ">
             </div>

@@ -2,7 +2,7 @@
     <div class="h-screen flex justify-center px-10 md:px-0">
         <div class="w-1/2 lg:w-3/5 bg-primary hidden md:flex items-center justify-center">
             <div class="w-4/5 lg:w-3/5">
-                <h1 class="text-5xl text-white font-bold">Digital <br> Platform <br> For Distance <br><span class="text-black">Learning</span></h1>
+                <h1 class="text-5xl text-white font-bold">Plateforme <br> Digitale <br>Pour l'Apprenstissage <br><span class="text-black">En ligne</span></h1>
             </div>
         </div>
         <div class="w-full md:w-1/2 lg:w-2/5 flex flex-col items-center pt-24 gap-10">
@@ -12,28 +12,31 @@
                 </div>
                 <div class="">
                     <p class="text-4xl font-bold">Hey,</p>
-                    <p class="text-gray-400">Enter your email and password to login.</p>
+                    <p class="text-gray-400">Saisissez vos informations pour vous connecter.</p>
                 </div>
                 <form @submit.prevent="handleSubmit" class="w-full flex flex-col gap-5">
                     <input
                         v-model="fields.email"
                         type="email"
-                        class="py-3 px-2 border border-1 focus:outline-primary"
+                        class="bg-white py-3 px-2 border focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
                         :class="{ 'border-gray-300': !fieldsErrors.email, 'border-red-500': fieldsErrors.email }"
                         name="email"
-                        placeholder="Your Email"
+                        placeholder="Email"
                     >
                     <input
                         v-model="fields.password"
                         type="password"
-                        class="py-3 px-2 border border-1 border-gray-300 focus:outline-primary"
+                        class="bg-white py-3 px-2 border focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
                         :class="{ 'border-gray-300': !fieldsErrors.email, 'border-red-500': fieldsErrors.email }"
                         name="password"
-                        placeholder="password"
+                        placeholder="Mot de passe"
                     >
                     <p v-if="error" class="bg-red-100 text-red-600 text-center py-2">{{ error }}</p>
                     <p class="text-end underline hover:text-primary cursor-pointer">Mot de passe oublié ?</p>
-                    <button @click.prevent="handleSubmit" class="bg-primary text-white py-3 px-8 hover:opacity-80 transition-opacity duration-150">Se connecter</button>
+                    <button @click.prevent="handleSubmit" class="flex items-center justify-center bg-primary text-white py-3 px-8 hover:opacity-80 transition-opacity duration-150">
+                      <LocalLoader v-if="isLoading" />
+                      <span v-else>Se connecter</span>
+                    </button>
                     <RouterLink to="/inscription" class="text-center hover:text-primary">Vous n'avez pas de compte ? Inscrivez-vous.</RouterLink>
                 </form>
             </div>
@@ -57,6 +60,7 @@ const userStore = useUserStore();
 const router = useRouter();
 const appStore = useAppStore();
 const route = useRoute();
+const isLoading = ref(false);
 const fields = reactive({
   email: "",
   password: "",
@@ -79,7 +83,7 @@ const handleSubmit = async () => {
     clearError();
     fieldsErrors.email = !fields.email;
     fieldsErrors.password = !fields.password;
-    appStore.setLoading(true);
+    isLoading.value = true;
 
   try {
 
@@ -117,7 +121,7 @@ const handleSubmit = async () => {
         });
     }
   } finally {
-    appStore.setLoading(false);
+    isLoading.value = false;
   }
 }
 </script>

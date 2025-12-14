@@ -4,7 +4,7 @@
             <div class="w-full md:w-3/5 flex flex-col gap-4">
                 <h2 class="text-4xl font-semibold text-primary">Entrez En Contact</h2>
                 <p class="text-gray-400">
-                    Faites-nous savoir comment nous pouvons mieux vous servir. Utilisez le formulaire de contact pour nous envoyer un e-mail. 
+                    Faites-nous savoir comment nous pouvons mieux vous servir. Utilisez le formulaire de contact pour nous envoyer un e-mail.
                     C'est un honneur de vous soutenir dans votre cheminement pour atteindre vos objectifs.
                 </p>
                 <div class="flex gap-4 items-center">
@@ -31,10 +31,10 @@
             </div>
             <div class="w-full md:w-2/5">
                 <form class="w-full flex flex-col gap-3">
-                    <input type="text" name="name" class="py-4 px-3 border border-1 border-gray-300 focus:outline-primary" placeholder="Your Name" required>
-                    <input type="mail" name="email" class="py-4 px-3 border border-1 border-gray-300 focus:outline-primary" placeholder="Your Email" required>
-                    <input type="text" name="subject" class="py-4 px-3 border border-1 border-gray-300 focus:outline-primary" placeholder="Subject" required>
-                    <textarea name="comment" class="py-4 px-3 border border-1 border-gray-300 focus:outline-primary" placeholder="Comment"></textarea>
+                    <input type="text" name="name" class="bg-white py-4 px-3 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary" placeholder="Your Name" required>
+                    <input type="mail" name="email" class="bg-white py-4 px-3 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary" placeholder="Your Email" required>
+                    <input type="text" name="subject" class="bg-white py-4 px-3 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary" placeholder="Subject" required>
+                    <textarea name="comment" class="bg-white py-4 px-3 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary" placeholder="Comment"></textarea>
                     <button type="submit" class="bg-primary text-white py-3 px-8 hover:opacity-80 transition-opacity duration-150">Soumettre</button>
                 </form>
             </div>

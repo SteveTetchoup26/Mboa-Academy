@@ -95,7 +95,7 @@
             </div>
         </div>
     </div>
-    <div v-else>
+    <div v-else class="min-h-screen flex flex-col">
         <Filterbar />
         <CatalogCourse v-for="(item, index) in catalogSections" :key="index"  :section="item"/>
     </div>
@@ -157,10 +157,8 @@ onMounted(() => {
 });
 
 onMounted(async () => {
-    appStore.loading = true;
     try {
         const res = await CourseAPI.getAllCategories();
-
         categories.value = res.data.categories;
     } catch(e) {
         console.error(e);
