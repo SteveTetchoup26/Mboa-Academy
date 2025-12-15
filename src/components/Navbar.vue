@@ -64,7 +64,7 @@
             </div>
             <div v-else class="hidden lg:flex gap-4 items-center">
                 <!-- <FontAwesomeIcon :icon="faBell" class="h-5 cursor-pointer px-2 py-1 hover:text-primary" /> -->
-                <div class="relative">
+                <div data-dropdown class="relative">
                     <button
                         @click="toggleNotifications()"
                         class="py-2 px-3 rounded-full hover:bg-gray-100 relative hover:cursor-pointer"
@@ -75,8 +75,9 @@
                         </span>
                     </button>
                     <div
-                        v-if="showNotifications"
+                        v-if="dropdown.openMenu === 'notifications'"
                         class="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200"
+
                     >
                         <div class="px-4 py-3 border-b border-gray-200">
                             <div class="flex justify-between items-center">
@@ -109,13 +110,13 @@
                             </div>
                         </div>
                         <div class="px-4 py-2 border-t border-gray-200">
-                            <router-link to="/notifications" class="text-xs text-indigo-600 hover:text-indigo-800">
+                            <router-link  @click="dropdown.closeAllMenus" to="/notifications" class="text-xs text-indigo-600 hover:text-indigo-800">
                                 Voir toutes les notifications
                             </router-link>
                         </div>
                     </div>
                 </div>
-                <div class="relative">
+                <div data-dropdown class="relative">
                     <button @click="toggleUserMenu" class="flex items-center space-x-2 hover:cursor-pointer">
                         <div class="h-6 w-6 text-white rounded-full bg-black flex items-center justify-center p-[18px] font-semibold">
                             <p>{{ avatar }}</p>
@@ -123,13 +124,14 @@
                         <FontAwesomeIcon :icon="faChevronDown" class="h-4 w-4 text-gray-600"/>
                     </button>
                     <div
-                        v-if="showUserMenu"
+                        v-if="dropdown.openMenu === 'user'"
                         class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200"
+
                     >
-                        <router-link @click="showUserMenu = false" to="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <router-link @click="dropdown.closeAllMenus" to="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             Profil
                         </router-link>
-                        <router-link @click="showUserMenu = false" to="/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <router-link @click="dropdown.closeAllMenus" to="/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             Paramètres
                         </router-link>
                         <div class="border-t border-gray-200 mt-1"></div>
@@ -235,6 +237,7 @@ import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { computed, ref, Transition, watch, watchEffect, onMounted } from 'vue';
 import { useUserStore } from "./../stores/user";
 import logo from "../assets/images/logo.png"
+import useDropdownStore from '@/stores/dropdown';
 
 
 
@@ -243,16 +246,15 @@ const token = computed(() => userStore.getToken());
 let user = ref<Record<string, any>>();
 const showNotifications = ref(false);
 const showUserMenu = ref(false);
-const route = useRoute()
+const route = useRoute();
+const dropdown = useDropdownStore();
 
 const toggleNotifications = () => {
-    showNotifications.value = !showNotifications.value;
-    if (showUserMenu.value) showUserMenu.value = false;
+    dropdown.toggleMenu('notifications')
 };
 
 const toggleUserMenu = () => {
-    showUserMenu.value = !showUserMenu.value;
-    if (showNotifications.value) showNotifications.value = false;
+    dropdown.toggleMenu('user')
 };
 
 const notifications = ref([
@@ -346,15 +348,6 @@ onMounted(() => {
     isInstructor.value = user.value?.roles?.some((role: any) => role.title === 'Instructor');
 })
 
-onMounted(() => {
-    document.addEventListener('click', (event) => {
-      const target = event.target as Element;
-      if (!target.closest('.relative')) {
-        showNotifications.value = false;
-        showUserMenu.value = false;
-      }
-    });
-});
 
 </script>
 

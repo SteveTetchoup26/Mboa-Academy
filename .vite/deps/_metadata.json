@@ -1,0 +1,64 @@
+{
+  "hash": "4bfe132c",
+  "configHash": "2fdaa827",
+  "lockfileHash": "68dd29d9",
+  "browserHash": "216a018a",
+  "optimized": {
+    "vue": {
+      "src": "../../node_modules/.pnpm/vue@3.5.25_typescript@5.6.3/node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "e1c65066",
+      "needsInterop": false
+    },
+    "pinia": {
+      "src": "../../node_modules/.pnpm/pinia@2.3.1_typescript@5.6.3_vue@3.5.25_typescript@5.6.3_/node_modules/pinia/dist/pinia.mjs",
+      "file": "pinia.js",
+      "fileHash": "c54b9b1c",
+      "needsInterop": false
+    },
+    "@vueuse/motion": {
+      "src": "../../node_modules/.pnpm/@vueuse+motion@2.2.6_vue@3.5.25_typescript@5.6.3_/node_modules/@vueuse/motion/dist/index.mjs",
+      "file": "@vueuse_motion.js",
+      "fileHash": "54f566c7",
+      "needsInterop": false
+    },
+    "primevue/config": {
+      "src": "../../node_modules/.pnpm/primevue@4.5.3_vue@3.5.25_typescript@5.6.3_/node_modules/primevue/config/index.mjs",
+      "file": "primevue_config.js",
+      "fileHash": "d513dfa5",
+      "needsInterop": false
+    },
+    "primevue/toastservice": {
+      "src": "../../node_modules/.pnpm/primevue@4.5.3_vue@3.5.25_typescript@5.6.3_/node_modules/primevue/toastservice/index.mjs",
+      "file": "primevue_toastservice.js",
+      "fileHash": "293bf19f",
+      "needsInterop": false
+    },
+    "@primeuix/themes/aura": {
+      "src": "../../node_modules/.pnpm/@primeuix+themes@1.2.5/node_modules/@primeuix/themes/dist/aura/index.mjs",
+      "file": "@primeuix_themes_aura.js",
+      "fileHash": "03c1c998",
+      "needsInterop": false
+    },
+    "vue-router": {
+      "src": "../../node_modules/.pnpm/vue-router@4.6.3_vue@3.5.25_typescript@5.6.3_/node_modules/vue-router/dist/vue-router.mjs",
+      "file": "vue-router.js",
+      "fileHash": "b7bcd863",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-BPR5FKHA": {
+      "file": "chunk-BPR5FKHA.js"
+    },
+    "chunk-IIQVUFJW": {
+      "file": "chunk-IIQVUFJW.js"
+    },
+    "chunk-WADCYXO5": {
+      "file": "chunk-WADCYXO5.js"
+    },
+    "chunk-5WW76PVZ": {
+      "file": "chunk-5WW76PVZ.js"
+    }
+  }
+}
