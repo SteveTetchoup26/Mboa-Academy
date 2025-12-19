@@ -11,7 +11,7 @@
                     <input
                     v-model="userData.email"
                     type="email"
-                    class="w-full p-2 border rounded-md outline-primary text-gray-600"
+                    class="w-full rounded-md text-gray-600 bg-white py-3 px-2 border focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
                     >
                 </div>
                 <div class="space-y-2">
@@ -20,13 +20,13 @@
                     <input
                         v-model="userData.password"
                         :type="showPassword ? 'text' : 'password'"
-                        class="w-full p-2 border rounded-md outline-primary text-gray-600"
+                        class="w-full rounded-md text-gray-600 bg-white py-3 px-2 border focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
                     >
                 </div>
             </div>
             </div>
         </div>
-  
+
         <div class="bg-white rounded-lg shadow p-6">
             <h2 class="text-lg md:text-xl font-semibold mb-4 flex items-center gap-2">
                 <FontAwesomeIcon :icon="faBell" class="" />
@@ -57,7 +57,7 @@
                 </div>
             </div>
         </div>
-  
+
         <div class="bg-white rounded-lg shadow p-6">
             <h2 class="text-lg md:text-xl font-semibold mb-4 flex items-center gap-2">
                 <FontAwesomeIcon :icon="faGlobe" class="" />
@@ -65,7 +65,7 @@
             </h2>
             <select
                  v-model="userData.language"
-                class="w-full p-2 border rounded-md outline-primary"
+                  class="w-full rounded-md text-gray-600 bg-white py-3 px-2 border focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
             >
                 <option
                     v-for="lang in availableLanguages"
@@ -76,7 +76,7 @@
                 </option>
             </select>
         </div>
-  
+
         <div class="flex justify-end gap-4">
             <button
                 class="px-4 py-2 border rounded-md hover:bg-gray-50"
@@ -91,23 +91,23 @@
         </div>
     </div>
   </template>
-  
+
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faBellConcierge, faGlobe, faLanguage, faBell, faUser } from "@fortawesome/free-solid-svg-icons"
 import { useUserStore } from './../stores/user';
 
-  
+
   // États réactifs
   const showPassword = ref(false);
   const userStore = useUserStore();
-  
+
   const userData = reactive({
     email: 'utilisateur@example.com',
     password: '••••••••',
   })
-  
+
   const notifications = reactive({
     courses: {
       title: 'Mises à jour des cours',
@@ -125,7 +125,7 @@ import { useUserStore } from './../stores/user';
       enabled: false
     }
   })
-  
+
 const availableLanguages = [
     { code: 'fr', name: 'Français' },
     { code: 'en', name: 'English' },
@@ -138,5 +138,5 @@ const user = userStore.user;
 onMounted(() => {
     userData.email = user?.email;
 })
-  
+
 </script>

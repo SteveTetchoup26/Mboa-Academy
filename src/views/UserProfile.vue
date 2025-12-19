@@ -6,7 +6,7 @@
           <div class="flex flex-col sm:flex-row sm:items-end  sm:gap-4 -mt-12">
             <div class="relative">
               <label for="picture">
-                <div 
+                <div
                   class="relative w-24 h-24 font-bold text-2xl flex items-center justify-center rounded-full border-4 border-white bg-gray-200"
                 >
                   <img v-if="image" :src="image" class="w-full h-full object-cover rounded-full" alt="">
@@ -17,9 +17,9 @@
                 </div>
               </label>
               <input @change="handleImageChange" type="file" id="picture" hidden>
-              
+
             </div>
-            
+
             <div class="sm:text-left mt-0 flex-grow">
               <h1 class="text-nd md:text-2xl font-bold">{{ user?.name }}</h1>
               <div class="flex">
@@ -28,8 +28,8 @@
                 </p>
               </div>
             </div>
-  
-            <button 
+
+            <button
               @click="isEditing = true"
               class="absolute top-14 right-4 px-2 md:px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary transition-colors duration-200 flex items-center"
             >
@@ -39,12 +39,12 @@
           </div>
         </div>
       </div>
-  
+
       <div class="bg-white rounded-lg shadow">
         <div class="border-b">
           <nav class="flex">
-            <button 
-              v-for="tab in tabs" 
+            <button
+              v-for="tab in tabs"
               :key="tab.id"
               @click="currentTab = tab.id"
               :class="[
@@ -58,7 +58,7 @@
             </button>
           </nav>
         </div>
-  
+
         <div class="p-6">
           <div v-if="currentTab === 'overview'" class="grid md:grid-cols-2 gap-6">
             <div class="space-y-4">
@@ -79,28 +79,28 @@
                 <form @submit.prevent="saveProfile" class="space-y-4">
                   <div>
                     <label class="text-sm text-gray-500">Nom complet</label>
-                    <input 
+                    <input
                       v-model="editedUser.name"
                       type="text"
-                      class="mt-1 block w-full outline-primary p-2 rounded-md border-[1px] border-solid border-gray-400 shadow-sm"
+                      class="mt-1 block w-full rounded-md bg-white p-2 border focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary shadow-sm"
                     >
                   </div>
                   <div>
                     <label class="text-sm text-gray-500">Email</label>
-                    <input 
+                    <input
                       v-model="editedUser.email"
                       type="email"
-                      class="mt-1 block w-full outline-primary p-2 rounded-md border-[1px] border-solid border-gray-400 shadow-sm"
+                      class="mt-1 block w-full rounded-md bg-white p-2 border focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary shadow-sm"
                     >
                   </div>
                   <div class="flex gap-3">
-                    <button 
+                    <button
                       type="submit"
                       class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary"
                     >
                       Sauvegarder
                     </button>
-                    <button 
+                    <button
                       type="reset"
                       @click="cancelEdit"
                       class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
@@ -116,8 +116,8 @@
           <div v-else-if="currentTab === 'courses'" class="space-y-4">
             <h2 class="text-lg font-semibold">Mes cours</h2>
              <div v-if="user?.courses?.length" class="space-y-4">
-              <div 
-                v-for="course in user.courses" 
+              <div
+                v-for="course in user.courses"
                 :key="course"
                 class="border rounded-lg p-4"
               >
@@ -127,14 +127,14 @@
             </div>
             <p v-else class="text-gray-600">Aucune formation en cours</p>
           </div>
-  
+
 
           <!-- <div v-else-if="currentTab === 'settings'" class="space-y-6">
             <div class="space-y-4">
               <h2 class="text-lg font-semibold">Notifications</h2>
               <div class="space-y-2">
                 <label class="flex items-center">
-                  <input 
+                  <input
                     type="checkbox"
                     v-model="user.settings.emailNotifications"
                     class=""
@@ -148,7 +148,7 @@
       </div>
     </div>
   </template>
-  
+
 <script setup lang="ts">
 import { ref, reactive, onMounted, computed, watch } from 'vue'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
@@ -186,7 +186,7 @@ const avatar = computed(() => {
 
 // const avatar = ref('')
 
-// watch(user.value.name, 
+// watch(user.value.name,
 //     (newUser) => {
 //       console.log(newUser);
 //       avatar.value = newUser.charAt(0).toUpperCase();
@@ -252,6 +252,7 @@ onMounted(async () => {
   try{
     const res = await AuthAPI.me();
     user.value = res?.data.user;
+    console.log(user.value);
   } catch(e) {
     console.log(e);
   }
