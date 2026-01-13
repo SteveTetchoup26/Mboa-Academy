@@ -4,15 +4,26 @@
             <h1 class="text-2xl md:text-4xl font-bold">Mes cours</h1>
             <div class="pt-4 gap-2 flex justify-center md:justify-start flex-wrap w-full transition-transform duration-200 ease-in-out mb-10">
                 <template v-if="!loading">
-                  <CourseSaved
-                    v-for="(course, index) in allCourses"
-                    :key="index"
-                    :course="course"
-                    v-show="index < visibleCount"
-                    v-motion
-                    :initial="{ opacity: 0, y: 50 }"
-                    :enter="{ opacity: 1, y: 0 }"
-                  />
+                  <template v-if="allCourses.length === 0">
+                    <div class="w-full flex flex-col items-center justify-center mt-20">
+                      <img :src="emptyCourse" alt="Aucun cours trouvé" class="w-48 h-48 mb-4"/>
+                      <p class="text-gray-600 text-lg text-center">Vous n'êtes inscrit à aucun cours pour le moment.</p>
+                      <RouterLink
+                        to="/"
+                        class="text-white font-semibold bg-primary px-3 py-2 mt-4 rounded-sm hover:bg-secondary transition-all duration-150">Commencer</RouterLink>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <CourseSaved
+                      v-for="(course, index) in allCourses"
+                      :key="course.id"
+                      :course="course"
+                      v-show="index < visibleCount"
+                      v-motion
+                      :initial="{ opacity: 0, y: 50 }"
+                      :enter="{ opacity: 1, y: 0 }"
+                    />
+                  </template>
                 </template>
 
                 <template v-else>
@@ -38,12 +49,18 @@ import { useUserStore } from '@/stores/user';
 import { useRoute, useRouter } from 'vue-router';
 import { CourseAPI } from "@/services/api/Course";
 import CourseEnrolledLoader from "@/components/loader/CourseEnrolledLoader.vue";
+import emptyCourse from "@/assets/images/empty-course.png";
 
 
 const appStore = useAppStore();
 const userStore = useUserStore();
 const token = userStore.getToken();
 const loading = ref(false);
+const router = useRouter();
+const route = useRoute();
+
+let currentTab = ref(router.currentRoute.value.name)
+
 
 const coursesPerPage = 5;
 const visibleCount = ref(coursesPerPage);
