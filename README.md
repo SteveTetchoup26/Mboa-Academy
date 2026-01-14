@@ -1,4 +1,4 @@
-# BTS-app
+# Mboa Academy
 
 Ce projet constitue le **frontend** de la plateforme Mboa Academy, développé avec **Vue.js** . Il permet aux utilisateurs (apprenants, instructeurs et administrateurs) d’interagir avec la plateforme via une interface web moderne et réactive.
 
