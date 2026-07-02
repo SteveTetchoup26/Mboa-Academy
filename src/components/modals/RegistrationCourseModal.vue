@@ -49,7 +49,7 @@
                                 />
                                 <span class="flex items-center">
                                     <FontAwesomeIcon v-if="method.label ==='Carte bancaire'" :icon="method.icon" class="mr-2 h-5" />
-                                    <img v-else :src="method.icon" :alt="method.label" class="w-10 h-10 object-cover mr-2" />
+                                    <img v-else :src="method.icon as string" :alt="method.label" class="w-10 h-10 object-cover mr-2" />
                                     {{ method.label }}
                                 </span>
                             </div>

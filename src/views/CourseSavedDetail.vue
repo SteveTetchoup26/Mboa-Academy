@@ -351,7 +351,7 @@ const nextLesson = () => {
 onMounted(async() => {
   appStore.loading = true;
   try {
-    const courseId = route.params.courseSavedId;
+    const courseId = route.params.courseSavedId as string;
     const res = await CourseAPI.getOne(parseInt(courseId));
     if(res?.data){
       courseData.value = {...res?.data.course};

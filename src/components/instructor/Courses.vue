@@ -96,7 +96,7 @@ const isInstructor = ref(true);
 const route = useRoute()
 const router = useRouter()
 
-const courses = ref([]);
+const courses = ref<Record<string, any>[]>([]);
 
 const windowSize = 4
 
