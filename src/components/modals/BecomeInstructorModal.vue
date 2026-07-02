@@ -96,7 +96,7 @@
       </div>
   </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, defineProps, reactive } from 'vue';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
@@ -145,7 +145,7 @@ const appStore = useAppStore();
     // isSubmitting.value = true;
     appStore.loading = true;
     try {
-        const { data } = await AuthAPI.becomeInstructor({ ...fields }, token);
+        const { data } = await AuthAPI.becomeInstructor({ ...fields }, token!);
 
         fields.email = "";
         fields.phone_number = "";

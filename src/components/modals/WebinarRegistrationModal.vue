@@ -100,7 +100,7 @@
     </div>
   </template>
   
-<script setup>
+<script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { faCircleXmark, faCalendar, faClock } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";

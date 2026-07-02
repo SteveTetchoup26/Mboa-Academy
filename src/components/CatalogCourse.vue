@@ -47,7 +47,7 @@ import CourseLoader from "./loader/CourseLoader.vue";
 defineProps({
     section: {
         type: String,
-        required: true,
+        default: '',
     }
 })
 

@@ -107,7 +107,7 @@ const appStore = useAppStore();
 const loading = ref(false);
 // const courses = Array(300)
 
-const courses = ref([]);
+const courses = ref<Record<string, any>[]>([]);
 
 const windowSize = 5 // Nombre de pages visibles dans la fenêtre
   

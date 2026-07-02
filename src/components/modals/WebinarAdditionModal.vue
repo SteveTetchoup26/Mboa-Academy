@@ -79,7 +79,7 @@
     </div>
 </template>
   
-<script setup>
+<script setup lang="ts">
 import { ref, defineProps, defineEmits } from 'vue';
 import WebinarAdditionaModal from '@/components/modals/WebinarAdditionModal.vue'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"

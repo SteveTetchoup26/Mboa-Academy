@@ -106,6 +106,7 @@ import { useUserStore } from './../stores/user';
   const userData = reactive({
     email: 'utilisateur@example.com',
     password: '••••••••',
+    language: 'fr',
   })
 
   const notifications = reactive({
