@@ -131,6 +131,9 @@
                         <router-link @click="dropdown.closeAllMenus" to="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             Profil
                         </router-link>
+                        <router-link @click="dropdown.closeAllMenus" to="/institutions/my-institutions" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            Mes institutions
+                        </router-link>
                         <router-link @click="dropdown.closeAllMenus" to="/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             Paramètres
                         </router-link>
@@ -179,6 +182,12 @@
                             <RouterLink class="pl-4 py-3 block  w-full hover:bg-green-50" to="/settings">
                                 <FontAwesomeIcon :icon="faGear" class="mr-2 hidden xs:inline-block" />
                                 Paramètres
+                            </RouterLink>
+                        </li>
+                        <li>
+                            <RouterLink class="pl-4 py-3 block  w-full hover:bg-green-50" to="/institutions/my-institutions">
+                                <FontAwesomeIcon :icon="faBuildingColumns" class="mr-2 hidden xs:inline-block" />
+                                Mes institutions
                             </RouterLink>
                         </li>
                         <li @click="logout">
@@ -232,7 +241,7 @@
 <script setup lang="ts">
 import { RouterLink, useRouter, useRoute } from 'vue-router';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { faSearch, faBars, faGear, faUser, faArrowRightFromBracket, faChevronRight, faChevronLeft, faXmark, faChevronDown } from "@fortawesome/free-solid-svg-icons"
+import { faSearch, faBars, faGear, faUser, faArrowRightFromBracket, faChevronRight, faChevronLeft, faXmark, faChevronDown, faBuildingColumns } from "@fortawesome/free-solid-svg-icons"
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { computed, ref, Transition, watch, watchEffect, onMounted } from 'vue';
 import { useUserStore } from "./../stores/user";
@@ -313,6 +322,7 @@ let tabsAfterConnexion =  [
   { id: 'home', name: 'Acceuil', path: '' },
   { id: 'courses', name: 'Mes cours', path: 'my-courses' },
   { id: 'webinars', name: 'Webinaires', path: 'webinars' },
+  { id: 'institutions', name: 'Institutions', path: 'institutions' },
   { id: 'forums', name: 'Forums', path: 'forums' },
 //   { id: 'becomeInstructor', name:'Devenir formateur', path: 'become-instructor' }
 ]
