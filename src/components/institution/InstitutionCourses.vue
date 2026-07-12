@@ -122,6 +122,15 @@
                     >
                       <FontAwesomeIcon :icon="faArrowsRotate" />
                     </button>
+                    <!-- Gérer les étudiants -->
+                    <button
+                      v-if="course.status?.title === 'Published'"
+                      @click="openStudentModal(course)"
+                      class="p-2 text-gray-500 hover:text-blue-600 hover:bg-gray-100 rounded-lg transition-colors"
+                      title="Gérer les étudiants"
+                    >
+                      <FontAwesomeIcon :icon="faUsersGear" />
+                    </button>
                     <!-- Supprimer -->
                     <button
                       @click="confirmDelete(course)"
@@ -570,6 +579,164 @@
       </div>
     </div>
 
+    <!-- ════════════════════════════════════════════════════════
+         MODAL GESTION ÉTUDIANTS
+         ════════════════════════════════════════════════════════ -->
+    <div v-if="studentModal.open" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      <div class="bg-white rounded-lg p-6 max-w-xl w-full mx-4 shadow-xl max-h-[90vh] overflow-y-auto">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800">Gérer les étudiants</h3>
+            <p class="text-sm text-gray-500 mt-0.5">{{ studentModal.course?.title }}</p>
+          </div>
+          <button @click="closeStudentModal" class="p-1 rounded hover:bg-gray-100">
+            <FontAwesomeIcon :icon="faXmark" class="text-gray-500 h-5 w-5" />
+          </button>
+        </div>
+
+        <!-- Section: Ajouter des étudiants -->
+        <div class="mb-6">
+          <h4 class="text-sm font-semibold text-gray-700 mb-2">Ajouter des étudiants</h4>
+          <p class="text-xs text-gray-400 mb-3">
+            Saisissez les adresses email et appuyez sur <kbd class="px-1 py-0.5 bg-gray-100 rounded text-xs font-mono">Entrée</kbd> ou <kbd class="px-1 py-0.5 bg-gray-100 rounded text-xs font-mono">,</kbd> pour les ajouter.
+          </p>
+
+          <!-- Tag input with autocomplete -->
+          <div class="relative">
+            <div
+              class="flex flex-wrap items-center gap-1.5 w-full rounded-lg border border-gray-300 p-2.5 min-h-[44px] focus-within:ring-2 focus-within:ring-primary cursor-text"
+              @click="tagInputRef?.focus()"
+            >
+              <span
+                v-for="(tag, idx) in studentModal.tags"
+                :key="idx"
+                class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-100 text-blue-700 rounded-md text-sm font-medium"
+              >
+                <span class="truncate max-w-[200px]">{{ tag }}</span>
+                <button
+                  @click.stop="removeTag(idx)"
+                  class="text-blue-500 hover:text-blue-800 hover:bg-blue-200 rounded-full p-0.5 transition-colors"
+                >
+                  <FontAwesomeIcon :icon="faXmark" class="h-3 w-3" />
+                </button>
+              </span>
+              <input
+                ref="tagInputRef"
+                v-model="studentModal.tagInput"
+                type="text"
+                placeholder="email@example.com"
+                class="flex-1 min-w-[180px] border-none outline-none p-0 text-sm bg-transparent focus:ring-0"
+                @keydown.enter.prevent="selectOrAddTag"
+                @keydown.,="addTagFromComma"
+                @keydown.backspace="handleBackspace"
+                @input="onTagInput"
+                @keydown.escape="studentModal.showSuggestions = false"
+                @keydown.down.prevent="highlightNext"
+                @keydown.up.prevent="highlightPrev"
+                @blur="onBlurSuggestions"
+              />
+            </div>
+
+            <!-- Suggestions dropdown -->
+            <div
+              v-if="studentModal.showSuggestions && suggestions.length > 0"
+              class="absolute left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto"
+            >
+              <button
+                v-for="(user, idx) in suggestions"
+                :key="user.id"
+                @mousedown.prevent="selectSuggestion(user)"
+                class="w-full flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-blue-50 text-left transition-colors"
+                :class="idx === studentModal.highlightedIdx ? 'bg-blue-50' : ''"
+              >
+                <div class="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 text-xs font-bold flex-shrink-0">
+                  {{ (user.name || user.email).charAt(0).toUpperCase() }}
+                </div>
+                <div class="min-w-0">
+                  <p class="font-medium text-gray-800 truncate">{{ user.name }}</p>
+                  <p class="text-xs text-gray-400 truncate">{{ user.email }}</p>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between mt-3">
+            <p v-if="studentModal.resultMsg" class="text-xs" :class="studentModal.resultType">
+              {{ studentModal.resultMsg }}
+            </p>
+            <button
+              @click="handleEnrollStudents"
+              :disabled="studentModal.enrolling || studentModal.tags.length === 0"
+              class="ml-auto px-4 py-2 bg-primary text-white text-sm rounded-lg hover:bg-secondary transition-colors disabled:opacity-50 flex items-center gap-2"
+            >
+              <i v-if="studentModal.enrolling" class="pi pi-spin pi-spinner"></i>
+              <FontAwesomeIcon v-else :icon="faUserPlus" />
+              Inscrire {{ studentModal.tags.length }} étudiant(s)
+            </button>
+          </div>
+          <!-- Résultat détaillé -->
+          <div v-if="studentModal.enrollResult" class="mt-2 space-y-1">
+            <p v-if="studentModal.enrollResult.enrolled?.length" class="text-xs text-green-600">
+              ✓ {{ studentModal.enrollResult.enrolled.length }} inscrit(s) : {{ studentModal.enrollResult.enrolled.join(', ') }}
+            </p>
+            <p v-if="studentModal.enrollResult.alreadyEnrolled?.length" class="text-xs text-yellow-600">
+              ⚠ {{ studentModal.enrollResult.alreadyEnrolled.length }} déjà inscrit(s) : {{ studentModal.enrollResult.alreadyEnrolled.join(', ') }}
+            </p>
+            <p v-if="studentModal.enrollResult.notFound?.length" class="text-xs text-red-500">
+              ✗ {{ studentModal.enrollResult.notFound.length }} introuvable(s) : {{ studentModal.enrollResult.notFound.join(', ') }}
+            </p>
+          </div>
+        </div>
+
+        <hr class="border-gray-200 mb-4" />
+
+        <!-- Section: Étudiants inscrits -->
+        <div>
+          <h4 class="text-sm font-semibold text-gray-700 mb-2">
+            Étudiants inscrits
+            <span class="text-xs font-normal text-gray-400">({{ studentModal.students.length }})</span>
+          </h4>
+
+          <!-- Loading -->
+          <div v-if="studentModal.loadingList" class="flex justify-center py-8">
+            <i class="pi pi-spin pi-spinner text-xl text-primary"></i>
+          </div>
+
+          <!-- Empty -->
+          <div v-else-if="studentModal.students.length === 0" class="text-center py-8 text-gray-400 text-sm">
+            Aucun étudiant inscrit pour le moment.
+          </div>
+
+          <!-- Liste -->
+          <div v-else class="space-y-2 max-h-60 overflow-y-auto">
+            <div
+              v-for="student in studentModal.students"
+              :key="student.id"
+              class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs flex-shrink-0">
+                  {{ (student.name || student.email || '?').charAt(0).toUpperCase() }}
+                </div>
+                <div class="min-w-0">
+                  <p class="text-sm font-medium text-gray-800 truncate">{{ student.name || '—' }}</p>
+                  <p class="text-xs text-gray-400 truncate">{{ student.email }}</p>
+                </div>
+              </div>
+              <button
+                @click="handleRemoveStudent(student.studentId)"
+                class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0"
+                title="Retirer du cours"
+              >
+                <FontAwesomeIcon :icon="faXmark" class="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -579,7 +746,8 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import {
   faBookOpen, faPlus, faPenToSquare, faTrashCan, faCopy,
   faGlobe, faLock, faXmark, faArrowsRotate, faShareNodes,
-  faCheckCircle, faFolderOpen, faFileLines, faImage, faVideo
+  faCheckCircle, faFolderOpen, faFileLines, faImage, faVideo,
+  faUsersGear, faUserPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import { InstitutionAPI } from '@/services/api/Institution';
 import { CourseAPI } from '@/services/api/Course';
@@ -641,6 +809,26 @@ const form = ref({
 
 // Delete
 const deleteConfirm = ref<Record<string, any> | null>(null);
+
+// Student management modal
+const studentModal = ref({
+  open: false,
+  course: null as Record<string, any> | null,
+  students: [] as Array<Record<string, any>>,
+  loadingList: false,
+  tags: [] as string[],
+  tagInput: '',
+  enrolling: false,
+  resultMsg: '',
+  resultType: '',
+  enrollResult: null as Record<string, any> | null,
+  showSuggestions: false,
+  highlightedIdx: 0,
+});
+
+const tagInputRef = ref<HTMLInputElement | null>(null);
+const suggestions = ref<Array<Record<string, any>>>([]);
+let searchTimer: ReturnType<typeof setTimeout> | null = null;
 
 // ── Utilitaires ──
 
@@ -987,6 +1175,211 @@ const handleRegenerateCode = async (course: Record<string, any>) => {
     const msg = e.response?.data?.message || "Erreur";
     toast.add({ severity: 'error', detail: msg, life: 4000 });
     console.error(e);
+  }
+};
+
+// ── Student management ──
+
+const openStudentModal = async (course: Record<string, any>) => {
+  studentModal.value = {
+    open: true,
+    course,
+    students: [],
+    loadingList: true,
+    tags: [],
+    tagInput: '',
+    enrolling: false,
+    resultMsg: '',
+    resultType: '',
+    enrollResult: null,
+    showSuggestions: false,
+    highlightedIdx: 0,
+  };
+  suggestions.value = [];
+  await loadCourseStudents(course.id);
+};
+
+const closeStudentModal = () => {
+  studentModal.value.open = false;
+  studentModal.value.course = null;
+};
+
+const loadCourseStudents = async (courseId: number) => {
+  if (!institutionId.value) return;
+  studentModal.value.loadingList = true;
+  try {
+    const { data } = await InstitutionAPI.listCourseStudents(institutionId.value, courseId);
+    studentModal.value.students = data.enrollments || [];
+  } catch (e: any) {
+    console.error(e);
+    toast.add({ severity: 'error', detail: 'Erreur lors du chargement des étudiants', life: 3000 });
+  } finally {
+    studentModal.value.loadingList = false;
+  }
+};
+
+// ── Tag helpers with autocomplete ──
+
+const addTag = (email?: string) => {
+  const value = (email || studentModal.value.tagInput).trim().toLowerCase();
+  if (!value || !value.includes('@')) return;
+  if (studentModal.value.tags.includes(value)) return;
+  studentModal.value.tags.push(value);
+  studentModal.value.tagInput = '';
+  studentModal.value.showSuggestions = false;
+};
+
+const addTagFromComma = (e: KeyboardEvent) => {
+  e.preventDefault();
+  const val = studentModal.value.tagInput.trim();
+  if (val) addTag();
+};
+
+const removeTag = (idx: number) => {
+  studentModal.value.tags.splice(idx, 1);
+};
+
+const handleBackspace = (e: KeyboardEvent) => {
+  if (studentModal.value.tagInput === '' && studentModal.value.tags.length > 0) {
+    studentModal.value.tags.pop();
+  }
+};
+
+const handlePasteTags = (e: ClipboardEvent) => {
+  e.preventDefault();
+  const text = e.clipboardData?.getData('text') || '';
+  const emails = text
+    .split(/[\n,;]+/)
+    .map((s) => s.trim().toLowerCase())
+    .filter((s) => s.length > 0 && s.includes('@') && !studentModal.value.tags.includes(s));
+  studentModal.value.tags.push(...emails);
+};
+
+// ── Autocomplete ──
+
+const onTagInput = () => {
+  const q = studentModal.value.tagInput.trim();
+  if (q.length < 1) {
+    suggestions.value = [];
+    studentModal.value.showSuggestions = false;
+    return;
+  }
+  if (searchTimer) clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => searchUsers(q), 200);
+};
+
+const searchUsers = async (q: string) => {
+  try {
+    const { data } = await InstitutionAPI.searchUsers(q);
+    const alreadyAdded = studentModal.value.tags;
+    suggestions.value = (data.users || []).filter(
+      (u: any) => !alreadyAdded.includes(u.email.toLowerCase())
+    );
+    studentModal.value.showSuggestions = suggestions.value.length > 0;
+    studentModal.value.highlightedIdx = 0;
+  } catch {
+    suggestions.value = [];
+    studentModal.value.showSuggestions = false;
+  }
+};
+
+const selectSuggestion = (user: Record<string, any>) => {
+  addTag(user.email);
+  suggestions.value = [];
+  studentModal.value.showSuggestions = false;
+};
+
+const selectOrAddTag = () => {
+  if (suggestions.value[studentModal.value.highlightedIdx]) {
+    selectSuggestion(suggestions.value[studentModal.value.highlightedIdx]);
+  } else {
+    addTag();
+  }
+};
+
+const highlightNext = () => {
+  if (suggestions.value.length > 0) {
+    studentModal.value.highlightedIdx = Math.min(
+      studentModal.value.highlightedIdx + 1,
+      suggestions.value.length - 1
+    );
+  }
+};
+
+const highlightPrev = () => {
+  studentModal.value.highlightedIdx = Math.max(studentModal.value.highlightedIdx - 1, 0);
+};
+
+const onBlurSuggestions = () => {
+  setTimeout(() => {
+    studentModal.value.showSuggestions = false;
+  }, 200);
+};
+
+// ── Enrollment ──
+
+const handleEnrollStudents = async () => {
+  if (!institutionId.value || !studentModal.value.course) return;
+
+  const emails = [...studentModal.value.tags];
+  if (emails.length === 0) {
+    studentModal.value.resultMsg = 'Ajoutez au moins une adresse email.';
+    studentModal.value.resultType = 'text-red-500';
+    return;
+  }
+
+  studentModal.value.enrolling = true;
+  studentModal.value.resultMsg = '';
+  studentModal.value.enrollResult = null;
+  try {
+    const { data } = await InstitutionAPI.enrollCourseStudents(
+      institutionId.value,
+      studentModal.value.course.id,
+      emails
+    );
+    studentModal.value.enrollResult = data;
+
+    // Message récapitulatif
+    const parts: string[] = [];
+    if (data.enrolled?.length) parts.push(`${data.enrolled.length} inscrit(s)`);
+    if (data.alreadyEnrolled?.length) parts.push(`${data.alreadyEnrolled.length} déjà inscrit(s)`);
+    if (data.notFound?.length) parts.push(`${data.notFound.length} introuvable(s)`);
+    studentModal.value.resultMsg = parts.join(' — ') || 'Aucun étudiant ajouté.';
+    studentModal.value.resultType = data.enrolled?.length ? 'text-green-600' : 'text-yellow-600';
+
+    // Recharger la liste
+    if (data.enrolled?.length || data.alreadyEnrolled?.length) {
+      await loadCourseStudents(studentModal.value.course.id);
+    }
+
+    // Mettre à jour le compteur dans le tableau
+    if (data.enrolled?.length && studentModal.value.course) {
+      studentModal.value.course.enrolledStudents = (studentModal.value.course.enrolledStudents || 0) + data.enrolled.length;
+    }
+
+    // Vider les tags
+    studentModal.value.tags = [];
+  } catch (e: any) {
+    const msg = e.response?.data?.message || "Erreur lors de l'inscription";
+    studentModal.value.resultMsg = msg;
+    studentModal.value.resultType = 'text-red-500';
+  } finally {
+    studentModal.value.enrolling = false;
+  }
+};
+
+const handleRemoveStudent = async (studentId: number) => {
+  if (!institutionId.value || !studentModal.value.course) return;
+  try {
+    await InstitutionAPI.removeCourseStudent(institutionId.value, studentModal.value.course.id, studentId);
+    studentModal.value.students = studentModal.value.students.filter((s) => s.studentId !== studentId);
+    if (studentModal.value.course) {
+      studentModal.value.course.enrolledStudents = Math.max(0, (studentModal.value.course.enrolledStudents || 0) - 1);
+    }
+    toast.add({ severity: 'info', detail: 'Étudiant retiré du cours', life: 3000 });
+  } catch (e: any) {
+    const msg = e.response?.data?.message || "Erreur";
+    toast.add({ severity: 'error', detail: msg, life: 4000 });
   }
 };
 

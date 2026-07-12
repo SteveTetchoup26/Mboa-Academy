@@ -66,4 +66,24 @@ export class InstitutionAPI {
   static publishCourse = (institutionId: number, courseId: number) => {
     return Axios.post(`/institutions/${institutionId}/courses/${courseId}/publish`);
   };
+
+  // ─── Student Enrollment ───
+
+  static listCourseStudents = (institutionId: number, courseId: number) => {
+    return Axios.get(`/institutions/${institutionId}/courses/${courseId}/students`);
+  };
+
+  static enrollCourseStudents = (institutionId: number, courseId: number, emails: string[]) => {
+    return Axios.post(`/institutions/${institutionId}/courses/${courseId}/students`, { emails });
+  };
+
+  static removeCourseStudent = (institutionId: number, courseId: number, studentId: number) => {
+    return Axios.delete(`/institutions/${institutionId}/courses/${courseId}/students/${studentId}`);
+  };
+
+  // ─── User Search ───
+
+  static searchUsers = (query: string) => {
+    return Axios.get(`/institutions/search-users`, { params: { q: query } });
+  };
 }
