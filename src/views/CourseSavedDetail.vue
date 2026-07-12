@@ -87,7 +87,7 @@
             class="aspect-video bg-gray-900 rounded-lg flex items-center justify-center text-white relative"
           >
             <!-- <video controls class="absolute inset-0 w-full h-full object-cover rounded-lg" @timeupdate="seekVideo" @play="togglePlay" @pause="togglePlay" @loadedmetadata="videoProgress = 0" crossorigin="anonymous">
-              <source :src="`${API_URL}/uploads/others/${currentLesson?.video.file_name}`" type="video/mp4"/>
+              <source :src="getFileUrl(currentLesson?.video?.file_name)" type="video/mp4"/>
             </video> -->
             <video
               v-if="currentLesson?.video?.file_name"
@@ -100,7 +100,7 @@
               crossorigin="anonymous"
               ref="video-player"
             >
-              <source :src="`${API_URL}/uploads/others/${currentLesson.video.file_name}`" type="video/mp4" />
+              <source :src="getFileUrl(currentLesson.video.file_name)" type="video/mp4" />
             </video>
             <p v-else class="text-center text-red-500">Vidéo non disponible</p>
             <div v-if="showPlayButton" class="text-center z-10">
@@ -184,7 +184,7 @@ import { CourseAPI } from '@/services/api/Course';
 import { useRoute, useRouter } from 'vue-router';
 import useAppStore from '@/stores/app';
 import test from '../assets/images/WhatsApp Video 2025-03-10 at 03.35.43.mp4'
-import { API_URL } from '@/constants/API_URL';
+import { getFileUrl } from '@/helpers/file-url';
 
 // const courseData = ref({
 //   title: "Maîtrisez le Développement Web Moderne avec Vue.js",

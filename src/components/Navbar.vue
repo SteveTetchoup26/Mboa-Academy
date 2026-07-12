@@ -46,7 +46,7 @@
                         {{ tab.name }}
                     </RouterLink>
                 </li>
-                <li>
+                <li v-if="!isInstitutionRole">
                     <RouterLink :to="isInstructor ? '/instructor/dashboard' : '/become-instructor'"
                         :class="[
                                 isInstructor ?
@@ -131,7 +131,7 @@
                         <router-link @click="dropdown.closeAllMenus" to="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             Profil
                         </router-link>
-                        <router-link @click="dropdown.closeAllMenus" to="/institutions/my-institutions" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <router-link v-if="!isStudentOrInstructor" @click="dropdown.closeAllMenus" to="/institutions/my-institutions" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             Mes institutions
                         </router-link>
                         <router-link @click="dropdown.closeAllMenus" to="/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -184,7 +184,7 @@
                                 Paramètres
                             </RouterLink>
                         </li>
-                        <li>
+                        <li v-if="!isStudentOrInstructor">
                             <RouterLink class="pl-4 py-3 block  w-full hover:bg-green-50" to="/institutions/my-institutions">
                                 <FontAwesomeIcon :icon="faBuildingColumns" class="mr-2 hidden xs:inline-block" />
                                 Mes institutions
@@ -218,7 +218,7 @@
                 >
                     <RouterLink :to="`/${tab.path}`" class="pl-4 py-3  block h-full w-full hover:bg-green-50">{{ tab.name }}</RouterLink>
                 </li>
-                <li>
+                <li v-if="!isInstitutionRole">
                     <RouterLink :to="isInstructor ? '/instructor/dashboard' : '/become-instructor'"
                         :class="[
                             isInstructor ?
@@ -257,6 +257,16 @@ const showNotifications = ref(false);
 const showUserMenu = ref(false);
 const route = useRoute();
 const dropdown = useDropdownStore();
+
+const userRoles = computed(() => {
+    const roles = user.value?.roles;
+    if (!roles) return [];
+    return roles.map((r: any) => typeof r === 'string' ? r : r.title);
+});
+const isStudentOrInstructor = computed(() =>
+  userRoles.value.includes('Student') || userRoles.value.includes('Instructor')
+);
+const isInstitutionRole = computed(() => userRoles.value.includes('Institution'));
 
 const toggleNotifications = () => {
     dropdown.toggleMenu('notifications')
@@ -318,14 +328,29 @@ let currentTab = ref(router.currentRoute.value.name)
 
 const currentPath = router.currentRoute.value.name
 
-let tabsAfterConnexion =  [
-  { id: 'home', name: 'Acceuil', path: '' },
-  { id: 'courses', name: 'Mes cours', path: 'my-courses' },
-  { id: 'webinars', name: 'Webinaires', path: 'webinars' },
-  { id: 'institutions', name: 'Institutions', path: 'institutions' },
-  { id: 'forums', name: 'Forums', path: 'forums' },
-//   { id: 'becomeInstructor', name:'Devenir formateur', path: 'become-instructor' }
-]
+const tabsAfterConnexion = computed(() => {
+  const allTabs = [
+    { id: 'home', name: 'Acceuil', path: '' },
+    { id: 'courses', name: 'Mes cours', path: 'my-courses' },
+    { id: 'webinars', name: 'Webinaires', path: 'webinars' },
+    { id: 'forums', name: 'Forums', path: 'forums' },
+  ];
+
+  // Institution : seulement le dashboard
+  if (isInstitutionRole.value) {
+    return [
+      { id: 'institutionDashboard', name: 'Mon institution', path: 'institution/dashboard' },
+    ];
+  }
+
+  // Student/Instructor : masquer l'onglet Institutions
+  // (les autres onglets restent visibles)
+  if (!isStudentOrInstructor.value) {
+    allTabs.push({ id: 'institutions', name: 'Institutions', path: 'institutions' });
+  }
+
+  return allTabs;
+});
 let tabsBeforeConnexion =  [
   { id: 'home', name: 'Acceuil', path: '' },
   { id: 'about', name: 'A propos', path: 'about-us' },
@@ -355,7 +380,10 @@ const logout = () => {
 
 onMounted(() => {
     user.value = userStore.user;
-    isInstructor.value = user.value?.roles?.some((role: any) => role.title === 'Instructor');
+    const roles = user.value?.roles || [];
+    isInstructor.value = roles.some((role: any) =>
+        (typeof role === 'string' ? role : role.title) === 'Instructor'
+    );
 })
 
 

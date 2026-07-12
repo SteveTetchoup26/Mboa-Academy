@@ -44,4 +44,26 @@ export class InstitutionAPI {
       headers: { Authorization: `Bearer ${token}` },
     });
   };
+
+  // ─── Course Management ───
+
+  static createCourse = (institutionId: number, body: Record<string, any> | FormData) => {
+    return Axios.post(`/institutions/${institutionId}/courses/create`, body);
+  };
+
+  static updateCourse = (institutionId: number, courseId: number, body: Record<string, any>) => {
+    return Axios.put(`/institutions/${institutionId}/courses/${courseId}`, body);
+  };
+
+  static deleteCourse = (institutionId: number, courseId: number) => {
+    return Axios.delete(`/institutions/${institutionId}/courses/${courseId}`);
+  };
+
+  static generateAccessCode = (institutionId: number, courseId: number) => {
+    return Axios.post(`/institutions/${institutionId}/courses/${courseId}/generate-code`);
+  };
+
+  static publishCourse = (institutionId: number, courseId: number) => {
+    return Axios.post(`/institutions/${institutionId}/courses/${courseId}/publish`);
+  };
 }

@@ -337,23 +337,37 @@ const handleSubmit = async () => {
       formData.append("creator_email", creator.email);
       formData.append("creator_password", creator.password);
       formData.append("creator_phone", creator.phone);
+    } else {
+      // Utilisateur connecte : envoyer son email pour que le backend le retrouve
+      const currentUser = userStore.user;
+      if (currentUser?.email) {
+        formData.append("creator_email", currentUser.email);
+      }
     }
 
     // Ajouter le logo si un fichier est sélectionné
     if (logoFile.value) {
-      formData.append("logo", logoFile.value);
       formData.append("fileType", "institutionLogo");
+      formData.append("logo", logoFile.value);
     }
 
     const res = await InstitutionAPI.create(formData);
 
-    const msg = res.data.user
-      ? "Institution créée ! Votre compte a été créé, vous pouvez vous connecter."
-      : "Institution créée avec succès";
-
-    toast.add({ severity: "success", detail: msg, life: 5000 });
-
-    router.push(`/institutions/${res.data.institution.id}`);
+    if (res.data.user) {
+      toast.add({
+        severity: "success",
+        detail: "Institution créée ! Un email de confirmation vous a été envoyé à " + res.data.user.email + ". Veuillez vérifier votre boîte email avant de vous connecter.",
+        life: 8000,
+      });
+      router.push("/connexion");
+    } else {
+      toast.add({
+        severity: "success",
+        detail: "Institution créée avec succès",
+        life: 5000,
+      });
+      router.push(`/institutions/${res.data.institution.id}`);
+    }
   } catch (e: any) {
     const msg = e.response?.data?.message || "Erreur lors de la création";
     toast.add({ severity: "error", detail: msg, life: 4000 });

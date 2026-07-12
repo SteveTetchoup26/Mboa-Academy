@@ -12,24 +12,28 @@
             ]"
         >
             <!-- <span class="absolute left-1 top-1 px-2 py-1 rounded-md backdrop-blur-sm bg-[rgba(255,255,255,0.4)]">HTML</span> -->
-            <img :src="`${API_URL}/uploads/others/${course.cover_courses[0].file_name}` || picture" class="w-full h-full object-cover rounded-lg" alt="" crossorigin="anonymous">
+            <img :src="course.cover_courses?.[0] ? getFileUrl(course.cover_courses[0].file_name) : picture" class="w-full h-full object-cover rounded-lg" alt="" crossorigin="anonymous">
         </div>
         <div class="w-full flex flex-col gap-1 md:gap-2">
             <p class="font-semibold">{{ course.title ?? 'Apprendre JavaScript pour débutants' }}</p>
-            <div class="flex items-center gap-2">
+            <div v-if="course.rating" class="flex items-center gap-2">
                 <div class="flex gap-1">
-                    <FontAwesomeIcon :icon="faStar" class="text-yellow-500" />
-                    <FontAwesomeIcon :icon="faStar" class="text-yellow-500" />
-                    <FontAwesomeIcon :icon="faStar" class="text-yellow-500" />
-                    <FontAwesomeIcon :icon="faStar" class="text-yellow-500" />
+                    <FontAwesomeIcon
+                        v-for="i in 5"
+                        :key="i"
+                        :icon="faStar"
+                        :class="i <= Math.round(course.rating) ? 'text-yellow-500' : 'text-gray-300'"
+                        class="text-xs"
+                    />
                 </div>
-                <span class="text-gray-400">(220)</span>
+                <span class="text-gray-400">({{ course.reviewsCount || 0 }})</span>
             </div>
-            <p class="text-gray-400 text-sm md:text-[15px]">Par {{ course.instructor.name || '' }}</p>
-            <p class="text-gray-400 text-sm md:text-[15px]"><span>{{ course.duration || '12 heures' }}</span> | <span>{{ course.enrolledStudents || '0' }} Étudiants</span></p>
+            <p class="text-gray-400 text-sm md:text-[15px]" v-if="course.instructor">Par {{ course.instructor.name }}</p>
+            <p class="text-gray-400 text-sm md:text-[15px]" v-if="course.institution">{{ course.institution.name }}</p>
+            <p class="text-gray-400 text-sm md:text-[15px]"> <span>{{ course.enrolledStudents || 0 }} Étudiants</span> • <span v-if="course.duration">{{ formatDuration(course.duration) }}</span></p>
             <hr :class="[isDisplayCategory && 'hidden md:block']"/>
             <div class="flex w-full justify-between items-center">
-                <p class="font-bold">{{ course.price || '4500' }} FCFA</p>
+                <p class="font-bold">{{ course.price ?? 0 }} FCFA</p>
                 <div class="border border-1 border-r-gray-100 px-2 text-gray-300 rounded-md group-hover:bg-primary group-hover:text-white transition-all duration-200 ease-in-out">
                     <FontAwesomeIcon :icon="faArrowUp" class="rotate-45"/>
                 </div>
@@ -47,7 +51,7 @@
             ]"
         >
             <!-- <span class="absolute left-1 top-1 px-2 py-1 rounded-md backdrop-blur-sm bg-[rgba(255,255,255,0.4)]">HTML</span> -->
-            <img :src="`${API_URL}/uploads/others/${course.cover_courses[0].file_name}` || picture" class="w-full h-full object-cover rounded-lg" alt="" crossorigin="anonymous">
+            <img :src="course.cover_courses?.[0] ? getFileUrl(course.cover_courses[0].file_name) : picture" class="w-full h-full object-cover rounded-lg" alt="" crossorigin="anonymous">
         </div>
         <div class="w-full flex flex-col gap-1 md:gap-2">
             <p class="font-semibold">{{ course.title ?? 'Apprendre JavaScript pour débutants' }}</p>
@@ -58,7 +62,7 @@
                 ]"
             />
             <div class="flex w-full justify-between items-center">
-                <p class="text-gray-600 text-sm md:text-[15px]">{{ course.enrolledStudents || '0' }} Étudiants</p>
+                <p class="text-gray-600 text-sm md:text-[15px]">{{ course.enrolledStudents || 0 }} Étudiants</p>
                 <button class="bg-primary text-sm md:text-[15px] text-white px-2 py-1 md:px-4 md:py-2 hover:bg-secondary transition-all duration-150">
                     Editer
                 </button>
@@ -72,7 +76,8 @@ import picture from './../assets/images/course-2.jpg'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faArrowUp, faStar } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'vue-router';
-import { API_URL } from '../constants/API_URL.ts';
+import { getFileUrl } from '../helpers/file-url';
+import { formatDuration } from '@/helpers/format';
 
 const router = useRouter()
 

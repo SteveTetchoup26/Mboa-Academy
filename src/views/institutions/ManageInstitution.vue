@@ -366,8 +366,8 @@ const handleUpdate = async () => {
 
     // Ajouter le logo si un fichier est sélectionné
     if (logoFile.value) {
-      formData.append("logo", logoFile.value);
       formData.append("fileType", "institutionLogo");
+      formData.append("logo", logoFile.value);
     }
 
     await InstitutionAPI.update(id, formData, token.value!);

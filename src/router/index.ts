@@ -27,6 +27,11 @@ import InstitutionDetail from '@/views/institutions/InstitutionDetail.vue'
 import CreateInstitution from '@/views/institutions/CreateInstitution.vue'
 import MyInstitutions from '@/views/institutions/MyInstitutions.vue'
 import ManageInstitution from '@/views/institutions/ManageInstitution.vue'
+import InstitutionLayout from '@/components/layout/InstitutionLayout.vue'
+import InstitutionDashboard from '@/components/institution/InstitutionDashboard.vue'
+import InstitutionCourses from '@/components/institution/InstitutionCourses.vue'
+import InstitutionInstructors from '@/components/institution/InstitutionInstructors.vue'
+import InstitutionStudents from '@/components/institution/InstitutionStudents.vue'
 import { useUserStore } from '@/stores/user'
 
 const router = createRouter({
@@ -45,7 +50,7 @@ const router = createRouter({
         {path: 'forums', name: 'forums', component: ForumView, meta: {requiresAuth: true}},
         {path: 'profile', name: 'profile', component: UserProfile, meta: {requiresAuth: true}},
         {path: 'settings', name: 'settings', component: SettingView, meta: {requiresAuth: true}},
-        {path: 'course-details/:courseId(\\d+)', name: 'courseDetails', component: CourseDetail, props: true, meta: {requiresAuth: true}},
+        {path: 'course-details/:courseId(\\d+)', name: 'courseDetails', component: CourseDetail, props: true},
         {path: 'my-courses/:courseSavedId(\\d+)', name: 'courseSavedDetails', component: CourseSavedDetail, props: true, meta: {requiresAuth: true}},
         {path: 'courses', name: 'CategoryCourse', component: DisplayCategoryCourse},
         {path: 'become-instructor', name: 'becomeInstructor', component: BecomeInstructor, meta: {requiresAuth: true}},
@@ -78,6 +83,19 @@ const router = createRouter({
         {path: '/reate-course', name: 'createCourse', component: CourseAssembly,meta: {requiresAuth: true}
         }
         // {path: 'students', name: 'students', component: Students}
+      ]
+    },
+    {
+      path: '/institution',
+      name: 'institutionLayout',
+      component: InstitutionLayout,
+      meta: {requiresAuth: true},
+      children: [
+        {path: '', redirect: '/institution/dashboard'},
+        {path: 'dashboard', name: 'institutionDashboard', component: InstitutionDashboard},
+        {path: 'courses', name: 'institutionCourses', component: InstitutionCourses},
+        {path: 'instructors', name: 'institutionInstructors', component: InstitutionInstructors},
+        {path: 'students', name: 'institutionStudents', component: InstitutionStudents},
       ]
     },
     {

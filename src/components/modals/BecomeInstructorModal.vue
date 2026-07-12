@@ -22,16 +22,6 @@
                             <h3 class="text-lg font-semibold text-gray-900">Informations personnelles</h3>
 
                             <div>
-                                <label class="block mb-1 font-medium">Email</label>
-                                <input
-                                    v-model="fields.email"
-                                    type="email"
-                                    class="w-full p-2 border rounded-md outline-primary"
-                                    placeholder="johndoe@exemple.com"
-                                />
-                            </div>
-
-                            <div>
                                 <label class="block mb-1 font-medium">Téléphone</label>
                                 <!-- <input
                                     v-model="fields.phone_number"
@@ -133,7 +123,6 @@ const appStore = useAppStore();
 
   const fields = reactive({
     name: '',
-    email: '',
     phone_number: '',
     domain: '',
     job_title: ''
@@ -147,7 +136,6 @@ const appStore = useAppStore();
     try {
         const { data } = await AuthAPI.becomeInstructor({ ...fields }, token!);
 
-        fields.email = "";
         fields.phone_number = "";
         fields.domain = "";
         fields.job_title = "";
