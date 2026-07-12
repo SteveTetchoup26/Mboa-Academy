@@ -106,7 +106,7 @@ import { RouterView, useRouter } from 'vue-router';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import {
   faChartPie, faBookOpen, faUsers, faChalkboardUser, faGraduationCap,
-  faBars, faClock, faXmarkCircle, faRightFromBracket
+  faBars, faClock, faXmarkCircle, faRightFromBracket, faVideo
 } from '@fortawesome/free-solid-svg-icons';
 import { InstitutionAPI } from '@/services/api/Institution';
 import { useUserStore } from '@/stores/user';
@@ -125,6 +125,7 @@ const menuItems = [
   { id: 'institutionDashboard', name: 'Tableau de bord', icon: faChartPie, path: 'dashboard' },
   { id: 'institutionCourses', name: 'Cours', icon: faBookOpen, path: 'courses' },
   { id: 'institutionInstructors', name: 'Formateurs', icon: faChalkboardUser, path: 'instructors' },
+  { id: 'institutionWebinars', name: 'Webinaires', icon: faVideo, path: 'webinars' },
   { id: 'institutionStudents', name: 'Étudiants', icon: faGraduationCap, path: 'students' },
 ];
 

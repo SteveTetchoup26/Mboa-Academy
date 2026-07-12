@@ -32,6 +32,9 @@ import InstitutionDashboard from '@/components/institution/InstitutionDashboard.
 import InstitutionCourses from '@/components/institution/InstitutionCourses.vue'
 import InstitutionInstructors from '@/components/institution/InstitutionInstructors.vue'
 import InstitutionStudents from '@/components/institution/InstitutionStudents.vue'
+import InstitutionWebinars from '@/components/institution/InstitutionWebinars.vue'
+import WebinarRoomView from '@/views/WebinarRoomView.vue'
+import WebinarAccessView from '@/views/WebinarAccessView.vue'
 import { useUserStore } from '@/stores/user'
 
 const router = createRouter({
@@ -47,6 +50,7 @@ const router = createRouter({
         {path: 'contact-us', name: 'contact', component: ContactView},
         {path: 'my-courses', name: 'courses', component: CourseView, meta: {requiresAuth: true}},
         {path: 'webinars', name: 'webinars', component: WebinarView, meta: {requiresAuth: true}},
+        {path: 'webinar/:id(\\d+)', name: 'webinarAccess', component: WebinarAccessView},
         {path: 'forums', name: 'forums', component: ForumView, meta: {requiresAuth: true}},
         {path: 'profile', name: 'profile', component: UserProfile, meta: {requiresAuth: true}},
         {path: 'settings', name: 'settings', component: SettingView, meta: {requiresAuth: true}},
@@ -96,12 +100,18 @@ const router = createRouter({
         {path: 'courses', name: 'institutionCourses', component: InstitutionCourses},
         {path: 'instructors', name: 'institutionInstructors', component: InstitutionInstructors},
         {path: 'students', name: 'institutionStudents', component: InstitutionStudents},
+        {path: 'webinars', name: 'institutionWebinars', component: InstitutionWebinars},
       ]
     },
     {
       path: '/confirm-account',
       name: 'confirmAccount',
       component: EmailConfirmation
+    },
+    {
+      path: '/webinar-room/:id(\\d+)',
+      name: 'webinarRoom',
+      component: WebinarRoomView,
     }
   ],
   scrollBehavior(to, from, savedPosition) {
