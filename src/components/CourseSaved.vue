@@ -5,7 +5,7 @@
         </div>
         <div>
             <p>{{ course.title }}</p>
-            <p class="text-gray-400 text-sm md:text-[15px]">Par {{ course.instructor.name }}</p>
+            <p class="text-gray-400 text-sm md:text-[15px]">Par {{ course.instructor?.name || course.institution?.name || 'Instructeur' }}</p>
         </div>
     </div>
 </template>

@@ -15,7 +15,7 @@
                 </div>
                 <div class="">
                     <img
-                        :src="`${API_URL}/uploads/others/${courseImage}` || carouselOne"
+                        :src="getFileUrl(courseImage) || carouselOne"
                         alt="Course Preview"
                         class="w-full h-48 object-cover rounded-t-lg"
                         crossorigin="anonymous"
@@ -154,11 +154,17 @@
 
 
                     <button
-                        @click.prevent="handlePayment"
                         type="submit"
-                        class="w-full text-white bg-primary text-sm md:text-[15px] rounded-md py-2 px-2 md:py-3 md:px-8 hover:bg-secondary transition-all duration-150"
+                        :disabled="loading"
+                        class="w-full text-white bg-primary text-sm md:text-[15px] rounded-md py-2 px-2 md:py-3 md:px-8 hover:bg-secondary transition-all duration-150 disabled:opacity-60"
                     >
-                        {{ paymentButtonText }}
+                        <template v-if="loading">
+                            <i class="pi pi-spin pi-spinner mr-2"></i>
+                            Traitement...
+                        </template>
+                        <template v-else>
+                            {{ paymentButtonText }}
+                        </template>
                     </button>
                 </form>
             </div>
@@ -179,12 +185,11 @@ import ecocash from '../../assets/images/ecocash.png';
 import mpesa from '../../assets/images/m-pesa.png';
 import moovMoney from '../../assets/images/moov-money.png';
 import wave from '../../assets/images/wave-senegal-mobile-money.png';
-import useAppStore from '@/stores/app';
 import { useUserStore } from '@/stores/user';
 import { PaymentAPI } from '@/services/api/Payment';
 import { useToast } from "primevue/usetoast";
 import { useRouter } from 'vue-router';
-import { API_URL } from '@/constants/API_URL';
+import { getFileUrl } from '@/helpers/file-url';
 import { VueTelInput } from "vue-tel-input";
 
 
@@ -211,11 +216,11 @@ const props = defineProps({
   }
 });
 
-const appStore = useAppStore();
 const userStore = useUserStore();
 const token = userStore.getToken();
 const toast = useToast();
 const router = useRouter();
+const loading = ref(false);
 const selectedPayment = ref('card');
 const mobileNumber = ref('');
 const cardDetails = ref({
@@ -293,7 +298,8 @@ const handlePayment = async () => {
             break;
     }
 
-    appStore.loading = true;
+    if (loading.value) return;
+    loading.value = true;
     try {
        const res = await PaymentAPI.create({
             courseId: props.courseId,
@@ -321,9 +327,9 @@ const handlePayment = async () => {
                 life: 5000,
             });
         }
-        emit('closeModal', { sucess: false });
+        emit('closeModal', { success: false });
     } finally {
-        appStore.loading = false;
+        loading.value = false;
     }
 }
 

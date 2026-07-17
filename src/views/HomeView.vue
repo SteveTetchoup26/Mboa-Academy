@@ -94,6 +94,46 @@
                 <RouterLink to="/inscription" class="text-white bg-primary w-max py-3 px-8 hover:bg-secondary transition-all duration-150">Inscris-toi gratuitement</RouterLink>
             </div>
         </div>
+
+        <!-- Section Créer une institution (masquée si l'utilisateur a les rôles Student ou Instructor) -->
+        <div v-if="!isStudentOrInstructor" class="w-full bg-white flex justify-center px-3 py-16">
+            <div class="w-full md:w-4/5 flex flex-col items-center text-center gap-8">
+                <div class="flex flex-col items-center gap-2">
+                    <h1 class="text-3xl md:text-5xl font-bold text-gray-900">Vous représentez une <span class="text-primary">institution</span> ?</h1>
+                    <p class="text-gray-500 max-w-2xl">Créez votre espace dédié et proposez vos formations à des milliers d'apprenants à travers l'Afrique</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
+                    <div class="flex flex-col items-center gap-3 p-6 rounded-xl bg-green-50">
+                        <div class="w-14 h-14 rounded-full bg-primary flex items-center justify-center">
+                            <FontAwesomeIcon :icon="faGraduationCap" class="text-white text-xl" />
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900">Publiez vos cours</h3>
+                        <p class="text-sm text-gray-500">Créez et gérez vos formations avec nos outils pédagogiques complets</p>
+                    </div>
+                    <div class="flex flex-col items-center gap-3 p-6 rounded-xl bg-green-50">
+                        <div class="w-14 h-14 rounded-full bg-primary flex items-center justify-center">
+                            <FontAwesomeIcon :icon="faUsers" class="text-white text-xl" />
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900">Développez votre communauté</h3>
+                        <p class="text-sm text-gray-500">Attirez des apprenants et construisez une communauté autour de vos formations</p>
+                    </div>
+                    <div class="flex flex-col items-center gap-3 p-6 rounded-xl bg-green-50">
+                        <div class="w-14 h-14 rounded-full bg-primary flex items-center justify-center">
+                            <FontAwesomeIcon :icon="faChartLine" class="text-white text-xl" />
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900">Suivez vos performances</h3>
+                        <p class="text-sm text-gray-500">Accédez à des statistiques détaillées sur vos cours et vos apprenants</p>
+                    </div>
+                </div>
+                <RouterLink
+                    to="/institutions/create"
+                    class="inline-flex items-center gap-2 text-white bg-primary px-8 py-3 rounded-lg hover:bg-secondary transition-all duration-150 font-semibold"
+                >
+                    <FontAwesomeIcon :icon="faPlus" />
+                    <span>Créer mon institution</span>
+                </RouterLink>
+            </div>
+        </div>
     </div>
     <div v-else class="min-h-screen flex flex-col">
         <Filterbar />
@@ -103,10 +143,10 @@
 
 <script setup lang="ts">
 import Filterbar from '@/components/Filterbar.vue'
-import { onBeforeUnmount, onMounted, ref, useTemplateRef } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef } from "vue";
 import { RouterLink, useRouter } from 'vue-router';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { faChevronLeft, faChevronRight, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faCheck, faGraduationCap, faUsers, faChartLine, faPlus } from '@fortawesome/free-solid-svg-icons';
 import carouselOne from './../assets/images/carousel-1.jpg';
 import carouselTwo from './../assets/images/carousel-2.jpg';
 import about from './../assets/images/about.jpg'
@@ -122,6 +162,11 @@ import useAppStore from '@/stores/app';
 const userStore = useUserStore();
 const appStore = useAppStore();
 const token = userStore.getToken();
+const currentUser = computed(() => userStore.user);
+const userRoles = computed(() => currentUser.value?.roles?.map((r: any) => r.title) || []);
+const isStudentOrInstructor = computed(() =>
+  userRoles.value.includes('Student') || userRoles.value.includes('Instructor')
+);
 const currentIndex = ref(0);
 const isTransitioning = ref(true);
 const slides = [carouselOne, carouselTwo, carouselOne]

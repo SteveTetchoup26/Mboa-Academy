@@ -10,7 +10,7 @@ instance.interceptors.request.use(
   function (config) {
     const AUTH_TOKEN = localStorage.getItem("AUTH_TOKEN");
 
-    if (AUTH_TOKEN && config.headers.Authorization) {
+    if (AUTH_TOKEN) {
       config.headers.Authorization = `Bearer ${AUTH_TOKEN}`;
     }
 

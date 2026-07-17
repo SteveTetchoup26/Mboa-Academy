@@ -96,7 +96,13 @@ const handleSubmit = async () => {
         userStore.setUser(data.user);
         userStore.setToken(data.token);
         const redirect = Array.isArray(route.query.redirect) ? route.query.redirect[0] : route.query.redirect;
-        router.push(redirect || '/')
+        // Institution → dashboard institution directement
+        const userRoles = data.user?.roles || [];
+        if (userRoles.includes('Institution')) {
+          router.push('/institution/dashboard');
+        } else {
+          router.push(redirect || '/');
+        }
     }
 
   } catch (e: any) {

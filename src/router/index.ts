@@ -22,6 +22,19 @@ import Students from '@/components/instructor/Students.vue'
 import Webinars from '@/components/instructor/webinars/Webinars.vue'
 import CourseAssembly from '@/views/CourseAssembly.vue'
 import EmailConfirmation from '@/views/EmailConfirmation.vue'
+import InstitutionList from '@/views/institutions/InstitutionList.vue'
+import InstitutionDetail from '@/views/institutions/InstitutionDetail.vue'
+import CreateInstitution from '@/views/institutions/CreateInstitution.vue'
+import MyInstitutions from '@/views/institutions/MyInstitutions.vue'
+import ManageInstitution from '@/views/institutions/ManageInstitution.vue'
+import InstitutionLayout from '@/components/layout/InstitutionLayout.vue'
+import InstitutionDashboard from '@/components/institution/InstitutionDashboard.vue'
+import InstitutionCourses from '@/components/institution/InstitutionCourses.vue'
+import InstitutionInstructors from '@/components/institution/InstitutionInstructors.vue'
+import InstitutionStudents from '@/components/institution/InstitutionStudents.vue'
+import InstitutionWebinars from '@/components/institution/InstitutionWebinars.vue'
+import WebinarRoomView from '@/views/WebinarRoomView.vue'
+import WebinarAccessView from '@/views/WebinarAccessView.vue'
 import { useUserStore } from '@/stores/user'
 
 const router = createRouter({
@@ -37,13 +50,19 @@ const router = createRouter({
         {path: 'contact-us', name: 'contact', component: ContactView},
         {path: 'my-courses', name: 'courses', component: CourseView, meta: {requiresAuth: true}},
         {path: 'webinars', name: 'webinars', component: WebinarView, meta: {requiresAuth: true}},
+        {path: 'webinar/:id(\\d+)', name: 'webinarAccess', component: WebinarAccessView},
         {path: 'forums', name: 'forums', component: ForumView, meta: {requiresAuth: true}},
         {path: 'profile', name: 'profile', component: UserProfile, meta: {requiresAuth: true}},
         {path: 'settings', name: 'settings', component: SettingView, meta: {requiresAuth: true}},
-        {path: 'course-details/:courseId(\\d+)', name: 'courseDetails', component: CourseDetail, props: true, meta: {requiresAuth: true}},
+        {path: 'course-details/:courseId(\\d+)', name: 'courseDetails', component: CourseDetail, props: true},
         {path: 'my-courses/:courseSavedId(\\d+)', name: 'courseSavedDetails', component: CourseSavedDetail, props: true, meta: {requiresAuth: true}},
         {path: 'courses', name: 'CategoryCourse', component: DisplayCategoryCourse},
         {path: 'become-instructor', name: 'becomeInstructor', component: BecomeInstructor, meta: {requiresAuth: true}},
+        {path: 'institutions', name: 'institutions', component: InstitutionList},
+        {path: 'institutions/my-institutions', name: 'myInstitutions', component: MyInstitutions, meta: {requiresAuth: true}},
+        {path: 'institutions/create', name: 'createInstitution', component: CreateInstitution},
+        {path: 'institutions/:id(\\d+)', name: 'institutionDetail', component: InstitutionDetail, props: true},
+        {path: 'institutions/:id(\\d+)/manage', name: 'manageInstitution', component: ManageInstitution, meta: {requiresAuth: true}},
       ]
     },
     {
@@ -71,9 +90,28 @@ const router = createRouter({
       ]
     },
     {
+      path: '/institution',
+      name: 'institutionLayout',
+      component: InstitutionLayout,
+      meta: {requiresAuth: true},
+      children: [
+        {path: '', redirect: '/institution/dashboard'},
+        {path: 'dashboard', name: 'institutionDashboard', component: InstitutionDashboard},
+        {path: 'courses', name: 'institutionCourses', component: InstitutionCourses},
+        {path: 'instructors', name: 'institutionInstructors', component: InstitutionInstructors},
+        {path: 'students', name: 'institutionStudents', component: InstitutionStudents},
+        {path: 'webinars', name: 'institutionWebinars', component: InstitutionWebinars},
+      ]
+    },
+    {
       path: '/confirm-account',
       name: 'confirmAccount',
       component: EmailConfirmation
+    },
+    {
+      path: '/webinar-room/:id(\\d+)',
+      name: 'webinarRoom',
+      component: WebinarRoomView,
     }
   ],
   scrollBehavior(to, from, savedPosition) {

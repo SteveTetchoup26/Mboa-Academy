@@ -305,6 +305,7 @@ const addLesson = (module: Module) => {
     type: 'video',
     title: '',
     resume: '',
+    duration: 0,
     video: {
       file_name: '',
       format: ''
@@ -352,6 +353,25 @@ const handleVideoUpload = (event: Event, moduleIndex: number, lessonIndex: numbe
     }
 
     videoFiles[moduleIndex].push(file);
+
+    // Extraire la durée de la vidéo depuis les métadonnées du fichier
+    const video = document.createElement('video');
+    video.preload = 'metadata';
+    video.onloadedmetadata = () => {
+      URL.revokeObjectURL(video.src);
+      // Arrondir la durée à l'entier supérieur (en secondes)
+      const duration = Math.ceil(video.duration);
+      if (course.modules[moduleIndex]?.lessons[lessonIndex]) {
+        course.modules[moduleIndex].lessons[lessonIndex].duration = duration;
+      }
+    };
+    video.onerror = () => {
+      // Si la lecture des métadonnées échoue, mettre une durée par défaut
+      if (course.modules[moduleIndex]?.lessons[lessonIndex]) {
+        course.modules[moduleIndex].lessons[lessonIndex].duration = 0;
+      }
+    };
+    video.src = URL.createObjectURL(file);
   }
 
   console.log(videoFiles);

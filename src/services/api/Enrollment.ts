@@ -6,4 +6,11 @@ export class EnrollmentAPI {
         headers: { Authorization: `Bearer ${token}` },
       });
   };
+
+  static enrollWithCode = (courseId: number, accessCode: string) => {
+    return Axios.post("/enrollments/enroll-with-code", {
+      course_id: courseId,
+      access_code: accessCode,
+    });
+  };
 }
